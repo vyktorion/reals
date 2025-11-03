@@ -1,6 +1,6 @@
 import { Bell, TrendingDown, Home, MessageCircle, Calendar, X, Check } from 'lucide-react';
-import { Notification } from '../types';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Notification } from '../../../types';
+import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
 import { toast } from 'sonner';
 
 interface NotificationsCenterProps {

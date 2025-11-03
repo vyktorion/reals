@@ -1,5 +1,5 @@
 import { Search, Bell, BellOff, Trash2, ChevronRight, MapPin, DollarSign, Home } from 'lucide-react';
-import { SavedSearch, FilterOptions } from '../types';
+import { SavedSearch, FilterOptions } from '../../../types';
 import { toast } from 'sonner';
 
 interface SavedSearchesProps {
