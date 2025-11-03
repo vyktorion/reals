@@ -1,12 +1,24 @@
 import { NextAuthOptions } from "next-auth"
+import type { User } from "next-auth"
+import type { AdapterUser } from "next-auth/adapters"
+import type { JWT } from "next-auth/jwt"
+import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import clientPromise from "../mongodb"
-import bcrypt from "bcryptjs"
+import { verifyPassword } from "./hash"
+import { getUserByEmail } from "../../services/user.service"
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const process: any
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -14,41 +26,87 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('🔐 NextAuth authorize called with:', {
+          email: credentials?.email,
+          hasPassword: !!credentials?.password
+        });
+
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ Missing credentials');
           return null
         }
 
-        try {
-          const client = await clientPromise
-          const db = client.db()
-          const user = await db.collection("users").findOne({ email: credentials.email })
+        const user = await getUserByEmail(credentials.email);
+        console.log('🔍 User found in DB:', {
+          email: user?.email,
+          hasHashedPassword: !!user?.hashedPassword,
+          role: user?.role
+        });
 
-          if (!user) {
-            return null
-          }
-
-          const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
-
-          if (!isPasswordValid) {
-            return null
-          }
-
-          return {
-            id: user._id.toString(),
-            email: user.email,
-            name: user.name,
-          }
-        } catch (error) {
-          console.error("Auth error:", error)
+        if (!user || !user.hashedPassword) {
+          console.log('❌ User not found or no hashed password');
           return null
         }
-      }
-    })
+
+        const isValid = await verifyPassword(credentials.password, user.hashedPassword);
+        console.log('🔐 Password verification result:', isValid);
+
+        if (!isValid) {
+          console.log('❌ Invalid password');
+          return null
+        }
+
+        const userData = {
+          id: user._id!.toString(),
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar,
+          role: user.role,
+          phone: user.phone,
+        };
+
+        console.log('✅ User authorized successfully:', {
+          id: userData.id,
+          email: userData.email,
+          role: userData.role
+        });
+
+        return userData;
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async jwt({ token, user }: { token: JWT; user?: User | AdapterUser }) {
+      if (user) {
+        if ("id" in user) token.id = user.id
+        if ("name" in user) token.name = user.name
+        if ("avatar" in user) token.avatar = user.avatar
+        if ("role" in user) token.role = user.role
+        if ("phone" in user) token.phone = user.phone
+        if ("email" in user) token.email = user.email
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).id = token.id as string
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).avatar = token.avatar as string
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).role = token.role as string
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).phone = token.phone as string
+      }
+      return session
+    },
+  },
   pages: {
     signIn: "/signin",
+    error: "/signin",
   },
+  secret: process.env.NEXTAUTH_SECRET,
 }

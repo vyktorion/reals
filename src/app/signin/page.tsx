@@ -1,6 +1,6 @@
 'use client'
 
-import { AuthPage } from '../../components/AuthPage'
+import { AuthPage } from '../../features/auth/components/AuthPage'
 import { useApp } from '../../contexts/AppContext'
 import { useRouter } from 'next/navigation'
 

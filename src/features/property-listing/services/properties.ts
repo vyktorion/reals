@@ -1,5 +1,4 @@
-import { apiClient } from '../../../services/api';
-import { Property } from '../../../types';
+  import { Property } from '../../../types';
 
 export interface PropertySearchFilters {
   query?: string;

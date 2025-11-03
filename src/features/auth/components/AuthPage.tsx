@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { Eye, EyeOff, Mail, Lock, User, Phone, Home, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -7,15 +8,18 @@ interface AuthPageProps {
 }
 
 export function AuthPage({ onAuthSuccess }: AuthPageProps) {
+  const { data: session } = useSession();
+  console.log('🔍 AuthPage rendered, session:', session);
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
+    role: 'Proprietar',
     phone: '',
     password: '',
     confirmPassword: '',
@@ -28,55 +32,136 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🔥 handleSubmit called, isSignUp:', isSignUp);
     setLoading(true);
 
     // Basic validation
     if (isSignUp) {
-      if (!formData.firstName || !formData.lastName || !formData.phone) {
-        toast.error('Please fill in all required fields');
+      if (!formData.name || !formData.phone || !formData.role) {
+        toast.error('Vă rugăm să completați toate câmpurile obligatorii');
         setLoading(false);
         return;
       }
       if (formData.password !== formData.confirmPassword) {
-        toast.error('Passwords do not match');
+        toast.error('Parolele nu se potrivesc');
         setLoading(false);
         return;
       }
       if (!formData.agreeToTerms) {
-        toast.error('Please agree to the terms and conditions');
+        toast.error('Vă rugăm să acceptați termenii și condițiile');
         setLoading(false);
         return;
       }
-    }
 
-    if (!formData.email || !formData.password) {
-      toast.error('Email and password are required');
-      setLoading(false);
-      return;
-    }
+      // Register user
+      try {
+        console.log('📡 Making API call to register user');
 
-    // Mock authentication
-    setTimeout(() => {
-      setLoading(false);
-      if (isSignUp) {
-        toast.success('Account created successfully!', {
-          description: 'Welcome to ImoEstate. You can now start exploring properties.'
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            role: formData.role,
+            password: formData.password,
+          }),
         });
-      } else {
-        toast.success('Welcome back!', {
-          description: 'You have successfully signed in to your account.'
+
+        console.log('📡 Register response status:', response.status);
+
+        const data = await response.json();
+        console.log('📡 Register response data:', data);
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        toast.success('Cont creat cu succes!', {
+          description: 'Bine ați venit în ImoEstate. Puteți începe să explorați proprietăți.'
         });
+
+        // Sign in after successful registration
+        const signInResult = await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          redirect: false,
+        });
+
+        if (signInResult?.error) {
+          console.error('❌ Sign in error after registration:', signInResult.error);
+          toast.error('Cont creat, dar conectarea a eșuat. Încercați să vă conectați manual.');
+        } else if (signInResult?.ok) {
+          console.log('✅ Sign in successful after registration');
+          onAuthSuccess();
+        } else {
+          console.log('⚠️ Sign in result:', signInResult);
+          onAuthSuccess();
+        }
+      } catch (error) {
+        console.error('❌ Registration error:', error);
+        toast.error(error instanceof Error ? error.message : 'A apărut o eroare la înregistrare');
       }
-      onAuthSuccess();
-    }, 1500);
+    } else {
+      // Sign in with proper error handling
+      console.log('🔐 Attempting sign in for:', formData.email);
+      console.log('🔐 Sign in credentials:', {
+        email: formData.email,
+        passwordLength: formData.password.length
+      });
+
+      const result = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      console.log('🔐 Raw sign in result object:', JSON.stringify(result, null, 2));
+      console.log('🔐 Sign in result properties:', {
+        hasError: !!result?.error,
+        hasOk: !!result?.ok,
+        hasUrl: !!result?.url,
+        resultKeys: result ? Object.keys(result) : []
+      });
+
+      if (result?.error) {
+        console.error('❌ Authentication failed:', result.error);
+        toast.error('Email sau parolă incorectă');
+      } else if (result?.ok) {
+        console.log('✅ Authentication successful');
+        toast.success('Bine ați revenit!', {
+          description: 'V-ați conectat cu succes la contul dumneavoastră.'
+        });
+        onAuthSuccess();
+      } else {
+        console.log('⚠️ Unexpected sign in result:', result);
+        // If no error but also no ok, assume success for now
+        onAuthSuccess();
+      }
+    }
+
+    setLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+    console.log('🌐 Attempting Google sign in');
+    try {
+      const result = await signIn('google', { callbackUrl: '/' });
+      console.log('🌐 Google sign in result:', result);
+    } catch (error) {
+      console.error('🌐 Google sign in error:', error);
+      toast.error('A apărut o eroare la conectarea cu Google');
+    }
   };
 
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
     setFormData({
-      firstName: '',
-      lastName: '',
+      name: '',
       email: '',
+      role: 'Proprietar',
       phone: '',
       password: '',
       confirmPassword: '',
@@ -132,18 +217,34 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
               <>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Name
+                      Nume
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
                         type="text"
-                        value={formData.firstName}
-                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
                         className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                         placeholder="John Doe"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Rol
+                    </label>
+                    <select
+                      value={formData.role}
+                      onChange={(e) => handleInputChange('role', e.target.value)}
+                      className="w-full pl-4 pr-4 py-3 border border-border bg-background text-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                    >
+                      <option value="Proprietar">Proprietar</option>
+                      <option value="Agent">Agent</option>
+                      <option value="Agenție">Agenție</option>
+                      <option value="Dezvoltator">Dezvoltator</option>
+                    </select>
                   </div>
 
                 <div>
@@ -311,6 +412,7 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
             <div className="mt-4">
               <button
                 type="button"
+                onClick={handleGoogleSignIn}
                 className="w-full py-3 px-4 border border-border rounded-lg text-foreground bg-card hover:border-primary transition-all duration-200 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">

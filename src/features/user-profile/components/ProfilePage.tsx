@@ -159,6 +159,67 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
           })}
         </div>
 
+        {/* Your Listings - moved here */}
+        <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
+          <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+            <h2 className="text-foreground">Your Listings</h2>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{listings.length} active</span>
+          </div>
+          <div className="p-6 space-y-4">
+            {listings.map((listing) => (
+              <div key={listing.id} className="flex items-center gap-4">
+                <div className="w-20 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 shrink-0">
+                  <Image
+                    src={listing.images[0]}
+                    alt={listing.title}
+                    width={80}
+                    height={56}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-sm font-medium text-foreground line-clamp-1">{listing.title}</h3>
+                    <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">${listing.price.toLocaleString()}</span>
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{listing.location.city}, {listing.location.state}</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleTogglePublish(listing.id)}
+                    className="px-3 py-1 text-sm rounded-lg border bg-card text-gray-700 dark:text-gray-200 border-border hover:bg-background dark:hover:bg-gray-600 transition-colors"
+                  >
+                    {listing.status === 'For Sale' ? 'Unpublish' : 'Publish'}
+                  </button>
+                  <button
+                    onClick={() => handlePromoteListing()}
+                    className="px-3 py-1 text-sm rounded-lg bg-amber-500 dark:bg-amber-600 text-primary-foreground hover:bg-amber-600 dark:hover:bg-amber-700 transition-colors flex items-center gap-1"
+                  >
+                    <TrendingUp className="w-3 h-3" />
+                    Promote
+                  </button>
+                  <button
+                    onClick={() => handleEditListing(listing)}
+                    className="px-3 py-1 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteListing(listing.id)}
+                    className="p-2 rounded-full bg-card border border-gray-200 dark:border-gray-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                    aria-label={`Delete ${listing.title}`}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+            {listings.length === 0 && (
+              <div className="text-sm text-muted-foreground">You dont have any active listings yet.</div>
+            )}
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Settings */}
           <div className="lg:col-span-2 space-y-6">
@@ -238,67 +299,6 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                     </label>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            {/* Your Listings */}
-            <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
-              <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                <h2 className="text-foreground">Your Listings</h2>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{listings.length} active</span>
-              </div>
-              <div className="p-6 space-y-4">
-                {listings.map((listing) => (
-                  <div key={listing.id} className="flex items-center gap-4">
-                    <div className="w-20 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 shrink-0">
-                      <Image
-                        src={listing.images[0]}
-                        alt={listing.title}
-                        width={80}
-                        height={56}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-sm font-medium text-foreground line-clamp-1">{listing.title}</h3>
-                        <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">${listing.price.toLocaleString()}</span>
-                      </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{listing.location.city}, {listing.location.state}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleTogglePublish(listing.id)}
-                        className="px-3 py-1 text-sm rounded-lg border bg-card text-gray-700 dark:text-gray-200 border-border hover:bg-background dark:hover:bg-gray-600 transition-colors"
-                      >
-                        {listing.status === 'For Sale' ? 'Unpublish' : 'Publish'}
-                      </button>
-                      <button
-                        onClick={() => handlePromoteListing()}
-                        className="px-3 py-1 text-sm rounded-lg bg-amber-500 dark:bg-amber-600 text-primary-foreground hover:bg-amber-600 dark:hover:bg-amber-700 transition-colors flex items-center gap-1"
-                      >
-                        <TrendingUp className="w-3 h-3" />
-                        Promote
-                      </button>
-                      <button
-                        onClick={() => handleEditListing(listing)}
-                        className="px-3 py-1 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteListing(listing.id)}
-                        className="p-2 rounded-full bg-card border border-gray-200 dark:border-gray-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
-                        aria-label={`Delete ${listing.title}`}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {listings.length === 0 && (
-                  <div className="text-sm text-muted-foreground">You dont have any active listings yet.</div>
-                )}
               </div>
             </div>
           </div>

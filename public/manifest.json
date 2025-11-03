@@ -1,0 +1,51 @@
+{
+  "name": "ImoEstate - Platforma Imobiliară",
+  "short_name": "ImoEstate",
+  "description": "Găsiți proprietatea visurilor dumneavoastră cu ImoEstate - platforma imobiliară de top",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "lang": "ro",
+  "dir": "ltr",
+  "scopes": ["/"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["lifestyle", "business", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Căutare Proprietăți",
+      "short_name": "Căutare",
+      "description": "Căutați proprietăți",
+      "url": "/search",
+      "icons": [{ "src": "/search-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Favoritele Mele",
+      "short_name": "Favorite",
+      "description": "Vizualizați proprietățile salvate",
+      "url": "/favorites",
+      "icons": [{ "src": "/heart-icon.png", "sizes": "96x96" }]
+    }
+  ]
+}

@@ -153,3 +153,18 @@ export interface Appointment {
   type: 'viewing' | 'video_call' | 'phone_call';
   status: 'scheduled' | 'completed' | 'cancelled';
 }
+
+export interface User {
+  _id?: string;
+  id?: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  hashedPassword?: string;
+  avatar?: string;
+  phone?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export type UserRole = 'Proprietar' | 'Agent' | 'Agenție' | 'Dezvoltator';

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useDebounce } from './useDebounce';
 import { Property } from '../types';
 import { properties } from '../shared/data/properties';

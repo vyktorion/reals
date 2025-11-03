@@ -1,5 +1,4 @@
-import { apiClient } from '../../../services/api';
-import { User } from '../../../hooks/useAuth';
+  import { User } from '../../../hooks/useAuth';
 
 export interface SavedSearch {
   id: string;
