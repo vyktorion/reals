@@ -119,7 +119,7 @@ class PropertiesService {
     try {
       // In production: const response = await apiClient.post(`/properties/${propertyId}/favorite`, { userId });
       // For now, handle locally via localStorage
-      const favorites = JSON.parse(localStorage.getItem(`favorites_${userId}`) || '[]');
+      const favorites: string[] = JSON.parse(localStorage.getItem(`favorites_${userId}`) || '[]');
       const isFavorite = favorites.includes(propertyId);
 
       if (isFavorite) {
@@ -161,7 +161,7 @@ class PropertiesService {
     }
   }
 
-  async getSavedSearches(userId: string): Promise<any[]> {
+  async getSavedSearches(userId: string): Promise<unknown[]> {
     try {
       // In production: const response = await apiClient.get(`/users/${userId}/saved-searches`);
       const searches = JSON.parse(localStorage.getItem(`searches_${userId}`) || '[]');
