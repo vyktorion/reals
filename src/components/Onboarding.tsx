@@ -68,8 +68,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
       {/* Content */}
       <div className="h-full flex flex-col">
         {/* Image Section */}
-        <div className="relative h-1/2 bg-gradient-to-br overflow-hidden">
-          <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-90`} />
+        <div className="relative h-1/2 bg-linear-to-br overflow-hidden">
+          <div className={`absolute inset-0 bg-linear-to-br ${step.gradient} opacity-90`} />
           <ImageWithFallback
             src={step.image}
             alt={step.title}

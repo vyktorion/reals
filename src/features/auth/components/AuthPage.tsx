@@ -60,7 +60,7 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
       setLoading(false);
       if (isSignUp) {
         toast.success('Account created successfully!', {
-          description: 'Welcome to LuxeEstate. You can now start exploring properties.'
+          description: 'Welcome to ImoEstate. You can now start exploring properties.'
         });
       } else {
         toast.success('Welcome back!', {
@@ -90,7 +90,7 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
         {/* Logo & Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            {isSignUp ? 'Join LuxeEstate' : 'Welcome Back'}
+            {isSignUp ? 'Join ImoEstate' : 'Welcome Back'}
           </h1>
           <p className="text-muted-foreground">
             {isSignUp

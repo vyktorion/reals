@@ -40,6 +40,12 @@
       ],
       "@/types/*": [
         "./src/types/*"
+      ],
+      "@/shared/*": [
+        "./src/shared/*"
+      ],
+      "@/features/*": [
+        "./src/features/*"
       ]
     },
     "target": "ES2017"

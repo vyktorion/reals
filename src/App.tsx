@@ -15,7 +15,7 @@ import { NotificationsCenter } from './components/NotificationsCenter';
 import { PostProperty } from './components/PostProperty';
 import { EditProperty } from './components/EditProperty';
 import { AuthPage } from './components/AuthPage';
-import { properties } from './data/properties';
+import { properties } from './shared/data/properties';
 import { toast } from 'sonner';
 import { Property } from './types';
 
