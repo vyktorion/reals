@@ -1,4 +1,4 @@
-import { Property, Agent, Review } from '../types';
+import { Property, Agent, Review } from '../../types';
 
 export const agents: Agent[] = [
   {
