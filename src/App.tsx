@@ -264,17 +264,17 @@ export default function App() {
       )}
 
       {/* Toast Notifications */}
-      <Toaster 
-        position="bottom-center"
+      <Toaster
+        position="top-center"
         toastOptions={{
-          duration: 3000,
+          duration: 5000,
           className: 'mb-16 md:mb-0',
           style: {
-            background: 'var(--background)',
-            color: 'var(--foreground)',
-            border: '1px solid var(--border)',
-            borderRadius: '12px',
-            padding: '16px',
+            fontSize: '15px',
+            fontWeight: '500',
+            padding: '18px 24px',
+            maxWidth: '420px',
+            lineHeight: '1.5',
           },
         }}
         richColors
