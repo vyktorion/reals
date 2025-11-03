@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List } from 'lucide-react';
-import { Property, FilterOptions } from '../types';
+import { Property, FilterOptions } from '../../../types';
 import { PropertyCard } from './PropertyCard';
 import { MapView } from './MapView';
 
