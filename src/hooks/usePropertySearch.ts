@@ -117,7 +117,7 @@ export function usePropertySearch(initialFilters: SearchFilters = {}) {
     filtered.sort((a, b) => {
       if (a.isFeatured && !b.isFeatured) return -1;
       if (!a.isFeatured && b.isFeatured) return 1;
-      return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+      return new Date(b.listedDate || 0).getTime() - new Date(a.listedDate || 0).getTime();
     });
 
     setIsLoading(false);
