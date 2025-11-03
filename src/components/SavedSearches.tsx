@@ -1,9 +1,9 @@
 import { Search, Bell, BellOff, Trash2, ChevronRight, MapPin, DollarSign, Home } from 'lucide-react';
-import { SavedSearch } from '../types';
+import { SavedSearch, FilterOptions } from '../types';
 import { toast } from 'sonner';
 
 interface SavedSearchesProps {
-  onNavigateToSearch: (filters?: any) => void;
+  onNavigateToSearch: (filters?: FilterOptions) => void;
 }
 
 export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
@@ -61,11 +61,12 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
     }
   ];
 
-  const handleToggleAlerts = (id: string, currentState: boolean) => {
+  const handleToggleAlerts = (_id: string, currentState: boolean) => {
+    // Toggle alerts for the saved search
     toast.success(currentState ? 'Alerts disabled' : 'Alerts enabled');
   };
 
-  const handleDeleteSearch = (id: string) => {
+  const handleDelete = () => {
     toast.success('Saved search deleted');
   };
 
@@ -75,12 +76,12 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
+    <div className="min-h-screen bg-background pb-20 md:pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-gray-900 mb-2">Saved Searches</h1>
-          <p className="text-gray-600">
+          <h1 className="text-foreground mb-2">Saved Searches</h1>
+          <p className="text-muted-foreground">
             Manage your saved searches and get alerts for new listings
           </p>
         </div>
@@ -90,7 +91,7 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
           {savedSearches.map((search, index) => (
             <div
               key={search.id}
-              className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow animate-in fade-in slide-in-from-bottom-4 duration-300"
+              className="bg-card rounded-2xl shadow-md border border-border overflow-hidden hover:shadow-lg transition-shadow animate-in fade-in slide-in-from-bottom-4 duration-300"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="p-6">
@@ -98,18 +99,18 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-gray-900">{search.name}</h3>
-                      {search.newListings > 0 && (
-                        <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                      <h3 className="text-foreground">{search.name}</h3>
+                      {(search.newListings ?? 0) > 0 && (
+                        <span className="px-2 py-0.5 bg-red-500 text-primary-foreground text-xs rounded-full">
                           {search.newListings} new
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
                       <MapPin className="w-4 h-4" />
                       <span>{search.location}</span>
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-muted-foreground">
                       Created {new Date(search.createdAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -132,7 +133,7 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
                       )}
                     </button>
                     <button
-                      onClick={() => handleDeleteSearch(search.id)}
+                      onClick={handleDelete}
                       className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
                       title="Delete search"
                     >
@@ -168,10 +169,10 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
                 {/* Apply Button */}
                 <button
                   onClick={() => handleApplySearch(search)}
-                  className="w-full px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-white rounded-xl transition-colors flex items-center justify-center gap-2"
+                  className="w-full px-4 py-2.5 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <Search className="w-4 h-4" />
-                  <span>View {search.newListings > 0 ? `${search.newListings} New ` : ''}Properties</span>
+                  <span>View {(search.newListings ?? 0) > 0 ? `${search.newListings} New ` : ''}Properties</span>
                   <ChevronRight className="w-4 h-4 ml-auto" />
                 </button>
               </div>
@@ -191,7 +192,7 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
             </p>
             <button
               onClick={() => onNavigateToSearch()}
-              className="px-6 py-3 bg-blue-900 text-white rounded-xl hover:bg-blue-800 transition-colors"
+              className="px-6 py-3 bg-blue-900 text-primary-foreground rounded-xl hover:bg-blue-800 transition-colors"
             >
               Start Searching
             </button>

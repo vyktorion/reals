@@ -103,11 +103,11 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
     return date.toLocaleDateString();
   };
 
-  const handleMarkAsRead = (id: string) => {
+  const handleMarkAsRead = () => {
     toast.success('Notification marked as read');
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = () => {
     toast.success('Notification deleted');
   };
 
@@ -118,7 +118,7 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
+    <div className="min-h-screen bg-background pb-20 md:pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -148,7 +148,7 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
             return (
               <div
                 key={notification.id}
-                className={`bg-white rounded-2xl border overflow-hidden transition-all hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-300 ${
+                className={`bg-card rounded-2xl border overflow-hidden transition-all hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-300 ${
                   notification.read ? 'border-gray-100' : 'border-blue-200 shadow-sm'
                 }`}
                 style={{ animationDelay: `${index * 30}ms` }}
@@ -190,21 +190,21 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
                         {notification.propertyId && (
                           <button
                             onClick={() => onViewProperty?.(notification.propertyId!)}
-                            className="px-3 py-1.5 bg-blue-900 hover:bg-blue-800 text-white text-xs rounded-lg transition-colors"
+                            className="px-3 py-1.5 bg-blue-900 hover:bg-blue-800 text-primary-foreground text-xs rounded-lg transition-colors"
                           >
                             View Property
                           </button>
                         )}
                         {!notification.read && (
                           <button
-                            onClick={() => handleMarkAsRead(notification.id)}
+                            onClick={handleMarkAsRead}
                             className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs rounded-lg transition-colors"
                           >
                             Mark as read
                           </button>
                         )}
                         <button
-                          onClick={() => handleDelete(notification.id)}
+                          onClick={handleDelete}
                           className="ml-auto p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                           <X className="w-4 h-4 text-gray-400" />
@@ -226,7 +226,7 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
             </div>
             <h3 className="text-gray-900 mb-2">No notifications</h3>
             <p className="text-gray-600">
-              We'll notify you when there's something new
+              We&apos;ll notify you when there&apos;s something new
             </p>
           </div>
         )}

@@ -20,13 +20,13 @@ export function FavoritesPage({
   const favoriteProperties = properties.filter(p => favorites.includes(p.id));
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-gray-900 dark:text-gray-100 mb-2">My Favorites</h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h1 className="text-foreground mb-2">My Favorites</h1>
+            <p className="text-muted-foreground">
               {favoriteProperties.length} {favoriteProperties.length === 1 ? 'property' : 'properties'} saved
             </p>
           </div>
@@ -48,10 +48,10 @@ export function FavoritesPage({
             <div className="w-24 h-24 bg-linear-to-br from-red-100 to-pink-100 dark:from-red-900/50 dark:to-pink-900/50 rounded-full flex items-center justify-center mx-auto mb-6 animate-in zoom-in-50 duration-500">
               <Heart className="w-12 h-12 text-red-500 dark:text-red-400" />
             </div>
-            <h2 className="text-gray-900 dark:text-gray-100 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+            <h2 className="text-foreground mb-2 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
               No favorites yet
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+            <p className="text-muted-foreground mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
               Start exploring properties and save your favorites here
             </p>
           </div>

@@ -41,7 +41,7 @@ export function ContactForm({ property, onClose }: ContactFormProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+      <div className="bg-card rounded-2xl shadow-2xl max-w-md w-full animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
@@ -129,7 +129,7 @@ export function ContactForm({ property, onClose }: ContactFormProps) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-6 py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full px-6 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>

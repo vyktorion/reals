@@ -2,16 +2,17 @@
 
 import { SavedSearches } from '../../components/SavedSearches'
 import { useRouter } from 'next/navigation'
+import { FilterOptions } from '../../types'
 
 export default function SavedSearchesPage() {
   const router = useRouter();
 
-  const handleNavigateToSearch = (filters?: any) => {
+  const handleNavigateToSearch = (filters?: FilterOptions) => {
     const params = new URLSearchParams();
     if (filters) {
       Object.keys(filters).forEach(key => {
-        if (filters[key]) {
-          params.set(key, filters[key]);
+        if (filters[key as keyof FilterOptions]) {
+          params.set(key, filters[key as keyof FilterOptions]?.toString() || '');
         }
       });
     }

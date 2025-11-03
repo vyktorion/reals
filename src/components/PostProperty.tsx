@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import { ArrowLeft, Upload, MapPin, Bed, Bath, Maximize, DollarSign, Image as ImageIcon, Check } from 'lucide-react';
+import { Property } from '../types';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -11,15 +13,15 @@ import { toast } from 'sonner';
 
 interface PostPropertyProps {
   onClose: () => void;
-  onPropertyPosted?: (property: any) => void;
+  onPropertyPosted?: (property: Partial<Property>) => void;
 }
 
-interface PropertyFormData {
+interface FormData {
   title: string;
   description: string;
   price: string;
-  type: string;
-  status: string;
+  type: 'House' | 'Apartment' | 'Villa' | 'Penthouse' | 'Condo' | 'Townhouse' | 'Estate' | 'Studio' | 'Loft';
+  status: 'For Sale' | 'For Rent';
   bedrooms: string;
   bathrooms: string;
   area: string;
@@ -37,12 +39,12 @@ interface PropertyFormData {
 
 export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<PropertyFormData>({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
     price: '',
-    type: '',
-    status: '',
+    type: 'House' as const,
+    status: 'For Sale' as const,
     bedrooms: '',
     bathrooms: '',
     area: '',
@@ -66,7 +68,7 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
     'Internet', 'Cable TV', 'Water View', 'Mountain View', 'City View', 'Garden View', 'Smart Home'
   ];
 
-  const handleInputChange = (field: keyof PropertyFormData, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -160,7 +162,7 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
         <div key={step} className="flex items-center">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
             step <= currentStep
-              ? 'bg-blue-600 text-white'
+              ? 'bg-blue-600 text-primary-foreground'
               : 'bg-gray-200 text-gray-600'
           }`}>
             {step < currentStep ? <Check className="w-4 h-4" /> : step}
@@ -429,7 +431,13 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
                   {formData.images.map((image, index) => (
                     <div key={index} className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                      <img src={image} alt={`Property ${index + 1}`} className="w-full h-full object-cover" />
+                      <Image
+                        src={image}
+                        alt={`Property ${index + 1}`}
+                        width={200}
+                        height={200}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -439,7 +447,7 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
               <CardContent className="p-4">
                 <h3 className="font-medium text-blue-900 mb-2">Ready to Publish!</h3>
                 <p className="text-sm text-blue-700">
-                  Your property listing will be reviewed and published within 24 hours. You'll receive a notification once it's live.
+                  Your property listing will be reviewed and published within 24 hours. You&apos;ll receive a notification once it&apos;s live.
                 </p>
               </CardContent>
             </Card>
@@ -462,9 +470,9 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <div className="bg-card border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
@@ -503,7 +511,7 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
           <Button
             onClick={handleNext}
             disabled={!validateStep()}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90"
           >
             {currentStep === 4 ? 'Post Property' : 'Next'}
           </Button>

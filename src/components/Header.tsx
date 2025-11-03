@@ -25,7 +25,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <header className="sticky top-0 z-50 bg-card dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -34,7 +34,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             className="flex items-center gap-3 group"
           >
             <div className="relative">
-              <Building2 className="w-8 h-8 text-blue-900 dark:text-blue-400 transition-all duration-300 group-hover:scale-110" />
+              <Building2 className="w-8 h-8 text-primary transition-all duration-300 group-hover:scale-110" />
             </div>
             <div className="hidden sm:block">
               <div className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-900 to-blue-700 dark:from-blue-400 dark:to-blue-300 tracking-tight">
@@ -49,7 +49,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             {onSignInClick && (
               <button
                 onClick={onSignInClick}
-                className="px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-900 dark:hover:text-blue-400"
+                className="px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary"
               >
                 <LogIn className="w-4 h-4" />
                 Sign In
@@ -57,7 +57,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             )}
             <Button
               onClick={handlePostProperty}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Post Property
@@ -74,14 +74,14 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                   onClick={() => onViewChange(item.id)}
                   className={`relative px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
                     currentView === item.id
-                      ? 'bg-blue-900 dark:bg-blue-800 text-white shadow-md'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-900 dark:hover:text-blue-400'
+                      ? 'bg-blue-900 dark:bg-blue-800 text-primary-foreground shadow-md'
+                      : 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.label}</span>
                   {item.badge && item.badge > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-primary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
                       {item.badge}
                     </span>
                   )}
@@ -92,7 +92,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             {/* Notification Icon */}
             <button
               onClick={() => onViewChange('notifications')}
-              className="relative p-2 ml-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="relative p-2 ml-2 rounded-lg text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               <Bell className="w-5 h-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
@@ -105,9 +105,9 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             {mobileMenuOpen ? (
-              <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              <X className="w-6 h-6 text-foreground" />
             ) : (
-              <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              <Menu className="w-6 h-6 text-foreground" />
             )}
           </button>
         </div>
@@ -126,14 +126,14 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                   }}
                   className={`relative w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                     currentView === item.id
-                      ? 'bg-blue-900 dark:bg-blue-800 text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ? 'bg-blue-900 dark:bg-blue-800 text-primary-foreground'
+                      : 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span>{item.label}</span>
                   {item.badge && item.badge > 0 && (
-                    <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    <span className="ml-auto bg-red-500 text-primary-foreground text-xs px-2 py-0.5 rounded-full">
                       {item.badge}
                     </span>
                   )}
@@ -143,7 +143,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             
             {/* Theme Toggle for Mobile */}
             <div className="flex items-center justify-between px-4 py-3 mt-2 border-t border-gray-200 dark:border-gray-800">
-              <span className="text-gray-700 dark:text-gray-300">Theme</span>
+              <span className="text-foreground">Theme</span>
               <ThemeToggle />
             </div>
             
@@ -155,7 +155,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                     onSignInClick();
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-900 dark:hover:text-blue-400"
+                  className="w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary"
                 >
                   <LogIn className="w-4 h-4" />
                   Sign In
@@ -166,7 +166,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                   handlePostProperty();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >
                 <Plus className="w-4 h-4" />
                 Post Property

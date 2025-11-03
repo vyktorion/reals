@@ -1,41 +1,45 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 import { Inter } from 'next/font/google'
-import './globals.css'
-import { ThemeProvider } from '../components/ThemeProvider'
-import { AppProvider } from '../contexts/AppContext'
-import { Toaster } from '../components/ui/sonner'
-import { LayoutContent } from '../components/LayoutContent'
+import "./globals.css";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../lib/auth/nextauth';
+import ClientLayout from './client-layout';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'LuxeEstate - Premium Properties',
-  description: 'Discover your dream property with LuxeEstate',
-  manifest: '/manifest.json',
-}
+  title: "LuxeEstate - Premium Properties",
+  description: "Discover your dream property with LuxeEstate",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+};
 
-export default function RootLayout({
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#00bfff',
+};
+
+export default async function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AppProvider>
-            <LayoutContent>
-              {children}
-            </LayoutContent>
-            <Toaster />
-          </AppProvider>
-        </ThemeProvider>
+        <ClientLayout session={session}>
+          {children}
+        </ClientLayout>
       </body>
     </html>
-  )
+  );
 }

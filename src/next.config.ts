@@ -1,7 +1,6 @@
-// @ts-ignore
+// @ts-expect-error - next-pwa module doesn't have types
 import nextPwa from "next-pwa";
 import type { NextConfig } from "next";
-import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -11,7 +10,22 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'utfs.io',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
+    formats: ['image/webp', 'image/avif'],
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 };
 
@@ -59,5 +73,4 @@ const withPWA = nextPwa({
   ],
 });
 
-// @ts-ignore
 export default withPWA(nextConfig);

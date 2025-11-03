@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Edit } from 'lucide-react';
-import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, Mail, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Eye, Ruler, Car, Clock } from 'lucide-react';
+import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Car } from 'lucide-react';
 import { Property } from '../types';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ContactForm } from './ContactForm';
@@ -11,10 +10,9 @@ interface PropertyDetailsEnhancedProps {
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onClose: () => void;
-  onEdit?: (property: Property) => void;
 }
 
-export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite, onClose, onEdit }: PropertyDetailsEnhancedProps) {
+export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite, onClose }: PropertyDetailsEnhancedProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'location' | 'reviews'>('overview');
@@ -71,11 +69,11 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
       <div className="absolute inset-0 overflow-y-auto">
         <div className="min-h-full flex items-start justify-center md:p-4 md:py-8">
-          <div className="relative bg-white md:rounded-3xl shadow-2xl max-w-7xl w-full md:my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 min-h-screen md:min-h-0">
+          <div className="relative bg-card md:rounded-3xl shadow-2xl max-w-7xl w-full md:my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 min-h-screen md:min-h-0">
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="fixed md:absolute top-4 right-4 z-20 p-3 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+              className="fixed md:absolute top-4 right-4 z-20 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
             >
               <X className="w-6 h-6 text-gray-700" />
             </button>
@@ -97,19 +95,19 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     <>
                       <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg opacity-0 group-hover:opacity-100"
                       >
                         <ChevronLeft className="w-6 h-6 text-gray-700" />
                       </button>
                       <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg opacity-0 group-hover:opacity-100"
                       >
                         <ChevronRight className="w-6 h-6 text-gray-700" />
                       </button>
 
                       {/* Counter */}
-                      <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/70 backdrop-blur-md text-white text-sm rounded-full">
+                      <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/70 backdrop-blur-md text-primary-foreground text-sm rounded-full">
                         {currentImageIndex + 1} / {property.images.length}
                       </div>
                     </>
@@ -119,8 +117,8 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <div className="absolute top-4 left-4 flex gap-2">
                     <span className={`px-3 py-1.5 rounded-full text-sm backdrop-blur-md ${
                       property.status === 'For Sale' 
-                        ? 'bg-blue-900/90 text-white' 
-                        : 'bg-amber-500/90 text-white'
+                        ? 'bg-blue-900/90 text-primary-foreground' 
+                        : 'bg-amber-500/90 text-primary-foreground'
                     }`}>
                       {property.status}
                     </span>
@@ -130,7 +128,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                       </span>
                     )}
                     {property.isNew && (
-                      <span className="px-3 py-1.5 rounded-full text-sm bg-green-500/90 text-white backdrop-blur-md">
+                      <span className="px-3 py-1.5 rounded-full text-sm bg-green-500/90 text-primary-foreground backdrop-blur-md">
                         New
                       </span>
                     )}
@@ -140,7 +138,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <div className="absolute top-4 right-4 flex gap-2">
                     <button
                       onClick={handleShare}
-                      className="p-2.5 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+                      className="p-2.5 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
                     >
                       <Share2 className="w-5 h-5 text-gray-700" />
                     </button>
@@ -148,8 +146,8 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                       onClick={() => onToggleFavorite(property.id)}
                       className={`p-2.5 backdrop-blur-md rounded-full transition-all shadow-lg hover:scale-110 ${
                         isFavorite
-                          ? 'bg-red-500 text-white'
-                          : 'bg-white/95 text-gray-700 hover:bg-white'
+                          ? 'bg-red-500 text-primary-foreground'
+                          : 'bg-card/95 text-gray-700 hover:bg-card'
                       }`}
                     >
                       <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
@@ -190,7 +188,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   )}
                   <button
                     onClick={handleScheduleTour}
-                    className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl transition-colors flex items-center justify-center gap-2"
+                    className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-colors flex items-center justify-center gap-2"
                   >
                     <Calendar className="w-5 h-5" />
                     <span>Schedule Tour</span>
@@ -240,7 +238,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   ].map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
+                      onClick={() => setActiveTab(tab.id as 'overview' | 'details' | 'location' | 'reviews')}
                       className={`px-4 py-2 transition-colors relative ${
                         activeTab === tab.id
                           ? 'text-blue-900'
@@ -261,22 +259,22 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     <div className="space-y-6">
                       {/* Key Stats */}
                       <div className="grid grid-cols-4 gap-4">
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-background rounded-xl p-4">
                           <Bed className="w-5 h-5 text-gray-600 mb-2" />
                           <div className="text-gray-900">{property.bedrooms}</div>
                           <div className="text-xs text-gray-600">Bedrooms</div>
                         </div>
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-background rounded-xl p-4">
                           <Bath className="w-5 h-5 text-gray-600 mb-2" />
                           <div className="text-gray-900">{property.bathrooms}</div>
                           <div className="text-xs text-gray-600">Bathrooms</div>
                         </div>
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-background rounded-xl p-4">
                           <Maximize className="w-5 h-5 text-gray-600 mb-2" />
                           <div className="text-gray-900">{property.area.toLocaleString()}</div>
                           <div className="text-xs text-gray-600">Sqft</div>
                         </div>
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-background rounded-xl p-4">
                           <Car className="w-5 h-5 text-gray-600 mb-2" />
                           <div className="text-gray-900">{property.parkingSpaces || 0}</div>
                           <div className="text-xs text-gray-600">Parking</div>
@@ -296,7 +294,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                           {property.features.map((feature, index) => (
                             <div
                               key={index}
-                              className="flex items-center gap-2 text-gray-700 bg-gray-50 rounded-lg px-3 py-2"
+                              className="flex items-center gap-2 text-gray-700 bg-background rounded-lg px-3 py-2"
                             >
                               <div className="w-2 h-2 bg-blue-900 rounded-full shrink-0" />
                               <span className="text-sm">{feature}</span>
@@ -334,7 +332,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                       {/* Address */}
                       <div>
                         <h3 className="text-gray-900 mb-3">Address</h3>
-                        <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="bg-background rounded-xl p-4">
                           <div className="text-gray-900 mb-1">{property.location.address}</div>
                           <div className="text-gray-600">{property.location.city}, {property.location.state} {property.location.zipCode}</div>
                           <div className="text-gray-600">{property.location.country}</div>
@@ -349,9 +347,9 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                             {property.nearbyPlaces.map((place, index) => {
                               const PlaceIcon = iconMap[place.type] || Navigation;
                               return (
-                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div key={index} className="flex items-center justify-between p-3 bg-background rounded-lg">
                                   <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                                    <div className="w-10 h-10 bg-card rounded-full flex items-center justify-center">
                                       <PlaceIcon className="w-5 h-5 text-gray-600" />
                                     </div>
                                     <div>
@@ -434,14 +432,14 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => window.location.href = `tel:${property.agent.phone}`}
-                      className="px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
+                      className="px-4 py-3 bg-card hover:bg-background text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
                     >
                       <Phone className="w-5 h-5" />
                       <span>Call</span>
                     </button>
                     <button
                       onClick={() => setShowContactForm(true)}
-                      className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                      className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                     >
                       <MessageSquare className="w-5 h-5" />
                       <span>Message</span>
@@ -466,17 +464,17 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/95 backdrop-blur-md rounded-full shadow-lg"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
                     >
                       <ChevronLeft className="w-5 h-5 text-gray-700" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/95 backdrop-blur-md rounded-full shadow-lg"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
                     >
                       <ChevronRight className="w-5 h-5 text-gray-700" />
                     </button>
-                    <div className="absolute bottom-4 right-4 px-2.5 py-1 bg-black/70 backdrop-blur-md text-white text-xs rounded-full">
+                    <div className="absolute bottom-4 right-4 px-2.5 py-1 bg-black/70 backdrop-blur-md text-primary-foreground text-xs rounded-full">
                       {currentImageIndex + 1} / {property.images.length}
                     </div>
                   </>
@@ -486,8 +484,8 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                   <span className={`px-2.5 py-1 rounded-full text-xs backdrop-blur-md ${
                     property.status === 'For Sale' 
-                      ? 'bg-blue-900/90 text-white' 
-                      : 'bg-amber-500/90 text-white'
+                      ? 'bg-blue-900/90 text-primary-foreground' 
+                      : 'bg-amber-500/90 text-primary-foreground'
                   }`}>
                     {property.status}
                   </span>
@@ -502,7 +500,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                 <div className="absolute top-16 right-4 flex flex-col gap-2">
                   <button
                     onClick={handleShare}
-                    className="p-2 bg-white/95 backdrop-blur-md rounded-full shadow-lg"
+                    className="p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
                   >
                     <Share2 className="w-5 h-5 text-gray-700" />
                   </button>
@@ -510,8 +508,8 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     onClick={() => onToggleFavorite(property.id)}
                     className={`p-2 backdrop-blur-md rounded-full shadow-lg ${
                       isFavorite
-                        ? 'bg-red-500 text-white'
-                        : 'bg-white/95 text-gray-700'
+                        ? 'bg-red-500 text-primary-foreground'
+                        : 'bg-card/95 text-gray-700'
                     }`}
                   >
                     <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
@@ -564,7 +562,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   ].map(tab => (
                     <button
                       key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
+                      onClick={() => setActiveTab(tab.id as 'overview' | 'details' | 'location' | 'reviews')}
                       className={`px-4 py-2 whitespace-nowrap transition-colors relative text-sm ${
                         activeTab === tab.id
                           ? 'text-blue-900'
@@ -620,14 +618,14 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => window.location.href = `tel:${property.agent.phone}`}
-                      className="px-3 py-2 bg-white text-gray-900 rounded-lg text-sm flex items-center justify-center gap-2"
+                      className="px-3 py-2 bg-card text-gray-900 rounded-lg text-sm flex items-center justify-center gap-2"
                     >
                       <Phone className="w-4 h-4" />
                       <span>Call</span>
                     </button>
                     <button
                       onClick={() => setShowContactForm(true)}
-                      className="px-3 py-2 bg-blue-900 text-white rounded-lg text-sm flex items-center justify-center gap-2"
+                      className="px-3 py-2 bg-blue-900 text-primary-foreground rounded-lg text-sm flex items-center justify-center gap-2"
                     >
                       <MessageSquare className="w-4 h-4" />
                       <span>Message</span>
@@ -637,10 +635,10 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
               </div>
 
               {/* Fixed Bottom CTA */}
-              <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-10">
+              <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-gray-200 p-4 shadow-lg z-10">
                 <button
                   onClick={handleScheduleTour}
-                  className="w-full py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                  className="w-full py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
                 >
                   <Calendar className="w-5 h-5" />
                   <span>Schedule Tour</span>

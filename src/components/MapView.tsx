@@ -14,7 +14,7 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   return (
-    <div className="relative bg-white rounded-2xl shadow-md overflow-hidden" style={{ height: 'calc(100vh - 16rem)' }}>
+    <div className="relative bg-card rounded-2xl shadow-md overflow-hidden" style={{ height: 'calc(100vh - 16rem)' }}>
       {/* Map Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-gray-50">
         {/* Grid Pattern */}
@@ -51,8 +51,8 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
               <div className="relative">
                 <div className={`w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 group-hover:scale-125 ${
                   selectedProperty?.id === property.id
-                    ? 'bg-blue-900 text-white ring-4 ring-blue-300 scale-125'
-                    : 'bg-white text-blue-900 group-hover:bg-blue-900 group-hover:text-white'
+                    ? 'bg-blue-900 text-primary-foreground ring-4 ring-blue-300 scale-125'
+                    : 'bg-card text-blue-900 group-hover:bg-blue-900 group-hover:text-primary-foreground'
                 }`}>
                   <MapPin className="w-5 h-5" />
                 </div>
@@ -65,8 +65,8 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
                 {/* Price Label */}
                 <div className={`absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg text-xs whitespace-nowrap shadow-md transition-all duration-200 ${
                   selectedProperty?.id === property.id
-                    ? 'bg-blue-900 text-white opacity-100'
-                    : 'bg-white text-gray-900 opacity-0 group-hover:opacity-100'
+                    ? 'bg-blue-900 text-primary-foreground opacity-100'
+                    : 'bg-card text-gray-900 opacity-0 group-hover:opacity-100'
                 }`}>
                   {property.status === 'For Rent' 
                     ? `$${property.price.toLocaleString()}/mo`
@@ -81,7 +81,7 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
 
       {/* Property Details Panel */}
       {selectedProperty && (
-        <div className="absolute bottom-0 left-0 right-0 sm:bottom-auto sm:top-4 sm:right-4 sm:left-auto sm:w-96 bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl p-4 animate-in slide-in-from-bottom-8 sm:slide-in-from-right-8 duration-300 z-10">
+        <div className="absolute bottom-0 left-0 right-0 sm:bottom-auto sm:top-4 sm:right-4 sm:left-auto sm:w-96 bg-card rounded-t-3xl sm:rounded-2xl shadow-2xl p-4 animate-in slide-in-from-bottom-8 sm:slide-in-from-right-8 duration-300 z-10">
           <button
             onClick={() => setSelectedProperty(null)}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -99,7 +99,7 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
       )}
 
       {/* Map Controls */}
-      <div className="absolute top-4 left-4 bg-white rounded-xl shadow-lg p-1 flex flex-col gap-1">
+      <div className="absolute top-4 left-4 bg-card rounded-xl shadow-lg p-1 flex flex-col gap-1">
         <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-700">
           <span className="text-xl">+</span>
         </button>

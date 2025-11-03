@@ -8,9 +8,12 @@ export default function Home() {
   const { properties, favorites, toggleFavorite, setSelectedProperty } = useApp();
   const router = useRouter();
 
-  const handleViewDetails = (property: any) => {
-    setSelectedProperty(property);
-    router.push(`/property/${property.id}`);
+  const handleViewDetails = (id: string) => {
+    const property = properties.find(p => p.id === id);
+    if (property) {
+      setSelectedProperty(property);
+      router.push(`/property/${id}`);
+    }
   };
 
   const handleNavigateToSearch = () => {

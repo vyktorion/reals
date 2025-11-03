@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 import { ArrowLeft, Upload, MapPin, Bed, Bath, Maximize, DollarSign, Image as ImageIcon, Check, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -169,7 +170,7 @@ export function EditProperty({ property, onClose, onPropertyUpdated }: EditPrope
         <div key={step} className="flex items-center">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
             step <= currentStep
-              ? 'bg-blue-600 text-white'
+              ? 'bg-blue-600 text-primary-foreground'
               : 'bg-gray-200 text-gray-600'
           }`}>
             {step < currentStep ? <Check className="w-4 h-4" /> : step}
@@ -438,7 +439,13 @@ export function EditProperty({ property, onClose, onPropertyUpdated }: EditPrope
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
                   {formData.images.map((image, index) => (
                     <div key={index} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden group">
-                      <img src={image} alt={`Property ${index + 1}`} className="w-full h-full object-cover" />
+                      <Image
+                        src={image}
+                        alt={`Property ${index + 1}`}
+                        width={200}
+                        height={200}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center">
                         <Button
                           size="sm"
@@ -481,9 +488,9 @@ export function EditProperty({ property, onClose, onPropertyUpdated }: EditPrope
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <div className="bg-card border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
@@ -522,7 +529,7 @@ export function EditProperty({ property, onClose, onPropertyUpdated }: EditPrope
           <Button
             onClick={handleNext}
             disabled={!validateStep()}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90"
           >
             {currentStep === 4 ? 'Update Property' : 'Next'}
           </Button>

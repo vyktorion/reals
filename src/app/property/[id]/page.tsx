@@ -19,11 +19,6 @@ export default function PropertyDetails() {
     }
   }, [params.id, properties]);
 
-  const handleContactAgent = () => {
-    // Implementation for contacting agent
-    console.log('Contact agent');
-  };
-
   if (!property) {
     return (
       <div className="min-h-screen flex items-center justify-center">

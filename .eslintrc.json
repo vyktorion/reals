@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
+  "rules": {
+    "no-unused-expressions": "off",
+    "no-unused-vars": "off"
+  },
+  "ignorePatterns": [
+  "src/public/sw.js",
+  "src/public/workbox-*.js"
+]
+}

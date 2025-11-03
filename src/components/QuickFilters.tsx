@@ -1,7 +1,7 @@
 import { Home, Building2, TrendingUp, DollarSign } from 'lucide-react';
 
 interface QuickFiltersProps {
-  onFilterSelect: (filter: any) => void;
+  onFilterSelect: (filter: Record<string, unknown>) => void;
 }
 
 export function QuickFilters({ onFilterSelect }: QuickFiltersProps) {
@@ -56,7 +56,7 @@ export function QuickFilters({ onFilterSelect }: QuickFiltersProps) {
           <button
             key={filter.id}
             onClick={() => onFilterSelect(filter.filter)}
-            className={`relative overflow-hidden rounded-2xl p-6 bg-linear-to-br ${filter.gradient} dark:from-opacity-80 dark:to-opacity-80 text-white shadow-lg hover:shadow-xl dark:shadow-gray-900/50 transition-all duration-300 hover:scale-105 active:scale-95 group`}
+            className={`relative overflow-hidden rounded-2xl p-6 bg-linear-to-br ${filter.gradient} dark:from-opacity-80 dark:to-opacity-80 text-primary-foreground shadow-lg hover:shadow-xl dark:shadow-gray-900/50 transition-all duration-300 hover:scale-105 active:scale-95 group`}
           >
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -68,7 +68,7 @@ export function QuickFilters({ onFilterSelect }: QuickFiltersProps) {
 
             {/* Content */}
             <div className="relative">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-card/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <Icon className="w-6 h-6" />
               </div>
               <div className="text-sm opacity-90">{filter.name}</div>

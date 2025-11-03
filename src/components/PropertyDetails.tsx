@@ -3,7 +3,7 @@ import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, C
 import { Property } from '../types';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ContactForm } from './ContactForm';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface PropertyDetailsProps {
   property: Property;
@@ -47,11 +47,11 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
       <div className="absolute inset-0 overflow-y-auto">
         <div className="min-h-full flex items-center justify-center p-4">
-          <div className="relative bg-white rounded-3xl shadow-2xl max-w-6xl w-full my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
+          <div className="relative bg-card rounded-3xl shadow-2xl max-w-6xl w-full my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+              className="absolute top-4 right-4 z-10 p-2 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
             >
               <X className="w-6 h-6 text-gray-700" />
             </button>
@@ -69,13 +69,13 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                 <>
                   <button
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
                   >
                     <ChevronLeft className="w-6 h-6 text-gray-700" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
                   >
                     <ChevronRight className="w-6 h-6 text-gray-700" />
                   </button>
@@ -88,8 +88,8 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                         onClick={() => setCurrentImageIndex(index)}
                         className={`h-1.5 rounded-full transition-all ${
                           index === currentImageIndex
-                            ? 'w-8 bg-white'
-                            : 'w-1.5 bg-white/50 hover:bg-white/75'
+                            ? 'w-8 bg-card'
+                            : 'w-1.5 bg-card/50 hover:bg-card/75'
                         }`}
                       />
                     ))}
@@ -101,8 +101,8 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
               <div className="absolute top-4 left-4 flex gap-2">
                 <span className={`px-3 py-1.5 rounded-full text-sm backdrop-blur-md ${
                   property.status === 'For Sale' 
-                    ? 'bg-blue-900/90 text-white' 
-                    : 'bg-amber-500/90 text-white'
+                    ? 'bg-blue-900/90 text-primary-foreground' 
+                    : 'bg-amber-500/90 text-primary-foreground'
                 }`}>
                   {property.status}
                 </span>
@@ -117,7 +117,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
               <div className="absolute top-4 right-16 flex gap-2">
                 <button
                   onClick={handleShare}
-                  className="p-2.5 bg-white/95 backdrop-blur-md rounded-full hover:bg-white transition-all shadow-lg hover:scale-110"
+                  className="p-2.5 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
                 >
                   <Share2 className="w-5 h-5 text-gray-700" />
                 </button>
@@ -125,8 +125,8 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                   onClick={() => onToggleFavorite(property.id)}
                   className={`p-2.5 backdrop-blur-md rounded-full transition-all shadow-lg hover:scale-110 ${
                     isFavorite
-                      ? 'bg-red-500 text-white'
-                      : 'bg-white/95 text-gray-700 hover:bg-white'
+                      ? 'bg-red-500 text-primary-foreground'
+                      : 'bg-card/95 text-gray-700 hover:bg-card'
                   }`}
                 >
                   <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
@@ -155,28 +155,28 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
 
                   {/* Specs Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="bg-background rounded-xl p-4">
                       <div className="flex items-center gap-2 text-gray-600 mb-1">
                         <Bed className="w-5 h-5" />
                         <span className="text-sm">Bedrooms</span>
                       </div>
                       <div className="text-gray-900">{property.bedrooms}</div>
                     </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="bg-background rounded-xl p-4">
                       <div className="flex items-center gap-2 text-gray-600 mb-1">
                         <Bath className="w-5 h-5" />
                         <span className="text-sm">Bathrooms</span>
                       </div>
                       <div className="text-gray-900">{property.bathrooms}</div>
                     </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="bg-background rounded-xl p-4">
                       <div className="flex items-center gap-2 text-gray-600 mb-1">
                         <Maximize className="w-5 h-5" />
                         <span className="text-sm">Area</span>
                       </div>
                       <div className="text-gray-900">{property.area.toLocaleString()} sqft</div>
                     </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="bg-background rounded-xl p-4">
                       <div className="flex items-center gap-2 text-gray-600 mb-1">
                         <Calendar className="w-5 h-5" />
                         <span className="text-sm">Built</span>
@@ -198,7 +198,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                       {property.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="flex items-center gap-2 text-gray-700 bg-gray-50 rounded-lg px-3 py-2"
+                          className="flex items-center gap-2 text-gray-700 bg-background rounded-lg px-3 py-2"
                         >
                           <div className="w-2 h-2 bg-blue-900 rounded-full" />
                           <span className="text-sm">{feature}</span>
@@ -230,21 +230,21 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                     <div className="space-y-3 mb-6">
                       <button
                         onClick={handleCall}
-                        className="w-full px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
+                        className="w-full px-4 py-3 bg-card hover:bg-background text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
                       >
                         <Phone className="w-5 h-5" />
                         <span>Call Now</span>
                       </button>
                       <button
                         onClick={handleEmail}
-                        className="w-full px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
+                        className="w-full px-4 py-3 bg-card hover:bg-background text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
                       >
                         <Mail className="w-5 h-5" />
                         <span>Email</span>
                       </button>
                       <button
                         onClick={() => setShowContactForm(true)}
-                        className="w-full px-4 py-3 bg-blue-900 hover:bg-blue-800 text-white rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                        className="w-full px-4 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                       >
                         <MessageSquare className="w-5 h-5" />
                         <span>Send Message</span>

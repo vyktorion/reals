@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import {
-  User,
   Mail,
   Phone,
   MapPin,
@@ -70,7 +70,7 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
     toast.success('Listing status updated');
   };
 
-  const handlePromoteListing = (id: string) => {
+  const handlePromoteListing = () => {
     // Mock promotion feature - to be implemented in the future
     toast('Promotion feature coming soon!', {
       description: 'Boost your listing visibility with premium placement'
@@ -84,10 +84,10 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Profile Header */}
-        <div className="bg-linear-to-br from-blue-900 to-blue-800 dark:from-blue-800 dark:to-gray-900 rounded-3xl p-8 mb-8 text-white relative overflow-hidden">
+        <div className="bg-linear-to-br from-blue-900 to-blue-800 dark:from-blue-800 dark:to-gray-900 rounded-3xl p-8 mb-8 text-primary-foreground relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -104,14 +104,14 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover ring-4 ring-white/20 shadow-xl"
               />
-              <button className="absolute bottom-0 right-0 p-2 bg-white text-blue-900 rounded-full shadow-lg hover:bg-gray-100 transition-colors">
+              <button className="absolute bottom-0 right-0 p-2 bg-card text-blue-900 rounded-full shadow-lg hover:bg-gray-100 transition-colors">
                 <Edit2 className="w-4 h-4" />
               </button>
             </div>
 
             {/* Info */}
             <div className="text-center sm:text-left flex-1">
-              <h1 className="text-white mb-2">John Anderson</h1>
+              <h1 className="text-primary-foreground mb-2">John Anderson</h1>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-blue-100 justify-center sm:justify-start">
                   <Mail className="w-4 h-4" />
@@ -129,7 +129,7 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
             </div>
 
             {/* Edit Button */}
-            <button className="px-6 py-2.5 bg-white dark:bg-gray-800 text-blue-900 dark:text-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-lg flex items-center gap-2">
+            <button className="px-6 py-2.5 bg-card text-primary rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-lg flex items-center gap-2">
               <Settings className="w-4 h-4" />
               <span>Edit Profile</span>
             </button>
@@ -143,14 +143,14 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
             return (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                className="bg-card rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-14 h-14 ${stat.color} rounded-xl flex items-center justify-center shadow-sm`}>
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <div className="text-gray-900 dark:text-gray-100">{stat.value}</div>
+                    <div className="text-foreground">{stat.value}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</div>
                   </div>
                 </div>
@@ -163,18 +163,18 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
           {/* Settings */}
           <div className="lg:col-span-2 space-y-6">
             {/* Preferences */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                <h2 className="text-gray-900 dark:text-gray-100">Search Preferences</h2>
+                <h2 className="text-foreground">Search Preferences</h2>
               </div>
               <div className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Preferred Property Type</label>
+                  <label className="block text-sm text-foreground mb-2">Preferred Property Type</label>
                   <div className="flex flex-wrap gap-2">
                     {['House', 'Apartment', 'Villa', 'Condo'].map((type) => (
                       <button
                         key={type}
-                        className="px-4 py-2 bg-blue-900 dark:bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
+                        className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
                       >
                         {type}
                       </button>
@@ -183,33 +183,33 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Price Range</label>
+                  <label className="block text-sm text-foreground mb-2">Price Range</label>
                   <div className="grid grid-cols-2 gap-3">
                     <input
                       type="number"
                       placeholder="Min Price"
-                      className="px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                      className="px-4 py-2.5 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                     />
                     <input
                       type="number"
                       placeholder="Max Price"
-                      className="px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                      className="px-4 py-2.5 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Preferred Locations</label>
+                  <label className="block text-sm text-foreground mb-2">Preferred Locations</label>
                   <input
                     type="text"
                     placeholder="Los Angeles, New York, Miami..."
-                    className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                    className="w-full px-4 py-2.5 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   />
                 </div>
 
                 <button
                   onClick={handleSavePreferences}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-blue-900 dark:bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-primary hover:bg-blue-800 dark:hover:bg-blue-700 text-primary-foreground rounded-lg transition-colors shadow-md hover:shadow-lg"
                 >
                   Save Preferences
                 </button>
@@ -217,9 +217,9 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
             </div>
 
             {/* Notifications */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                <h2 className="text-gray-900 dark:text-gray-100">Notifications</h2>
+                <h2 className="text-foreground">Notifications</h2>
               </div>
               <div className="p-6 space-y-4">
                 {[
@@ -229,12 +229,12 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-0">
                     <div>
-                      <div className="text-gray-900 dark:text-gray-100">{item.label}</div>
+                      <div className="text-foreground">{item.label}</div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-900 dark:peer-focus:ring-blue-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-900 dark:peer-checked:bg-blue-600"></div>
+                      <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-900 dark:peer-focus:ring-blue-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-card after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-900 dark:peer-checked:bg-blue-600"></div>
                     </label>
                   </div>
                 ))}
@@ -242,20 +242,26 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
             </div>
 
             {/* Your Listings */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                <h2 className="text-gray-900 dark:text-gray-100">Your Listings</h2>
+                <h2 className="text-foreground">Your Listings</h2>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{listings.length} active</span>
               </div>
               <div className="p-6 space-y-4">
                 {listings.map((listing) => (
                   <div key={listing.id} className="flex items-center gap-4">
                     <div className="w-20 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 shrink-0">
-                      <img src={listing.images[0]} alt={listing.title} className="w-full h-full object-cover" />
+                      <Image
+                        src={listing.images[0]}
+                        alt={listing.title}
+                        width={80}
+                        height={56}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3">
-                        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 line-clamp-1">{listing.title}</h3>
+                        <h3 className="text-sm font-medium text-foreground line-clamp-1">{listing.title}</h3>
                         <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">${listing.price.toLocaleString()}</span>
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{listing.location.city}, {listing.location.state}</div>
@@ -263,26 +269,26 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleTogglePublish(listing.id)}
-                        className="px-3 py-1 text-sm rounded-lg border bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                        className="px-3 py-1 text-sm rounded-lg border bg-card text-gray-700 dark:text-gray-200 border-border hover:bg-background dark:hover:bg-gray-600 transition-colors"
                       >
                         {listing.status === 'For Sale' ? 'Unpublish' : 'Publish'}
                       </button>
                       <button
-                        onClick={() => handlePromoteListing(listing.id)}
-                        className="px-3 py-1 text-sm rounded-lg bg-amber-500 dark:bg-amber-600 text-white hover:bg-amber-600 dark:hover:bg-amber-700 transition-colors flex items-center gap-1"
+                        onClick={() => handlePromoteListing()}
+                        className="px-3 py-1 text-sm rounded-lg bg-amber-500 dark:bg-amber-600 text-primary-foreground hover:bg-amber-600 dark:hover:bg-amber-700 transition-colors flex items-center gap-1"
                       >
                         <TrendingUp className="w-3 h-3" />
                         Promote
                       </button>
                       <button
                         onClick={() => handleEditListing(listing)}
-                        className="px-3 py-1 text-sm rounded-lg bg-blue-900 dark:bg-blue-600 text-white hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
+                        className="px-3 py-1 text-sm rounded-lg bg-primary text-primary-foreground hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteListing(listing.id)}
-                        className="p-2 rounded-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                        className="p-2 rounded-full bg-card border border-gray-200 dark:border-gray-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
                         aria-label={`Delete ${listing.title}`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -291,7 +297,7 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                   </div>
                 ))}
                 {listings.length === 0 && (
-                  <div className="text-sm text-gray-600 dark:text-gray-400">You don't have any active listings yet.</div>
+                  <div className="text-sm text-muted-foreground">You dont have any active listings yet.</div>
                 )}
               </div>
             </div>
@@ -299,32 +305,32 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
 
           {/* Quick Actions */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden sticky top-24">
+            <div className="bg-card rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden sticky top-24">
               <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                <h3 className="text-gray-900 dark:text-gray-100">Quick Actions</h3>
+                <h3 className="text-foreground">Quick Actions</h3>
               </div>
               <div className="p-4">
                 <nav className="space-y-2">
                   <button 
                     onClick={onNavigateToNotifications}
-                    className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3"
+                    className="w-full px-4 py-3 text-left text-foreground hover:bg-background dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3"
                   >
                     <Bell className="w-5 h-5" />
                     <span>Notifications</span>
-                    <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
+                    <span className="ml-auto bg-red-500 text-primary-foreground text-xs px-2 py-0.5 rounded-full">3</span>
                   </button>
                   <button 
                     onClick={onNavigateToSavedSearches}
-                    className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3"
+                    className="w-full px-4 py-3 text-left text-foreground hover:bg-background dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3"
                   >
                     <Search className="w-5 h-5" />
                     <span>Saved Searches</span>
                   </button>
-                  <button className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3">
+                  <button className="w-full px-4 py-3 text-left text-foreground hover:bg-background dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3">
                     <Shield className="w-5 h-5" />
                     <span>Privacy & Security</span>
                   </button>
-                  <button className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3">
+                  <button className="w-full px-4 py-3 text-left text-foreground hover:bg-background dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-3">
                     <Settings className="w-5 h-5" />
                     <span>Account Settings</span>
                   </button>

@@ -18,7 +18,7 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
   };
 
   return (
-    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600 hover:-translate-y-1">
+    <div className="group bg-card rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600 hover:-translate-y-1">
         {/* Image Container */}
         <div className="relative aspect-4/3 overflow-hidden bg-gray-100 dark:bg-gray-700">
         <ImageWithFallback
@@ -34,8 +34,8 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
         <div className="absolute top-4 left-4">
           <span className={`px-3 py-1 rounded-full text-xs backdrop-blur-md ${
             property.status === 'For Sale' 
-              ? 'bg-blue-900/90 text-white' 
-              : 'bg-amber-500/90 text-white'
+              ? 'bg-blue-900/90 text-primary-foreground' 
+              : 'bg-amber-500/90 text-primary-foreground'
           }`}>
             {property.status}
           </span>
@@ -60,8 +60,8 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
             property.isFeatured ? 'mt-10' : ''
           } ${
             isFavorite
-              ? 'bg-red-500 text-white scale-110'
-              : 'bg-white/90 text-gray-700 hover:bg-white hover:scale-110'
+              ? 'bg-red-500 text-primary-foreground scale-110'
+              : 'bg-card/90 text-gray-700 hover:bg-card hover:scale-110'
           }`}
           aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         >
@@ -71,7 +71,7 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
         {/* View Details Button - shown on hover */}
         <button
           onClick={() => onViewDetails(property.id)}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-full text-sm text-gray-900 dark:text-gray-100 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white dark:hover:bg-gray-800 flex items-center gap-2 shadow-lg"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-card/95 dark:bg-gray-800/95 backdrop-blur-md rounded-full text-sm text-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-card dark:hover:bg-gray-800 flex items-center gap-2 shadow-lg"
         >
           <Eye className="w-4 h-4" />
           View Details
@@ -83,33 +83,33 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
         {/* Price & Type */}
         <div className="flex items-start justify-between mb-3">
           <div>
-            <div className="text-blue-900 dark:text-blue-400">{formatPrice(property.price)}</div>
+            <div className="text-primary">{formatPrice(property.price)}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{property.type}</div>
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-blue-900 dark:group-hover:text-blue-400 transition-colors">
+        <h3 className="text-foreground mb-2 line-clamp-1 group-hover:text-blue-900 dark:group-hover:text-blue-400 transition-colors">
           {property.title}
         </h3>
 
         {/* Location */}
-        <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-4">
           <MapPin className="w-4 h-4 shrink-0" />
           <span className="line-clamp-1">{property.location.city}, {property.location.state}</span>
         </div>
 
         {/* Specs */}
         <div className="flex items-center gap-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-1.5 text-sm text-foreground">
             <Bed className="w-4 h-4 text-gray-400 dark:text-gray-500" />
             <span>{property.bedrooms}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-1.5 text-sm text-foreground">
             <Bath className="w-4 h-4 text-gray-400 dark:text-gray-500" />
             <span>{property.bathrooms}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-1.5 text-sm text-foreground">
             <Maximize className="w-4 h-4 text-gray-400 dark:text-gray-500" />
             <span>{property.area.toLocaleString()} sqft</span>
           </div>

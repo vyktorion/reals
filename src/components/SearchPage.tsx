@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List, X } from 'lucide-react';
+import Image from 'next/image';
+import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List } from 'lucide-react';
 import { Property, FilterOptions } from '../types';
 import { PropertyCard } from './PropertyCard';
 import { MapView } from './MapView';
@@ -14,7 +15,7 @@ interface SearchPageProps {
 export function SearchPage({ properties, favorites, onToggleFavorite, onViewDetails }: SearchPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('list');
   const [filters, setFilters] = useState<FilterOptions>({
     priceRange: [0, 10000000],
     propertyType: [],
@@ -56,7 +57,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
     return matchesQuery && matchesPrice && matchesType && matchesStatus && matchesBedrooms && matchesBathrooms && matchesArea;
   });
 
-  const handleFilterChange = (key: keyof FilterOptions, value: any) => {
+  const handleFilterChange = (key: keyof FilterOptions, value: string | number | string[] | null) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -99,20 +100,20 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
     (filters.maxArea !== null ? 1 : 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Search Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-card border-b border-border sticky top-16 z-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by location, property type..."
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-xl outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                className="w-full pl-12 pr-4 py-3 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               />
             </div>
 
@@ -122,40 +123,40 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                 onClick={() => setShowFilters(!showFilters)}
                 className={`relative px-4 py-3 border rounded-xl transition-all duration-200 flex items-center gap-2 ${
                   showFilters
-                    ? 'bg-blue-900 dark:bg-blue-600 text-white border-blue-900 dark:border-blue-600'
-                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card text-card-foreground border-border hover:bg-accent'
                 }`}
               >
                 <SlidersHorizontal className="w-5 h-5" />
                 <span className="hidden sm:inline">Filters</span>
                 {activeFilterCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-primary-foreground text-xs w-5 h-5 rounded-full flex items-center justify-center">
                     {activeFilterCount}
                   </span>
                 )}
               </button>
 
-              <div className="flex gap-1 border border-gray-300 dark:border-gray-600 rounded-xl p-1 bg-white dark:bg-gray-700">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-all ${
-                    viewMode === 'grid' ? 'bg-blue-900 dark:bg-blue-600 text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  <Grid3x3 className="w-5 h-5" />
-                </button>
+              <div className="flex gap-1 border border-border rounded-xl p-1 bg-card">
                 <button
                   onClick={() => setViewMode('list')}
                   className={`p-2 rounded-lg transition-all ${
-                    viewMode === 'list' ? 'bg-blue-900 dark:bg-blue-600 text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
+                    viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-accent'
                   }`}
                 >
                   <List className="w-5 h-5" />
                 </button>
                 <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-lg transition-all ${
+                    viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-accent'
+                  }`}
+                >
+                  <Grid3x3 className="w-5 h-5" />
+                </button>
+                <button
                   onClick={() => setViewMode('map')}
                   className={`p-2 rounded-lg transition-all ${
-                    viewMode === 'map' ? 'bg-blue-900 dark:bg-blue-600 text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
+                    viewMode === 'map' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-accent'
                   }`}
                 >
                   <MapIcon className="w-5 h-5" />
@@ -165,23 +166,23 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
           </div>
 
           {/* Results Count */}
-          <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-4 text-sm text-muted-foreground">
             {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex gap-6">
           {/* Filters Sidebar */}
           {showFilters && (
             <div className="w-full sm:w-80 shrink-0">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto">
+              <div className="bg-card rounded-2xl shadow-md p-6 sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-gray-900 dark:text-gray-100">Filters</h3>
+                  <h3 className="text-foreground">Filters</h3>
                   <button
                     onClick={resetFilters}
-                    className="text-sm text-blue-900 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                    className="text-sm text-primary hover:text-primary/80 transition-colors"
                   >
                     Reset
                   </button>
@@ -189,7 +190,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
                 {/* Property Type */}
                 <div className="mb-6">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Property Type</label>
+                  <label className="block text-sm text-foreground mb-3">Property Type</label>
                   <div className="flex flex-wrap gap-2">
                     {['House', 'Apartment', 'Villa', 'Penthouse', 'Condo', 'Townhouse', 'Estate'].map((type) => (
                       <button
@@ -197,8 +198,8 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         onClick={() => togglePropertyType(type)}
                         className={`px-3 py-1.5 text-sm rounded-lg border transition-all ${
                           filters.propertyType.includes(type)
-                            ? 'bg-blue-900 dark:bg-blue-600 text-white border-blue-900 dark:border-blue-600'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-900 dark:hover:border-blue-600'
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-card text-foreground border-border hover:border-primary'
                         }`}
                       >
                         {type}
@@ -209,7 +210,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
                 {/* Status */}
                 <div className="mb-6">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Status</label>
+                  <label className="block text-sm text-foreground mb-3">Status</label>
                   <div className="flex gap-2">
                     {['For Sale', 'For Rent'].map((status) => (
                       <button
@@ -217,8 +218,8 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         onClick={() => toggleStatus(status)}
                         className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-all ${
                           filters.status.includes(status)
-                            ? 'bg-blue-900 dark:bg-blue-600 text-white border-blue-900 dark:border-blue-600'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-900 dark:hover:border-blue-600'
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-card text-foreground border-border hover:border-primary'
                         }`}
                       >
                         {status}
@@ -229,7 +230,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
                 {/* Bedrooms */}
                 <div className="mb-6">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Min Bedrooms</label>
+                  <label className="block text-sm text-foreground mb-3">Min Bedrooms</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((num) => (
                       <button
@@ -237,8 +238,8 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         onClick={() => handleFilterChange('bedrooms', filters.bedrooms === num ? null : num)}
                         className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-all ${
                           filters.bedrooms === num
-                            ? 'bg-blue-900 dark:bg-blue-600 text-white border-blue-900 dark:border-blue-600'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-900 dark:hover:border-blue-600'
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-card text-foreground border-border hover:border-primary'
                         }`}
                       >
                         {num}+
@@ -249,7 +250,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
                 {/* Bathrooms */}
                 <div className="mb-6">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Min Bathrooms</label>
+                  <label className="block text-sm text-foreground mb-3">Min Bathrooms</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4].map((num) => (
                       <button
@@ -257,8 +258,8 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         onClick={() => handleFilterChange('bathrooms', filters.bathrooms === num ? null : num)}
                         className={`flex-1 px-3 py-2 text-sm rounded-lg border transition-all ${
                           filters.bathrooms === num
-                            ? 'bg-blue-900 dark:bg-blue-600 text-white border-blue-900 dark:border-blue-600'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-900 dark:hover:border-blue-600'
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-card text-foreground border-border hover:border-primary'
                         }`}
                       >
                         {num}+
@@ -269,7 +270,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
                 {/* Area Range */}
                 <div className="mb-6">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Area (sqft)</label>
+                  <label className="block text-sm text-foreground mb-3">Area (sqft)</label>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <input
@@ -277,7 +278,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         placeholder="Min"
                         value={filters.minArea || ''}
                         onChange={(e) => handleFilterChange('minArea', e.target.value ? Number(e.target.value) : null)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                        className="w-full px-3 py-2 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                       />
                     </div>
                     <div>
@@ -286,7 +287,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         placeholder="Max"
                         value={filters.maxArea || ''}
                         onChange={(e) => handleFilterChange('maxArea', e.target.value ? Number(e.target.value) : null)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg outline-none focus:ring-2 focus:ring-blue-900 dark:focus:ring-blue-600 focus:border-transparent transition-all"
+                        className="w-full px-3 py-2 border border-border bg-background text-foreground placeholder:text-muted-foreground rounded-lg outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                       />
                     </div>
                   </div>
@@ -312,18 +313,20 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
             ) : viewMode === 'list' ? (
               <div className="space-y-4">
                 {filteredProperties.map((property) => (
-                  <div key={property.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                  <div key={property.id} className="bg-card rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border">
                     <div className="flex flex-col sm:flex-row">
                       {/* Image */}
                       <div className="relative sm:w-80 h-48 sm:h-auto shrink-0">
-                        <img
+                        <Image
                           src={property.images[0]}
                           alt={property.title}
+                          width={320}
+                          height={192}
                           className="w-full h-full object-cover cursor-pointer"
                           onClick={() => onViewDetails(property.id)}
                         />
                         <div className="absolute top-3 left-3">
-                          <span className={`px-3 py-1 text-xs rounded-full text-white ${
+                          <span className={`px-3 py-1 text-xs rounded-full text-primary-foreground ${
                             property.status === 'For Sale' 
                               ? 'bg-green-500/90 dark:bg-green-600/90' 
                               : 'bg-blue-500/90 dark:bg-blue-600/90'
@@ -333,13 +336,13 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         </div>
                         <button
                           onClick={() => onToggleFavorite(property.id)}
-                          className="absolute top-3 right-3 w-8 h-8 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-all"
+                          className="absolute top-3 right-3 w-8 h-8 bg-card/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-card transition-all"
                         >
                           <svg
                             className={`w-4 h-4 ${
                               favorites.includes(property.id) 
                                 ? 'text-red-500 fill-red-500' 
-                                : 'text-gray-600 dark:text-gray-400'
+                                : 'text-muted-foreground'
                             }`}
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -355,26 +358,26 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         <div className="flex justify-between items-start mb-3">
                           <div>
                             <h3 
-                              className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-1 cursor-pointer hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
+                              className="text-xl font-medium text-foreground mb-1 cursor-pointer hover:text-primary transition-colors"
                               onClick={() => onViewDetails(property.id)}
                             >
                               {property.title}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm">
+                            <p className="text-muted-foreground text-sm">
                               {property.location.address}, {property.location.city}, {property.location.state}
                             </p>
                           </div>
                           <div className="text-right">
-                            <div className="text-2xl font-medium text-blue-900 dark:text-blue-400">
+                            <div className="text-2xl font-medium text-primary">
                               ${property.price.toLocaleString()}
                             </div>
                             {property.status === 'For Rent' && (
-                              <div className="text-sm text-gray-600 dark:text-gray-400">/month</div>
+                              <div className="text-sm text-muted-foreground">/month</div>
                             )}
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-6 mb-4 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-6 mb-4 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -401,18 +404,18 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                           </div>
                         </div>
 
-                        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+                        <p className="text-muted-foreground text-sm line-clamp-2">
                           {property.description}
                         </p>
 
                         <div className="flex justify-between items-center mt-4">
                           <button
                             onClick={() => onViewDetails(property.id)}
-                            className="px-6 py-2 bg-blue-900 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
+                            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
                           >
                             View Details
                           </button>
-                          <div className="text-xs text-gray-500 dark:text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             {property.reviews?.length || 0} reviews
                           </div>
                         </div>
@@ -432,14 +435,14 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
 
             {filteredProperties.length === 0 && (
               <div className="text-center py-16">
-                <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+                <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-10 h-10 text-muted-foreground" />
                 </div>
-                <h3 className="text-gray-900 dark:text-gray-100 mb-2">No properties found</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">Try adjusting your search or filters</p>
+                <h3 className="text-foreground mb-2">No properties found</h3>
+                <p className="text-muted-foreground mb-6">Try adjusting your search or filters</p>
                 <button
                   onClick={resetFilters}
-                  className="px-6 py-2 bg-blue-900 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-blue-800 dark:hover:bg-blue-700 transition-colors"
                 >
                   Reset Filters
                 </button>

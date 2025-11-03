@@ -1,4 +1,4 @@
-import { Search, MapPin, Home as HomeIcon, Building2, TrendingUp, ArrowRight, Star, ChevronRight } from 'lucide-react';
+import { Search, MapPin, Home as HomeIcon, Building2, TrendingUp, Star } from 'lucide-react';
 import { useState } from 'react';
 import { Property } from '../types';
 import { PropertyCard } from './PropertyCard';
@@ -39,7 +39,7 @@ export function HomePage({
   return (
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-blue-950 via-blue-900 to-blue-800 dark:from-blue-950 dark:via-blue-900 dark:to-gray-900 text-white overflow-hidden">
+      <section className="relative bg-linear-to-br from-blue-950 via-blue-900 to-blue-800 dark:from-blue-950 dark:via-blue-900 dark:to-gray-900 text-primary-foreground overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -64,18 +64,18 @@ export function HomePage({
             >
               <div className="relative group">
                 <div className="absolute inset-0 bg-linear-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300" />
-                <div className="relative flex items-center bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="relative flex items-center bg-card rounded-2xl shadow-2xl overflow-hidden">
                   <MapPin className="w-5 h-5 text-gray-400 dark:text-gray-500 ml-5 shrink-0" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Enter location, property type, or keyword..."
-                    className="flex-1 px-4 py-4 sm:py-5 text-gray-900 dark:text-gray-100 dark:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
+                    className="flex-1 px-4 py-4 sm:py-5 text-foreground dark:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500 outline-none"
                   />
                   <button
                     type="submit"
-                    className="m-1.5 sm:m-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-blue-900 hover:bg-blue-800 text-white rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl active:scale-95"
+                    className="m-1.5 sm:m-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl active:scale-95"
                   >
                     <Search className="w-5 h-5" />
                     <span className="hidden sm:inline">Search</span>
@@ -102,7 +102,7 @@ export function HomePage({
             return (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 hover:-translate-y-1"
+                className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 hover:-translate-y-1"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ export function HomePage({
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <div className="text-gray-900 dark:text-gray-100">{stat.value}</div>
+                    <div className="text-foreground">{stat.value}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@ export function HomePage({
 
         {/* Quick Filters */}
         <div className="mb-8">
-          <h2 className="text-gray-900 dark:text-gray-100 mb-6 text-center">Quick Search</h2>
+          <h2 className="text-foreground mb-6 text-center">Quick Search</h2>
           <QuickFilters onFilterSelect={onNavigateToSearch} />
         </div>
       </section>
@@ -130,12 +130,12 @@ export function HomePage({
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-gray-900 dark:text-gray-100 mb-2">Featured Properties</h2>
-            <p className="text-gray-600 dark:text-gray-400">Handpicked premium listings</p>
+            <h2 className="text-foreground mb-2">Featured Properties</h2>
+            <p className="text-muted-foreground">Handpicked premium listings</p>
           </div>
           <button 
             onClick={onNavigateToSearch}
-            className="text-blue-900 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-2"
+            className="text-primary hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-2"
           >
             View All
             <span>→</span>
@@ -158,8 +158,8 @@ export function HomePage({
       {/* Recent Listings */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="mb-8">
-          <h2 className="text-gray-900 dark:text-gray-100 mb-2">Recent Listings</h2>
-          <p className="text-gray-600 dark:text-gray-400">Latest additions to our portfolio</p>
+          <h2 className="text-foreground mb-2">Recent Listings</h2>
+          <p className="text-muted-foreground">Latest additions to our portfolio</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -178,8 +178,8 @@ export function HomePage({
       {/* Testimonials */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="text-center mb-12">
-          <h2 className="text-gray-900 dark:text-gray-100 mb-2">What Our Clients Say</h2>
-          <p className="text-gray-600 dark:text-gray-400">Trusted by thousands of happy homeowners</p>
+          <h2 className="text-foreground mb-2">What Our Clients Say</h2>
+          <p className="text-muted-foreground">Trusted by thousands of happy homeowners</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -208,7 +208,7 @@ export function HomePage({
           ].map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 duration-500"
+              className="bg-card rounded-2xl p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 duration-500"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex gap-1 mb-4">
@@ -216,7 +216,7 @@ export function HomePage({
                   <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">"{testimonial.text}"</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">&ldquo;{testimonial.text}&rdquo;</p>
               <div className="flex items-center gap-3">
                 <ImageWithFallback
                   src={testimonial.image}
@@ -224,7 +224,7 @@ export function HomePage({
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <div className="text-gray-900 dark:text-gray-100">{testimonial.name}</div>
+                  <div className="text-foreground">{testimonial.name}</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</div>
                 </div>
               </div>
@@ -234,16 +234,16 @@ export function HomePage({
       </section>
 
       {/* CTA Section */}
-      <section className="bg-linear-to-br from-blue-900 to-blue-800 text-white">
+      <section className="bg-linear-to-br from-blue-900 to-blue-800 text-primary-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl text-white mb-4">Ready to Find Your Perfect Home?</h2>
+            <h2 className="text-3xl sm:text-4xl text-primary-foreground mb-4">Ready to Find Your Perfect Home?</h2>
             <p className="text-blue-100 text-lg mb-8">
               Join thousands of satisfied clients who found their dream properties with us
             </p>
             <button 
               onClick={onNavigateToSearch}
-              className="px-8 py-4 bg-white dark:bg-gray-800 text-blue-900 dark:text-blue-400 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95"
+              className="px-8 py-4 bg-card text-primary rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95"
             >
               Start Your Search
             </button>

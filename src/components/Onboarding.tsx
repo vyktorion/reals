@@ -56,7 +56,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const Icon = step.icon;
 
   return (
-    <div className="fixed inset-0 z-50 bg-white">
+    <div className="fixed inset-0 z-50 bg-card">
       {/* Skip Button */}
       <button
         onClick={handleSkip}
@@ -78,8 +78,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           
           {/* Icon */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-24 h-24 bg-white/20 backdrop-blur-lg rounded-3xl flex items-center justify-center shadow-2xl animate-in zoom-in-50 duration-700">
-              <Icon className="w-12 h-12 text-white" strokeWidth={1.5} />
+            <div className="w-24 h-24 bg-card/20 backdrop-blur-lg rounded-3xl flex items-center justify-center shadow-2xl animate-in zoom-in-50 duration-700">
+              <Icon className="w-12 h-12 text-primary-foreground" strokeWidth={1.5} />
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           {/* Next Button */}
           <button
             onClick={handleNext}
-            className="w-full py-4 bg-blue-900 hover:bg-blue-800 text-white rounded-2xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 active:scale-[0.98]"
+            className="w-full py-4 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-2xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 active:scale-[0.98]"
           >
             <span className="text-lg">
               {currentStep < steps.length - 1 ? 'Continue' : 'Get Started'}

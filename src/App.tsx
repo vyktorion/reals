@@ -109,31 +109,24 @@ export default function App() {
     setSelectedPropertyId(null);
   };
 
-  const handleNavigateToSearch = (filters?: any) => {
+  const handleNavigateToSearch = () => {
     setCurrentView('search');
     // In a real app, you would apply the filters here
   };
 
-  const handlePostProperty = (newProperty: Property) => {
+  const handlePostProperty = () => {
     // Mock - in real app would add to properties array and persist
     toast.success('Property posted successfully!', {
       description: 'Your property is now live on LuxeEstate.'
     });
   };
 
-  const handleEditProperty = (property: Property) => {
-    setEditingProperty(property);
-    setCurrentView('edit');
-  };
-
-  const handlePropertyUpdated = (updatedProperty: Property) => {
+  const handlePropertyUpdated = () => {
     // Mock - in real app would update properties array and persist
-    toast.success('Property updated successfully!', {
-      description: 'Your changes have been saved.'
-    });
-  };
-
-  const selectedProperty = properties.find(p => p.id === selectedPropertyId);
+    toast.success('Property updated successfully!');
+    setEditingProperty(null);
+    setCurrentView('profile');
+  };  const selectedProperty = properties.find(p => p.id === selectedPropertyId);
 
   if (isLoading) {
     return (
@@ -262,12 +255,11 @@ export default function App() {
 
       {/* Property Details Modal */}
       {selectedProperty && (
-        <PropertyDetailsEnhanced
+        <PropertyDetailsEnhanced 
           property={selectedProperty}
           isFavorite={favorites.includes(selectedProperty.id)}
           onToggleFavorite={handleToggleFavorite}
           onClose={handleCloseDetails}
-          onEdit={handleEditProperty}
         />
       )}
 

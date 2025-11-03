@@ -1,4 +1,4 @@
-import { X, Bed, Bath, Maximize, Calendar, MapPin, DollarSign, Check, Minus } from 'lucide-react';
+import { X, MapPin, Check, Minus } from 'lucide-react';
 import { Property } from '../types';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
@@ -32,7 +32,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
       <div className="absolute inset-0 overflow-y-auto">
         <div className="min-h-full flex items-start justify-center p-4 py-8">
-          <div className="relative bg-white rounded-3xl shadow-2xl max-w-6xl w-full my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
+          <div className="relative bg-card rounded-3xl shadow-2xl max-w-6xl w-full my-8 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div>
@@ -52,13 +52,13 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="sticky left-0 bg-white z-10 p-4 text-left w-48">
+                    <th className="sticky left-0 bg-card z-10 p-4 text-left w-48">
                       <div className="text-sm text-gray-600">Features</div>
                     </th>
                     {properties.map((property) => (
                       <th key={property.id} className="p-4 min-w-[280px]">
-                        <div className="bg-gray-50 rounded-xl overflow-hidden">
-                          <div className="aspect-[4/3] relative">
+                        <div className="bg-background rounded-xl overflow-hidden">
+                          <div className="aspect-4/3 relative">
                             <ImageWithFallback
                               src={property.images[0]}
                               alt={property.title}
@@ -73,7 +73,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                             </div>
                             <button
                               onClick={() => onViewDetails(property.id)}
-                              className="w-full py-2 bg-blue-900 hover:bg-blue-800 text-white text-sm rounded-lg transition-colors"
+                              className="w-full py-2 bg-blue-900 hover:bg-blue-800 text-primary-foreground text-sm rounded-lg transition-colors"
                             >
                               View Details
                             </button>
@@ -85,7 +85,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                 </thead>
                 <tbody>
                   {comparisonRows.map((row, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                    <tr key={index} className={index % 2 === 0 ? 'bg-background' : 'bg-card'}>
                       <td className="sticky left-0 bg-inherit z-10 p-4 text-sm text-gray-700">
                         {row.label}
                       </td>
@@ -112,8 +112,8 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                   ))}
 
                   {/* Features Comparison */}
-                  <tr className="bg-white">
-                    <td className="sticky left-0 bg-white z-10 p-4 text-sm text-gray-700 align-top">
+                  <tr className="bg-card">
+                    <td className="sticky left-0 bg-card z-10 p-4 text-sm text-gray-700 align-top">
                       Features
                     </td>
                     {properties.map((property) => (
