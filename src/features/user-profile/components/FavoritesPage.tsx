@@ -1,6 +1,6 @@
 import { Heart, Trash2 } from 'lucide-react';
-import { Property } from '../types';
-import { PropertyCard } from './PropertyCard';
+import { Property } from '../../../types';
+import { PropertyCard } from '../../property-listing/components/PropertyCard';
 
 interface FavoritesPageProps {
   properties: Property[];

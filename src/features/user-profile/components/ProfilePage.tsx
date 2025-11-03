@@ -15,11 +15,11 @@ import {
   Trash2,
   TrendingUp,
 } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
 import { toast } from 'sonner';
-import { properties } from '../data/properties';
-import { Property } from '../types';
-import { EditProperty } from './EditProperty';
+import { properties } from '../../../shared/data/properties';
+import { Property } from '../../../types';
+import { EditProperty } from '../../../components/EditProperty';
 
 interface ProfilePageProps {
   favoriteCount: number;
