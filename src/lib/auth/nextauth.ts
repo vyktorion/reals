@@ -9,8 +9,13 @@ import clientPromise from "../mongodb"
 import { verifyPassword } from "./hash"
 import { getUserByEmail } from "../../services/user.service"
 
-// @ts-ignore - Process env typing issue
-declare const process: any
+declare const process: {
+  env: {
+    GOOGLE_CLIENT_ID?: string
+    GOOGLE_CLIENT_SECRET?: string
+    NEXTAUTH_SECRET?: string
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -93,10 +98,12 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         // Augment session.user type to include custom properties
-        ;(session.user as any).id = token.id as string
-        ;(session.user as any).avatar = token.avatar as string
-        ;(session.user as any).role = token.role as string
-        ;(session.user as any).phone = token.phone as string
+        Object.assign(session.user, {
+          id: token.id as string,
+          avatar: token.avatar as string,
+          role: token.role as string,
+          phone: token.phone as string,
+        });
       }
       return session
     },
