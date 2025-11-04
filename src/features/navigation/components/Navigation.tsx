@@ -34,7 +34,7 @@ export function Navigation({ currentView, onViewChange, favoriteCount, onSignInC
             className="flex items-center gap-3 group"
           >
             <div className="relative">
-              <Building2 className="w-8 h-8 text-primary transition-all duration-300 group-hover:scale-110" />
+              <Building2 className="w-8 h-8 text-blue-700 dark:text-blue-400 transition-all duration-300 group-hover:scale-110" />
             </div>
             <div className="hidden sm:block">
               <div className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-900 to-blue-700 dark:from-blue-400 dark:to-blue-300 tracking-tight">
@@ -74,7 +74,7 @@ export function Navigation({ currentView, onViewChange, favoriteCount, onSignInC
                   onClick={() => onViewChange(item.id)}
                   className={`relative px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
                     currentView === item.id
-                      ? 'bg-primary text-primary-foreground shadow-md'
+                      ? 'text-blue-700 dark:text-blue-400 shadow-md'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
