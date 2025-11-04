@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
   Mail,
   Phone,
-  MapPin,
   Settings,
   Bell,
   Shield,
@@ -15,7 +16,6 @@ import {
   Trash2,
   TrendingUp,
 } from 'lucide-react';
-import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
 import { toast } from 'sonner';
 import { properties } from '../../../shared/data/properties';
 import { Property } from '../../../types';
@@ -28,7 +28,33 @@ interface ProfilePageProps {
 }
 
 export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNavigateToNotifications }: ProfilePageProps) {
-  // Mock user listings — assume John Anderson added properties with id 1 and 5
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (status === 'loading') return; // Still loading
+    if (!session) {
+      router.push('/signin');
+    }
+  }, [session, status, router]);
+
+  // Get user data from session
+  const user = session?.user ? {
+    name: session.user.name || 'Utilizator',
+    email: session.user.email || '',
+    phone: (session.user as { phone?: string }).phone || '',
+    avatar: (session.user as { avatar?: string }).avatar || session.user.image || undefined,
+    role: (session.user as { role?: string }).role || 'Proprietar'
+  } : {
+    name: 'Utilizator',
+    email: '',
+    phone: '',
+    avatar: undefined,
+    role: 'Proprietar'
+  };
+
+  // Mock user listings — assume logged in user added properties with id 1 and 5
   const [listings, setListings] = useState<Property[]>(() => {
     const pick = properties.filter((p) => p.id === '1' || p.id === '5');
     return pick.map((p) => ({ ...p }));
@@ -40,9 +66,6 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
     toast.success('Preferences saved successfully!');
   };
 
-  const handleLogout = () => {
-    toast.success('Logged out successfully');
-  };
 
   const handleEditListing = (property: Property) => {
     setEditingProperty(property);
@@ -99,9 +122,11 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
           <div className="relative flex flex-col sm:flex-row items-center gap-6">
             {/* Avatar */}
             <div className="relative">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150"
+              <Image
+                src={user.avatar ? user.avatar : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150"}
                 alt="Profile"
+                width={96}
+                height={96}
                 className="w-24 h-24 rounded-full object-cover ring-4 ring-white/20 shadow-xl"
               />
               <button className="absolute bottom-0 right-0 p-2 bg-card text-blue-900 rounded-full shadow-lg hover:bg-gray-100 transition-colors">
@@ -111,19 +136,25 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
 
             {/* Info */}
             <div className="text-center sm:text-left flex-1">
-              <h1 className="text-primary-foreground mb-2">John Anderson</h1>
+              <h1 className="text-primary-foreground mb-2">{user.name}</h1>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-blue-100 justify-center sm:justify-start">
                   <Mail className="w-4 h-4" />
-                  <span className="text-sm">john.anderson@example.com</span>
+                  <span className="text-sm">{user.email}</span>
                 </div>
+                {user.phone && (
+                  <div className="flex items-center gap-2 text-blue-100 justify-center sm:justify-start">
+                    <Phone className="w-4 h-4" />
+                    <span className="text-sm">{user.phone}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 text-blue-100 justify-center sm:justify-start">
-                  <Phone className="w-4 h-4" />
-                  <span className="text-sm">+1 (555) 987-6543</span>
-                </div>
-                <div className="flex items-center gap-2 text-blue-100 justify-center sm:justify-start">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-sm">Los Angeles, CA</span>
+                  <Shield className="w-4 h-4" />
+                  <span className="text-sm">
+                    {user.role === 'Proprietar' ? 'Proprietar' :
+                     user.role === 'Agent' ? 'Agent imobiliar' :
+                     user.role === 'Agenție' ? 'Agenție imobiliară' : 'Dezvoltator'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -335,13 +366,15 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                     <span>Account Settings</span>
                   </button>
                   <div className="border-t border-gray-100 dark:border-gray-700 my-2" />
-                  <button
-                    onClick={handleLogout}
-                    className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-3"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    <span>Logout</span>
-                  </button>
+                  <form action="/api/auth/signout" method="post" className="w-full">
+                    <button
+                      type="submit"
+                      className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-3"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span>Logout</span>
+                    </button>
+                  </form>
                 </nav>
               </div>
             </div>

@@ -9,7 +9,7 @@ import clientPromise from "../mongodb"
 import { verifyPassword } from "./hash"
 import { getUserByEmail } from "../../services/user.service"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// @ts-ignore - Process env typing issue
 declare const process: any
 
 export const authOptions: NextAuthOptions = {
@@ -92,14 +92,11 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (session.user as any).id = token.id as string
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (session.user as any).avatar = token.avatar as string
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (session.user as any).role = token.role as string
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (session.user as any).phone = token.phone as string
+        // Augment session.user type to include custom properties
+        ;(session.user as any).id = token.id as string
+        ;(session.user as any).avatar = token.avatar as string
+        ;(session.user as any).role = token.role as string
+        ;(session.user as any).phone = token.phone as string
       }
       return session
     },

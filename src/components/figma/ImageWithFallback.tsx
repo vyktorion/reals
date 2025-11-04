@@ -17,18 +17,18 @@ interface ImageWithFallbackProps {
   onClick?: () => void
 }
 
-export function ImageWithFallback({ 
-  src, 
-  alt, 
-  width = 500, 
-  height = 300, 
-  className, 
-  style, 
-  fill, 
+export function ImageWithFallback({
+  src,
+  alt,
+  width = 96,
+  height = 96,
+  className,
+  style,
+  fill,
   sizes,
   priority,
   onClick,
-  ...rest 
+  ...rest
 }: ImageWithFallbackProps) {
   const [didError, setDidError] = useState(false)
 

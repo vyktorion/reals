@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { Eye, EyeOff, Mail, Lock, User, Phone, Home, ArrowRight, Check } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface AuthPageProps {
   onAuthSuccess: () => void;
 }
 
-export function AuthPage({ onAuthSuccess }: AuthPageProps) {
-  const { data: session } = useSession();
-  console.log('🔍 AuthPage rendered, session:', session);
+export function AuthPage({ }: AuthPageProps) {
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +30,6 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('🔥 handleSubmit called, isSignUp:', isSignUp);
     setLoading(true);
 
     // Basic validation
@@ -95,10 +92,11 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
           toast.error('Cont creat, dar conectarea a eșuat. Încercați să vă conectați manual.');
         } else if (signInResult?.ok) {
           console.log('✅ Sign in successful after registration');
-          onAuthSuccess();
+          // Redirect to profile page instead of home
+          window.location.href = '/profile';
         } else {
           console.log('⚠️ Sign in result:', signInResult);
-          onAuthSuccess();
+          window.location.href = '/profile';
         }
       } catch (error) {
         console.error('❌ Registration error:', error);
@@ -118,28 +116,29 @@ export function AuthPage({ onAuthSuccess }: AuthPageProps) {
         redirect: false,
       });
 
-      console.log('🔐 Raw sign in result object:', JSON.stringify(result, null, 2));
-      console.log('🔐 Sign in result properties:', {
-        hasError: !!result?.error,
-        hasOk: !!result?.ok,
-        hasUrl: !!result?.url,
-        resultKeys: result ? Object.keys(result) : []
-      });
+    console.log('🔐 Raw sign in result object:', JSON.stringify(result, null, 2));
+    console.log('🔐 Sign in result properties:', {
+      hasError: !!result?.error,
+      hasOk: !!result?.ok,
+      hasUrl: !!result?.url,
+      resultKeys: result ? Object.keys(result) : []
+    });
 
-      if (result?.error) {
-        console.error('❌ Authentication failed:', result.error);
-        toast.error('Email sau parolă incorectă');
-      } else if (result?.ok) {
-        console.log('✅ Authentication successful');
-        toast.success('Bine ați revenit!', {
-          description: 'V-ați conectat cu succes la contul dumneavoastră.'
-        });
-        onAuthSuccess();
-      } else {
-        console.log('⚠️ Unexpected sign in result:', result);
-        // If no error but also no ok, assume success for now
-        onAuthSuccess();
-      }
+    if (result?.error) {
+      console.error('❌ Authentication failed:', result.error);
+      toast.error('Email sau parolă incorectă');
+    } else if (result?.ok) {
+      console.log('✅ Authentication successful');
+      toast.success('Bine ați revenit!', {
+        description: 'V-ați conectat cu succes la contul dumneavoastră.'
+      });
+      // Redirect to profile page instead of home
+      window.location.href = '/profile';
+    } else {
+      console.log('⚠️ Unexpected sign in result:', result);
+      // If no error but also no ok, assume success for now
+      window.location.href = '/profile';
+    }
     }
 
     setLoading(false);

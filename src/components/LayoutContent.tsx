@@ -1,7 +1,7 @@
 'use client'
 
-import { Header } from './Header'
-import { MobileNavigation } from './MobileNavigation'
+import { Navigation } from '../features/navigation'
+import { MobileNavigation } from '../features/navigation/components/MobileNavigation'
 import { useApp } from '../contexts/AppContext'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -22,7 +22,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
       case '/favorites': return 'favorites';
       case '/profile': return 'profile';
       case '/signin': return 'signin';
-      case '/post': return 'post-property'; // Mobile navigation uses 'post-property'
+      case '/post': return 'post-property'; 
       case '/notifications': return 'notifications';
       case '/saved-searches': return 'saved-searches';
       default: 
@@ -52,10 +52,10 @@ export function LayoutContent({ children }: LayoutContentProps) {
   const currentView = getCurrentView();
 
   return (
-    <div className="min-h-screen bg-card dark:bg-gray-900">
+    <div className="min-h-screen">
       {/* Desktop/Tablet Header */}
-      <Header 
-        currentView={currentView} 
+      <Navigation
+        currentView={currentView}
         onViewChange={handleViewChange}
         favoriteCount={favorites.length}
         onSignInClick={handleSignInClick}

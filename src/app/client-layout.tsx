@@ -19,9 +19,9 @@ export default function ClientLayout({
   // Removed unused isMobile state as it's not being used
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <SessionProvider session={session}>
-        <div className="min-h-screen bg-background flex flex-col">
+        <div className="min-h-screen bg-background flex flex-col" suppressHydrationWarning={true}>
           <AppProvider>
             <LayoutContent>
               {children}

@@ -1,3 +1,3 @@
 export { NavigationProvider, useNavigationContext } from './components/NavigationProvider';
-export { Header } from './components/Header';
+export { Navigation } from './components/Navigation';
 export { MobileNavigation } from './components/MobileNavigation';

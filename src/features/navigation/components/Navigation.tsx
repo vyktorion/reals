@@ -1,16 +1,16 @@
 import { Menu, X, User, Heart, Search, Home, Bell, Plus, LogIn, Building2 } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '@/shared/ui/components/button';
+import { Button } from '../../../components/ui/button';
 import { ThemeToggle } from '../../../components/ThemeToggle';
 
-interface HeaderProps {
+interface NavigationProps {
   currentView: string;
   onViewChange: (view: string) => void;
   favoriteCount: number;
   onSignInClick?: () => void;
 }
 
-export function Header({ currentView, onViewChange, favoriteCount, onSignInClick }: HeaderProps) {
+export function Navigation({ currentView, onViewChange, favoriteCount, onSignInClick }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -25,7 +25,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-card dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <header className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -49,7 +49,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             {onSignInClick && (
               <button
                 onClick={onSignInClick}
-                className="px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary"
+                className="px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <LogIn className="w-4 h-4" />
                 Sign In
@@ -74,8 +74,8 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                   onClick={() => onViewChange(item.id)}
                   className={`relative px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
                     currentView === item.id
-                      ? 'bg-blue-900 dark:bg-blue-800 text-primary-foreground shadow-md'
-                      : 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary'
+                      ? 'bg-primary text-primary-foreground shadow-md'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -92,7 +92,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             {/* Notification Icon */}
             <button
               onClick={() => onViewChange('notifications')}
-              className="relative p-2 ml-2 rounded-lg text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="relative p-2 ml-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <Bell className="w-5 h-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
@@ -102,7 +102,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6 text-foreground" />
@@ -114,7 +114,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-gray-200 dark:border-gray-800 animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="md:hidden py-4 border-t border-border animate-in fade-in slide-in-from-top-2 duration-200">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -126,8 +126,8 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                   }}
                   className={`relative w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                     currentView === item.id
-                      ? 'bg-blue-900 dark:bg-blue-800 text-primary-foreground'
-                      : 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -142,7 +142,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
             })}
             
             {/* Theme Toggle for Mobile */}
-            <div className="flex items-center justify-between px-4 py-3 mt-2 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between px-4 py-3 mt-2 border-t border-border">
               <span className="text-foreground">Theme</span>
               <ThemeToggle />
             </div>
@@ -155,7 +155,7 @@ export function Header({ currentView, onViewChange, favoriteCount, onSignInClick
                     onSignInClick();
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary"
+                  className="w-full px-4 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <LogIn className="w-4 h-4" />
                   Sign In

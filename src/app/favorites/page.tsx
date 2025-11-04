@@ -1,6 +1,6 @@
 'use client'
 
-import { FavoritesPage } from '../../components/FavoritesPage'
+import { FavoritesPage } from '../../features/user-profile/components/FavoritesPage'
 import { useApp } from '../../contexts/AppContext'
 import { useRouter } from 'next/navigation'
 

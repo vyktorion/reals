@@ -1,6 +1,6 @@
 'use client'
 
-import { SavedSearches } from '../../components/SavedSearches'
+import { SavedSearches } from '../../features/user-profile/components/SavedSearches'
 import { useRouter } from 'next/navigation'
 import { FilterOptions } from '../../types'
 
