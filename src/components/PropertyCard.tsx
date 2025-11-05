@@ -22,7 +22,7 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
       {/* Image Container */}
       <div className="relative aspect-4/3 overflow-hidden bg-gray-50 dark:bg-gray-800">
         <ImageWithFallback
-          src={property.thumbnail || property.images[0]}
+          src={property.images[0]}
           alt={property.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
