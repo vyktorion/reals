@@ -1,4 +1,4 @@
-  import { User } from '../../../hooks/useAuth';
+  import { User } from '@/entities/user';
 
 export interface SavedSearch {
   id: string;

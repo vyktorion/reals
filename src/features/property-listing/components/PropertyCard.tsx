@@ -1,6 +1,6 @@
 import { Heart, MapPin, Bed, Bath, Maximize, Eye } from 'lucide-react';
-import { Property } from '../../../types';
-import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
+import { Property } from '@/entities/property';
+import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
 interface PropertyCardProps {
   property: Property;

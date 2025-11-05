@@ -1,7 +1,7 @@
 'use client'
 
-import { ProfilePage } from '../../features/user-profile/components/ProfilePage'
-import { useApp } from '../../contexts/AppContext'
+import { ProfilePage } from '@/features/user-profile/components/ProfilePage'
+import { useApp } from '@/contexts/AppContext'
 import { useRouter } from 'next/navigation'
 
 export default function Profile() {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, Send, Loader2 } from 'lucide-react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { toast } from 'sonner';
 
 interface ContactFormProps {

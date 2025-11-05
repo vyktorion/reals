@@ -1,8 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { properties as initialProperties } from '../shared/data/properties';
-import { Property } from '../types';
+import { properties as initialProperties } from '@/shared/data/properties';
+import { Property } from '@/entities/property';
 
 interface AppContextType {
   // Favorites state

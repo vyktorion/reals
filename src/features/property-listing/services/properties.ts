@@ -1,4 +1,4 @@
-  import { Property } from '../../../types';
+  import { Property } from '@/entities/property';
 
 export interface PropertySearchFilters {
   query?: string;

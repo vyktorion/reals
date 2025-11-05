@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MapPin, X } from 'lucide-react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { PropertyCard } from './PropertyCard';
 
 interface MapViewProps {
@@ -16,7 +16,7 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
   return (
     <div className="relative bg-card rounded-2xl shadow-md overflow-hidden" style={{ height: 'calc(100vh - 16rem)' }}>
       {/* Map Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-gray-50">
+      <div className="absolute inset-0 bg-linear-to-br from-blue-50 to-gray-50">
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-30"
           style={{

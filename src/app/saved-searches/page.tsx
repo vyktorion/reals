@@ -1,8 +1,8 @@
 'use client'
 
-import { SavedSearches } from '../../features/user-profile/components/SavedSearches'
+import { SavedSearches } from '@/features/user-profile/components/SavedSearches'
 import { useRouter } from 'next/navigation'
-import { FilterOptions } from '../../types'
+import { FilterOptions } from '@/entities/property/model/types'
 
 export default function SavedSearchesPage() {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import { X, MapPin, Check, Minus } from 'lucide-react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { ImageIcon } from 'lucide-react';
 
 interface PropertyComparisonProps {

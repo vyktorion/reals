@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es6"
-    ],
+    "target": "ES2021",            // mai rapid pentru Next
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true,          // nu verifică tipurile din node_modules → performanță
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -16,47 +13,31 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
+
+    // 🔥 Aliasurile tale — păstrate exact
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/services/*": [
-        "./src/services/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/shared/*": [
-        "./src/shared/*"
-      ],
-      "@/features/*": [
-        "./src/features/*"
-      ]
-    },
-    "target": "ES2017"
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/entities/*": ["./src/entities/*"],
+      "@/contexts/*": ["./src/contexts/*"]
+    }
   },
+
+  // ✅ Include doar ce folosește Next
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+
+  // 🚫 Nu mai indexează node_modules
+  "exclude": ["node_modules"]
 }

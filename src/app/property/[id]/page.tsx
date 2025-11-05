@@ -1,10 +1,10 @@
 'use client'
 
-import { PropertyDetailsEnhanced } from '../../../components/PropertyDetailsEnhanced'
-import { useApp } from '../../../contexts/AppContext'
+import { PropertyDetailsEnhanced } from '@/components/PropertyDetailsEnhanced'
+import { useApp } from '@/contexts/AppContext'
 import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Property } from '../../../types'
+import { Property } from '@/entities/property'
 
 export default function PropertyDetails() {
   const { properties, favorites, toggleFavorite } = useApp();

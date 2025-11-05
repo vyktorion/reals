@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MapPin, X } from 'lucide-react';
-import { Property } from '../../../types';
-import { PropertyCard } from './PropertyCard';
+import { Property } from '@/entities/property';
+import { PropertyCard } from '@/features/property-listing/components/PropertyCard';
 
 interface MapViewProps {
   properties: Property[];

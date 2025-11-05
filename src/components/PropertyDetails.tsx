@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Car } from 'lucide-react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ContactForm } from './ContactForm';
 import { toast } from 'sonner';
-import { ImageIcon } from 'lucide-react';
 
 interface PropertyDetailsProps {
   property: Property;

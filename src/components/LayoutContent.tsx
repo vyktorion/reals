@@ -53,7 +53,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
   const currentView = getCurrentView();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       {/* Desktop/Tablet Header */}
       <Navigation
         currentView={currentView}

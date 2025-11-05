@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useDebounce } from './useDebounce';
-import { Property } from '../types';
-import { properties } from '../shared/data/properties';
+import { Property } from '@/entities/property';
+import { properties } from '@/shared/data/properties';
 
 export interface SearchFilters {
   query?: string;

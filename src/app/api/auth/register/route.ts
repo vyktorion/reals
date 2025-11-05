@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { hashPassword } from '../../../../lib/auth/hash';
-import { createUser, getUserByEmail } from '../../../../services/user.service';
-import { UserRole } from '../../../../types';
+import { hashPassword } from '@/lib/auth/hash';
+import { createUser, getUserByEmail } from '@/services/user.service';
+import { UserRole } from '@/entities/user';
 
 export async function POST(request: NextRequest) {
   try {

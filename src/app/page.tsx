@@ -1,7 +1,7 @@
 'use client'
 
-import { HomePage } from '../components/HomePage'
-import { useApp } from '../contexts/AppContext'
+import { HomePage } from '@/components/HomePage'
+import { useApp } from '@/contexts/AppContext'
 import { useRouter } from 'next/navigation'
 
 export default function Home() {

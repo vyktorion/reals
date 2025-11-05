@@ -1,6 +1,6 @@
 'use client'
 
-import { PostProperty } from '../../components/PostProperty'
+import { PostProperty } from '@/components/PostProperty'
 import { useRouter } from 'next/navigation'
 
 export default function Post() {

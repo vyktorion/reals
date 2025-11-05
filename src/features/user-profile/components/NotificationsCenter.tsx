@@ -1,8 +1,8 @@
 "use client";
 import { Bell, TrendingDown, Home, MessageCircle, Calendar, X, Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Notification } from '../../../types';
-import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
+import { Notification } from '@/entities/user/model/types';
+import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 import { toast } from 'sonner';
 
 interface NotificationsCenterProps {

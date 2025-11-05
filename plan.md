@@ -69,10 +69,8 @@ Optimizarea aplicației pentru a atinge același nivel de performanță ca repos
 ### Faza 4: API și Date (Prioritate Medie)
 - [ ] **Migrare API Routes la Route Handlers**
   - Transformare `pages/api/*` → `app/api/*/route.ts`
-  - Optimizare conexiune MongoDB cu pooling
   - Implementare caching la nivel API
 - [ ] **Optimizare Bază de Date**
-  - Connection pooling în `lib/mongodb.ts`
   - Indexare optimizată pentru queries frecvente
 
 ### Faza 5: CSS și Stilizare (Prioritate Medie) ⚠️ Fără Modificări Vizuale
@@ -110,8 +108,8 @@ Optimizarea aplicației pentru a atinge același nivel de performanță ca repos
 ## Metrici de Măsurare Succes ⚠️ Verificare Design Neschimbat
 
 ### Performanță (Fără Impact Vizual):
-- **Lighthouse Score**: Target >90 pentru toate metricile
-- **First Contentful Paint**: <1.5s
+- **Lighthouse Score**: Target >95 pentru toate metricile
+- **First Contentful Paint**: <1s
 - **Time to Interactive**: <3s
 - **Bundle Size**: Reducere cu 20-30%
 - **PWA Features**: Funcționare offline completă

@@ -1,10 +1,10 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
-import { ThemeProvider } from '../components/ThemeProvider';
-import { LayoutContent } from '../components/LayoutContent';
-import { AppProvider } from '../contexts/AppContext';
-import { Toaster } from '../components/ui/sonner';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { LayoutContent } from '@/components/LayoutContent';
+import { AppProvider } from '@/contexts/AppContext';
+import { Toaster } from '@/components/ui/sonner';
 import { Session } from 'next-auth';
 
 interface ClientLayoutProps {

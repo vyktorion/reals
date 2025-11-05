@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import clientPromise from '../lib/mongodb';
-import { User, UserRole } from '../types';
+import clientPromise from '@/lib/mongodb';
+import { User, UserRole } from '@/entities/user';
 
 export async function createUser(userData: {
   name: string;

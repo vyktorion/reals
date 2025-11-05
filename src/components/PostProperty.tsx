@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ArrowLeft, Upload, MapPin, Bed, Bath, Maximize, DollarSign, Image as ImageIcon, Check } from 'lucide-react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';

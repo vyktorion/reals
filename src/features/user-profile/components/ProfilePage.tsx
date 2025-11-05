@@ -21,9 +21,9 @@ import {
   LayoutGrid,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { properties } from '../../../shared/data/properties';
-import { Property } from '../../../types';
-import { EditProperty } from '../../../components/EditProperty';
+import { properties } from '@/shared/data/properties';
+import { Property } from '@/entities/property';
+import { EditProperty } from '@/components/EditProperty';
 import { AccountSettings } from './AccountSettings';
 
 interface ProfilePageProps {

@@ -1,7 +1,7 @@
 'use client'
 
-import { SearchPage } from '../../components/SearchPage'
-import { useApp } from '../../contexts/AppContext'
+import { SearchPage } from '@/components/SearchPage'
+import { useApp } from '@/contexts/AppContext'
 import { useRouter } from 'next/navigation'
 
 export default function Search() {

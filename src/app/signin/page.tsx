@@ -1,7 +1,7 @@
 'use client'
 
-import { AuthPage } from '../../features/auth/components/AuthPage'
-import { useApp } from '../../contexts/AppContext'
+import { AuthPage } from '@/features/auth/components/AuthPage'
+import { useApp } from '@/contexts/AppContext'
 
 export default function SignIn() {
   const { setIsAuthenticated } = useApp();

@@ -1,59 +1,93 @@
+# Structură Aplicație Real Estate - Feature Sliced Design (FSD)
+
 src/
-├─ app/
-│  ├─ listings/  
-│  │  │  ├─ ListingsGrid.tsx
-│  │  │  ├─ PropertyCard.tsx
-│  │  │  └─ PropertyDetails.tsx              
-│  │    ├─ page.tsx              ← /listings (listă + filtre)
-│  │    └─ [id]/
-│  │       └─ page.tsx           ← /listings/:id (detalii proprietate)
-│  │              ← layout comun pentru secțiunea listings (opțional)
-│  │
-│  ├─ (user)/                     ← grup logic user
-│  │  ├─ profile/page.tsx         ← /profile
-│  │  ├─ favorites/page.tsx       ← /favorites
-│  │  ├─ saved-searches/page.tsx  ← /saved-searches
-│  │  └─ notifications/page.tsx   ← /notifications
-│  │
-│  ├─ (auth)/                     ← grup logic pentru auth
-│  │  └─ signin/page.tsx          ← /signin
-│  │
-│  ├─ api/
-│  │  └─ auth/
-│  │     ├─ [...nextauth]/route.ts
-│  │     └─ register/route.ts
-│  │
-│  ├─ layout.tsx                  ← root layout
-│  └─ globals.css
-│  └─ page.tsx
+├── app/                          # Stratul APP - Rute Next.js + Layout-uri
+│   ├── (auth)/                   # Grup rute autentificare
+│   │   └── signin/page.tsx       # /signin
+│   ├── (user)/                   # Grup rute utilizator
+│   │   ├── profile/page.tsx      # /profile
+│   │   ├── favorites/page.tsx    # /favorites
+│   │   ├── saved-searches/page.tsx # /saved-searches
+│   │   └── notifications/page.tsx # /notifications
+│   ├── property/                 # Rute proprietăți
+│   │   ├── page.tsx              # /property (listă)
+│   │   ├── [id]/page.tsx         # /property/[id] (detalii)
+│   │   └── [id]/edit/page.tsx    # /property/[id]/edit
+│   ├── search/page.tsx           # /search
+│   ├── post/page.tsx             # /post (adăugare proprietate)
+│   ├── api/                      # API Routes
+│   │   ├── auth/[...nextauth]/route.ts
+│   │   ├── auth/register/route.ts
+│   │   └── properties/route.ts
+│   ├── layout.tsx                # Root layout
+│   ├── globals.css               # Stiluri globale
+│   └── page.tsx                  # Homepage
 │
-├─ features/
-│  ├─ listings/
-│  │  ├─ components/
-│  │  ├─ hooks/
-│  │  │  └─ useListingsSearch.ts
-│  │  └─ services/
-│  │     └─ listings.api.ts
-│  │
-│  ├─ user/
-│  ├─ auth/
-│  └─ navigation/
+├── processes/                    # Stratul PROCESSES - Procese transversale
+│   └── auth/                     # Proces autentificare globală
+│       ├── model/                # Logic + State
+│       └── index.ts              # Public API
 │
-├─ components/
-│  ├─ ui/*
-│  └─ common/*
+├── pages/                        # Stratul PAGES - Pagini specifice (dacă nu sunt în app/)
 │
-├─ shared/
-│  ├─ utils/*            ← pure logic, fără framework
-│  ├─ constants.ts
-│  └─ types/*
+├── widgets/                      # Stratul WIDGETS - Componente mari, complexe
+│   ├── property-card/            # Card proprietate cu subcomponente
+│   │   ├── ui/                   # UI specifice widget-ului
+│   │   ├── model/                # Logic locală
+│   │   └── index.ts              # Public API
+│   ├── property-filters/         # Widget filtre căutare
+│   ├── map-view/                 # Widget hartă proprietăți
+│   └── user-menu/                # Widget meniu utilizator
 │
-├─ lib/
-│  ├─ db/*               ← acces DB
-│  ├─ auth/*             ← server-side auth
-│  └─ utils/*            ← utilities legate de Next/React/Server
+├── features/                     # Stratul FEATURES - Funcționalități independente
+│   ├── property-listing/         # Feature: Listare proprietăți
+│   │   ├── ui/                   # Componente UI specifice
+│   │   ├── model/                # Logic + State (selectors, events, stores)
+│   │   │   ├── selectors/        # Selectori pentru state
+│   │   │   ├── events/           # Evenimente
+│   │   │   └── stores/           # State management
+│   │   ├── api/                  # API calls pentru feature
+│   │   └── index.ts              # Public API
+│   ├── user-profile/             # Feature: Profil utilizator
+│   │   ├── ui/
+│   │   ├── model/
+│   │   ├── api/
+│   │   └── index.ts
+│   ├── auth/                     # Feature: Autentificare
+│   │   ├── ui/
+│   │   ├── model/
+│   │   ├── api/
+│   │   └── index.ts
+│   ├── search/                   # Feature: Căutare proprietăți
+│   ├── favorites/                # Feature: Favorite
+│   └── notifications/            # Feature: Notificări
 │
-├─ services/
-│  └─ api.ts             ← client HTTP global
+├── entities/                     # Stratul ENTITIES - Entități de business
+│   ├── property/                 # Entitate Property
+│   │   ├── ui/                   # UI specifice entității
+│   │   ├── model/                # Model + operații CRUD
+│   │   ├── api/                  # API pentru Property
+│   │   └── index.ts              # Public API
+│   ├── user/                     # Entitate User
+│   │   ├── ui/
+│   │   ├── model/
+│   │   ├── api/
+│   │   └── index.ts
+│   └── agent/                    # Entitate Agent
 │
-└─ hooks/*               ← hooks generice
+├── shared/                       # Stratul SHARED - Cod reutilizabil, fără dependențe business
+│   ├── ui/                       # Componente UI de bază (shadcn/ui)
+│   │   ├── button/
+│   │   ├── input/
+│   │   └── ...
+│   ├── lib/                      # Utilitare tech (axios, date-fns, etc.)
+│   │   ├── api/                  # Client HTTP global
+│   │   ├── utils/                # Pure functions
+│   │   ├── auth/                 # Server-side auth
+│   │   └── db/                   # Database connection
+│   ├── config/                   # Config global (env, constants)
+│   ├── types/                    # Tipuri TypeScript globale
+│   ├── constants/                # Constante globale
+│   └── index.ts                  # Export global
+│
+└── index.ts                      # Export global aplicație (opțional)

@@ -1,6 +1,6 @@
 import { Search, MapPin, Home as HomeIcon, Building2, TrendingUp, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Property } from '../types';
+import { Property } from '../entities/property';
 import { PropertyCard } from './PropertyCard';
 import { QuickFilters } from './QuickFilters';
 import { ImageWithFallback } from './figma/ImageWithFallback';

@@ -1,7 +1,7 @@
 'use client'
 
-import { FavoritesPage } from '../../features/user-profile/components/FavoritesPage'
-import { useApp } from '../../contexts/AppContext'
+import { FavoritesPage } from '@/features/user-profile/components/FavoritesPage'
+import { useApp } from '@/contexts/AppContext'
 import { useRouter } from 'next/navigation'
 
 export default function Favorites() {

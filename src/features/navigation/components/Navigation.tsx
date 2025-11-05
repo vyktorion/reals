@@ -2,8 +2,8 @@
 import { Menu, X, User, Heart, Search, Home, Bell, Plus, LogIn, Building2, LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Button } from '../../../components/ui/button';
-import { ThemeToggle } from '../../../components/ThemeToggle';
+import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface NavItem {
   id: string;

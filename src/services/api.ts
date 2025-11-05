@@ -1,5 +1,5 @@
 // Base API configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface ApiResponse<T = unknown> {
   data: T;
@@ -15,7 +15,7 @@ class ApiClient {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = API_BASE_URL;
+    this.baseURL = API_BASE_URL || '/api';
   }
 
   private async request<T = unknown>(endpoint: string, config: RequestConfig = {}): Promise<ApiResponse<T>> {

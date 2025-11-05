@@ -1,6 +1,6 @@
 'use client'
 
-import { NotificationsCenter } from '../../features/user-profile/components/NotificationsCenter'
+import { NotificationsCenter } from '@/features/user-profile/components/NotificationsCenter'
 import { useRouter } from 'next/navigation'
 
 export default function Notifications() {
