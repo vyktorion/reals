@@ -59,7 +59,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                       <th key={property.id} className="p-4 min-w-[280px]">
                         <div className="bg-background rounded-xl overflow-hidden">
                           <div className="aspect-4/3 relative">
-                            <ImageIcon className="h-48 w-full text-gray-300" /&gt;
+                            <ImageIcon className="h-48 w-full text-gray-300" />
                           </div>
                           <div className="p-4">
                             <h3 className="text-gray-900 text-sm mb-2 line-clamp-2">{property.title}</h3>

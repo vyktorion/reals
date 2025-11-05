@@ -281,7 +281,7 @@ export function AccountSettings({ onClose }: AccountSettingsProps) {
                         <h3 className="text-xl font-heading">Current Plan</h3>
                         <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">Free Plan</span>
                       </div>
-                      <p className="text-muted-foreground">You're on the free plan with basic features.</p>
+                      <p className="text-muted-foreground">You&apos;re on the free plan with basic features.</p>
                     </div>
 
                     {/* Upgrade Options */}
