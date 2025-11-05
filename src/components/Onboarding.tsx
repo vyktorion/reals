@@ -71,10 +71,10 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         <div className="relative h-1/2 bg-linear-to-br overflow-hidden">
           <div className={`absolute inset-0 bg-linear-to-br ${step.gradient} opacity-90`} />
           <ImageWithFallback
-            src={step.image}
-            alt={step.title}
-            className="w-full h-full object-cover mix-blend-overlay"
-          />
+  src={step.image}
+  alt={step.title}
+  className="w-full h-full object-cover mix-blend-overlay"
+/>
           
           {/* Icon */}
           <div className="absolute inset-0 flex items-center justify-center">

@@ -14,6 +14,8 @@ interface ImageWithFallbackProps {
   fill?: boolean
   sizes?: string
   priority?: boolean
+  quality?: number
+  loading?: 'lazy' | 'eager'
   onClick?: () => void
 }
 
@@ -48,6 +50,8 @@ export function ImageWithFallback({
           width={width} 
           height={height}
           className="opacity-30"
+          quality={quality ?? 100}
+          loading={loading ?? 'eager'}
         />
       </div>
     </div>

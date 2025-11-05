@@ -1,6 +1,6 @@
 import { X, MapPin, Check, Minus } from 'lucide-react';
 import { Property } from '../types';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageIcon } from 'lucide-react';
 
 interface PropertyComparisonProps {
   properties: Property[];
@@ -11,9 +11,9 @@ interface PropertyComparisonProps {
 export function PropertyComparison({ properties, onClose, onViewDetails }: PropertyComparisonProps) {
   const formatPrice = (price: number, status: string) => {
     if (status === 'For Rent') {
-      return `$${price.toLocaleString()}/mo`;
+      return `$${price.toLocaleString('en-US')}/mo`;
     }
-    return `$${price.toLocaleString()}`;
+    return `$${price.toLocaleString('en-US')}`;
   };
 
   const comparisonRows = [
@@ -21,7 +21,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
     { label: 'Type', key: 'type', format: (p: Property) => p.type },
     { label: 'Bedrooms', key: 'bedrooms', format: (p: Property) => p.bedrooms },
     { label: 'Bathrooms', key: 'bathrooms', format: (p: Property) => p.bathrooms },
-    { label: 'Area', key: 'area', format: (p: Property) => `${p.area.toLocaleString()} sqft` },
+    { label: 'Area', key: 'area', format: (p: Property) => `${p.area.toLocaleString('en-US')} sqft` },
     { label: 'Year Built', key: 'yearBuilt', format: (p: Property) => p.yearBuilt },
     { label: 'Parking', key: 'parkingSpaces', format: (p: Property) => p.parkingSpaces || 0 },
     { label: 'Pet Friendly', key: 'petFriendly', format: (p: Property) => p.petFriendly },
@@ -59,11 +59,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                       <th key={property.id} className="p-4 min-w-[280px]">
                         <div className="bg-background rounded-xl overflow-hidden">
                           <div className="aspect-4/3 relative">
-                            <ImageWithFallback
-                              src={property.images[0]}
-                              alt={property.title}
-                              className="w-full h-full object-cover"
-                            />
+                            <ImageIcon className="h-48 w-full text-gray-300" /&gt;
                           </div>
                           <div className="p-4">
                             <h3 className="text-gray-900 text-sm mb-2 line-clamp-2">{property.title}</h3>

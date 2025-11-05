@@ -18,7 +18,7 @@ declare const process: {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
+  // adapter: MongoDBAdapter(clientPromise), // Temporarily commented out to avoid MongoDB connection errors during UI preview
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

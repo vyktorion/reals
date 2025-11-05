@@ -111,7 +111,7 @@ export function SavedSearches({ onNavigateToSearch }: SavedSearchesProps) {
                       <span>{search.location}</span>
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      Created {new Date(search.createdAt).toLocaleDateString()}
+                      Created {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', timeZone: 'UTC' }).format(new Date(search.createdAt))}
                     </div>
                   </div>
 

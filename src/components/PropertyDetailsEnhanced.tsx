@@ -4,6 +4,7 @@ import { Property } from '../types';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ContactForm } from './ContactForm';
 import { toast } from 'sonner';
+import { ImageIcon } from 'lucide-react';
 
 interface PropertyDetailsEnhancedProps {
   property: Property;
@@ -20,9 +21,9 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
 
   const formatPrice = (price: number) => {
     if (property.status === 'For Rent') {
-      return `$${price.toLocaleString()} / month`;
+      return `$${price.toLocaleString('en-US')} / month`;
     }
-    return `$${price.toLocaleString()}`;
+    return `$${price.toLocaleString('en-US')}`;
   };
 
   const nextImage = () => {
@@ -271,7 +272,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                         </div>
                         <div className="bg-background rounded-xl p-4">
                           <Maximize className="w-5 h-5 text-gray-600 mb-2" />
-                          <div className="text-gray-900">{property.area.toLocaleString()}</div>
+                          <div className="text-gray-900">{property.area.toLocaleString('en-US')}</div>
                           <div className="text-xs text-gray-600">Sqft</div>
                         </div>
                         <div className="bg-background rounded-xl p-4">
@@ -311,8 +312,8 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                         {[
                           { label: 'Property Type', value: property.type },
                           { label: 'Year Built', value: property.yearBuilt },
-                          { label: 'Area', value: `${property.area.toLocaleString()} sqft` },
-                          { label: 'Lot Size', value: property.lotSize ? `${property.lotSize.toLocaleString()} sqft` : 'N/A' },
+                          { label: 'Area', value: `${property.area.toLocaleString('en-US')} sqft` },
+                          { label: 'Lot Size', value: property.lotSize ? `${property.lotSize.toLocaleString('en-US')} sqft` : 'N/A' },
                           { label: 'Parking', value: `${property.parkingSpaces || 0} spaces` },
                           { label: 'Pet Policy', value: property.petFriendly ? 'Pet Friendly' : 'No Pets' },
                           { label: 'Furnished', value: property.furnished ? 'Yes' : 'No' },

@@ -37,6 +37,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
       case 'search': router.push('/search'); break;
       case 'favorites': router.push('/favorites'); break;
       case 'profile': router.push('/profile'); break;
+      case 'signin': router.push('/signin'); break;
       case 'post': 
       case 'post-property': router.push('/post'); break;
       case 'notifications': router.push('/notifications'); break;
@@ -52,7 +53,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
   const currentView = getCurrentView();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Desktop/Tablet Header */}
       <Navigation
         currentView={currentView}
@@ -62,7 +63,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
       />
 
       {/* Main Content */}
-      <main className="pb-16 md:pb-0">
+      <main className="pb-20 md:pb-0">
         {children}
       </main>
 

@@ -1,4 +1,6 @@
+"use client";
 import { Bell, TrendingDown, Home, MessageCircle, Calendar, X, Check } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Notification } from '../../../types';
 import { ImageWithFallback } from '../../../components/figma/ImageWithFallback';
 import { toast } from 'sonner';
@@ -8,6 +10,11 @@ interface NotificationsCenterProps {
 }
 
 export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps) {
+  // Snapshot the current time after mount to keep SSR and first client render identical.
+  const [nowSnapshot, setNowSnapshot] = useState<number | null>(null);
+  useEffect(() => {
+    setNowSnapshot(Date.now());
+  }, []);
   const notifications: Notification[] = [
     {
       id: '1',
@@ -91,8 +98,10 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
   };
 
   const formatTime = (dateString: string) => {
+    // Until we mount on the client, render a stable placeholder to avoid hydration mismatch.
+    if (nowSnapshot == null) return ' ';
     const date = new Date(dateString);
-    const now = new Date();
+    const now = new Date(nowSnapshot);
     const diff = now.getTime() - date.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(hours / 24);
@@ -100,7 +109,7 @@ export function NotificationsCenter({ onViewProperty }: NotificationsCenterProps
     if (hours < 1) return 'Just now';
     if (hours < 24) return `${hours}h ago`;
     if (days < 7) return `${days}d ago`;
-    return date.toLocaleDateString();
+    return date.toLocaleDateString('en-US', { timeZone: 'UTC' });
   };
 
   const handleMarkAsRead = () => {

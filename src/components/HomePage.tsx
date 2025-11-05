@@ -4,6 +4,8 @@ import { Property } from '../types';
 import { PropertyCard } from './PropertyCard';
 import { QuickFilters } from './QuickFilters';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+// Remove unused import
+// import { ImageIcon } from 'lucide-react';
 
 interface HomePageProps {
   properties: Property[];
