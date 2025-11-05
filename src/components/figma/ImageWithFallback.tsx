@@ -29,6 +29,8 @@ export function ImageWithFallback({
   fill,
   sizes,
   priority,
+  quality,
+  loading,
   onClick,
   ...rest
 }: ImageWithFallbackProps) {
