@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import {
   Lock,
   Eye,
@@ -17,7 +15,6 @@ import {
   CheckCircle,
   X,
   Copy,
-  ExternalLink,
   Smartphone,
   Globe
 } from 'lucide-react';
@@ -29,8 +26,6 @@ interface AccountSettingsProps {
 }
 
 export function AccountSettings({ onClose }: AccountSettingsProps) {
-  const { data: session } = useSession();
-  const router = useRouter();
   const { theme, setTheme } = useTheme();
 
   const [activeTab, setActiveTab] = useState<'security' | 'premium' | 'api' | 'integrations' | 'billing' | 'appearance'>('security');
@@ -150,7 +145,7 @@ export function AccountSettings({ onClose }: AccountSettingsProps) {
                     return (
                       <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id as any)}
+                        onClick={() => setActiveTab(tab.id as 'security' | 'premium' | 'api' | 'integrations' | 'billing' | 'appearance')}
                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                           activeTab === tab.id
                             ? 'bg-primary text-primary-foreground'
