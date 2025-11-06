@@ -8,11 +8,11 @@ export default function SalePostPage() {
 
   const handlePropertyPosted = (propertyData: Partial<import('@/entities/property').Property>) => {
     // Redirect to the property details or sale list
-    router.push('/sale');
+    router.push('/(sale)');
   };
 
   const handleClose = () => {
-    router.push('/sale');
+    router.push('/(sale)');
   };
 
   return (
