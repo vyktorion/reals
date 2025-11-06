@@ -50,7 +50,7 @@ export function useLocalStorage<T>(
       console.error(`useLocalStorage Error writing key "${key}":`, err);
       onError?.(err);
     }
-  }, [key, storedValue, serializer]);
+  }, [key, storedValue, serializer, onError]);
 
   // Function to remove the item from localStorage
   const removeValue = useCallback(() => {
@@ -64,7 +64,7 @@ export function useLocalStorage<T>(
       console.error(`useLocalStorage Error removing key "${key}":`, err);
       onError?.(err);
     }
-  }, [key, initialValue]);
+  }, [key, initialValue, onError]);
 
   // Function to check if the key exists in localStorage
   const hasValue = useCallback(() => {
@@ -73,7 +73,7 @@ export function useLocalStorage<T>(
     }
     try {
       return window.localStorage.getItem(key) !== null;
-    } catch (error) {
+    } catch {
       return false;
     }
   }, [key]);
@@ -96,10 +96,11 @@ export function useLocalStorage<T>(
     window.addEventListener('storage', handleStorageChange);
     
     // Also listen for custom events for same-tab communication
-    const handleCustomStorage = (e: CustomEvent) => {
-      if (e.detail.key === key) {
+    const handleCustomStorage = (e: Event) => {
+      const customEvent = e as CustomEvent<{ key: string; value: string }>;
+      if (customEvent.detail.key === key) {
         try {
-          setStoredValue(serializer.parse(e.detail.value));
+          setStoredValue(serializer.parse(customEvent.detail.value));
         } catch (error) {
           const err = error instanceof Error ? error : new Error('Failed to parse custom storage change');
           console.error(`useLocalStorage Error parsing custom storage change for key "${key}":`, err);
@@ -108,13 +109,13 @@ export function useLocalStorage<T>(
       }
     };
 
-    window.addEventListener('localStorageChange' as any, handleCustomStorage);
+    window.addEventListener('localStorageChange', handleCustomStorage as EventListener);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('localStorageChange' as any, handleCustomStorage);
+      window.removeEventListener('localStorageChange', handleCustomStorage as EventListener);
     };
-  }, [key, serializer]);
+  }, [key, serializer, onError]);
 
   // Helper function to trigger custom storage changes for same-tab updates
   const triggerChange = useCallback((value: T) => {
