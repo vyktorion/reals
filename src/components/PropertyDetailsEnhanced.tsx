@@ -17,6 +17,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
   const [showContactForm, setShowContactForm] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'location' | 'reviews'>('overview');
   const [imageZoom, setImageZoom] = useState(false);
+  const [thumbnailOffset, setThumbnailOffset] = useState(0);
 
   const formatPrice = (price: number) => {
     if (property.status === 'For Rent') {
@@ -114,6 +115,9 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
               <ImageWithFallback
                 src={property.images[currentImageIndex]}
                 alt={property.title}
+                width={800}
+                height={450}
+                quality={85}
                 className="w-full h-full object-cover"
               />
 
@@ -122,17 +126,17 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                 <>
                   <button
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
                   >
-                    <ChevronLeft className="w-6 h-6 text-gray-700" />
+                    <ChevronLeft className="w-6 h-6" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
                   >
-                    <ChevronRight className="w-6 h-6 text-gray-700" />
+                    <ChevronRight className="w-6 h-6" />
                   </button>
-                  <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/70 backdrop-blur-md text-primary-foreground text-sm rounded-full">
+                  <div className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full transition-colors text-sm">
                     {currentImageIndex + 1} / {property.images.length}
                   </div>
                 </>
@@ -158,16 +162,16 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
               <div className="absolute top-4 right-4 flex gap-2">
                 <button
                   onClick={handleShare}
-                  className="p-2.5 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
+                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
                 >
-                  <Share2 className="w-5 h-5 text-gray-700" />
+                  <Share2 className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => onToggleFavorite(property.id)}
-                  className={`p-2.5 backdrop-blur-md rounded-full transition-all shadow-lg hover:scale-110 ${
+                  className={`p-2 rounded-full transition-colors cursor-pointer ${
                     isFavorite
-                      ? 'bg-red-500 text-primary-foreground'
-                      : 'bg-card/95 text-gray-700 hover:bg-card'
+                      ? 'bg-black/70 text-white'
+                      : 'bg-black/50 hover:bg-black/70 text-white'
                   }`}
                 >
                   <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
@@ -191,6 +195,9 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     <ImageWithFallback
                       src={image}
                       alt={`View ${index + 1}`}
+                      width={200}
+                      height={120}
+                      quality={70}
                       className="w-full h-full object-cover"
                     />
                   </button>

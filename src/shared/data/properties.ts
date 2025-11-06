@@ -118,6 +118,7 @@ export const properties: Property[] = [
     area: 4500,
     lotSize: 8200,
     images: [
+      'https://pwa-jade-eight.vercel.app/_next/image?url=https%3A%2F%2Futfs.io%2Ff%2FUJXbnugF4DMBYDeGP6ZqomiSxeqMIXU9lRBjfan5vFbLZN4t&w=828&q=75',
       'https://images.unsplash.com/photo-1640109229792-a26a0ee366ff?w=1200',
       'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=1200',
       'https://images.unsplash.com/photo-1696986681606-b156ccd761c5?w=1200',

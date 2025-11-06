@@ -24,18 +24,18 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
         <ImageWithFallback
           src={property.images[0]}
           alt={property.title}
+          width={400}
+          height={300}
+          quality={80}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
         {/* Status Badge */}
-        <div className="absolute top-4 left-4">
-          <span className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase shadow-sm ${
+        <div className="absolute top-3 left-3">
+          <span className={`px-3 py-1 text-xs rounded-full text-primary-foreground ${
             property.status === 'For Sale' 
-              ? 'bg-blue-900/80 text-white' 
-              : 'bg-amber-900/80 text-white'
+              ? 'bg-green-500/90 dark:bg-green-600/90' 
+              : 'bg-blue-500/90 dark:bg-blue-600/90'
           }`}>
             {property.status}
           </span>
@@ -43,8 +43,8 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
 
         {/* Featured Badge */}
         {property.isFeatured && (
-          <div className="absolute top-4 right-4">
-            <span className="px-4 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase bg-amber-500/80 text-white shadow-sm">
+          <div className="absolute top-3 right-3">
+            <span className="px-3 py-1 text-xs rounded-full bg-amber-500/90 text-primary-foreground">
               Featured
             </span>
           </div>
@@ -56,16 +56,15 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
             e.stopPropagation();
             onToggleFavorite(property.id);
           }}
-          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 ${
+          className={`absolute top-3 right-3 w-8 h-8 bg-card/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-card transition-all ${
             property.isFeatured ? 'mt-10' : ''
-          } ${
-            isFavorite
-              ? 'bg-red-500/90 text-white scale-110'
-              : 'bg-white/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 hover:scale-110'
-          } shadow-sm hover:shadow-md`}
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          }`}
         >
-          <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+          <Heart className={`w-4 h-4 ${
+            isFavorite 
+              ? 'text-red-500 fill-red-500' 
+              : 'text-muted-foreground'
+          }`} />
         </button>
 
         {/* View Details Button - shown on hover */}

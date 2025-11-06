@@ -24,10 +24,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'utfs.io',
       },
+      {
+        protocol: 'https',
+        hostname: 'pwa-jade-eight.vercel.app',
+      },
     ],
   },
   experimental: {
-    optimizePackageImports: ['@radix-ui/react-accordion', '@radix-ui/react-alert-dialog', '@radix-ui/react-aspect-ratio', '@radix-ui/react-avatar', '@radix-ui/react-checkbox', '@radix-ui/react-collapsible', '@radix-ui/react-context-menu', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-hover-card', '@radix-ui/react-label', '@radix-ui/react-menubar', '@radix-ui/react-navigation-menu', '@radix-ui/react-popover', '@radix-ui/react-progress', '@radix-ui/react-radio-group', '@radix-ui/react-scroll-area', '@radix-ui/react-select', '@radix-ui/react-separator', '@radix-ui/react-slider', '@radix-ui/react-slot', '@radix-ui/react-switch', '@radix-ui/react-tabs', '@radix-ui/react-toast', '@radix-ui/react-toggle', '@radix-ui/react-toggle-group', '@radix-ui/react-tooltip', 'lucide-react', '@tabler/icons-react'],
+    // optimizePackageImports removed as requested
   },
   async headers() {
     return [
@@ -69,49 +73,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withPWA = nextPwa({
-  dest: "src/public",
-  register: true,
-  disable: process.env.NODE_ENV === 'development',
-  runtimeCaching: [
-    {
-      urlPattern: ({ url }: { url: URL }) => url.pathname === '/',
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'start-url',
-      },
-    },
-    {
-      urlPattern: ({ url }: { url: URL }) => url.origin === self.location.origin && url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/auth/'),
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'apis',
-        networkTimeoutSeconds: 10,
-      },
-    },
-    {
-      urlPattern: ({ url }: { url: URL }) => url.origin === self.location.origin && !url.pathname.startsWith('/api/'),
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'others',
-      },
-    },
-    {
-      urlPattern: /\.js$/,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'static-js-assets',
-      },
-    },
-    {
-      urlPattern: /\.css$/,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'static-style-assets',
-      },
-    },
-  ],
-});
+// Simplified approach - completely disable PWA in development
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const pwaConfig = {
+  dest: "public",
+  register: !isDevelopment, // Only register in production
+  skipWaiting: !isDevelopment,
+  clientsClaim: !isDevelopment,
+  disable: isDevelopment, // Completely disable in development
+};
+
+const withPWA = nextPwa(pwaConfig);
 
 // @ts-ignore
 const withAnalyzer = withBundleAnalyzer({
