@@ -16,7 +16,7 @@ export default function SalePropertyPage() {
   };
 
   const handleBackToSale = () => {
-    router.push('/(sale)');
+    router.push('/sale');
   };
 
   if (!property) {
