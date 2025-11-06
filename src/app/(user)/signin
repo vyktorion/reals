@@ -1,0 +1,37 @@
+'use client'
+
+import { useRouter } from 'next/navigation';
+import { AuthPage } from '@/features/auth/components/AuthPage';
+
+export default function SignInPage() {
+  const router = useRouter();
+
+  const handleSignIn = (user: any) => {
+    // Redirect to profile after successful sign in
+    router.push('/user/profile');
+  };
+
+  const handleSignUp = () => {
+    // Navigate to sign up page
+    router.push('/user/register');
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Sign In</h1>
+          <p className="text-muted-foreground mt-2">
+            Welcome back! Please sign in to your account
+          </p>
+        </div>
+        
+        <AuthPage
+          mode="signin"
+          onSignIn={handleSignIn}
+          onSignUp={handleSignUp}
+        />
+      </div>
+    </div>
+  );
+}

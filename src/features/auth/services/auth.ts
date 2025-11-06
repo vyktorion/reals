@@ -1,4 +1,4 @@
-  import { User } from '@/hooks/useAuth';
+  import { User } from '@/hooks/auth/useAuth';
 
 export interface SignInData {
   email: string;

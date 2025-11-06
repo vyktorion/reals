@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Car } from 'lucide-react';
-import { Property } from '../entities/property';
+import { Property } from '@/entities/property';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { ContactForm } from './ContactForm';
+import { ContactForm } from './forms/ContactForm';
 import { toast } from 'sonner';
 
 interface PropertyDetailsProps {
@@ -19,7 +19,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
   const [imageZoom, setImageZoom] = useState(false);
 
   const formatPrice = (price: number) => {
-    if (property.status === 'For Rent') {
+    if (property.status === 'rented') {
       return `$${price.toLocaleString('en-US')} / month`;
     }
     return `$${price.toLocaleString('en-US')}`;
@@ -116,11 +116,14 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                   {/* Badges */}
                   <div className="absolute top-4 left-4 flex gap-2">
                     <span className={`px-3 py-1.5 rounded-full text-sm backdrop-blur-md ${
-                      property.status === 'For Sale'
+                      property.status === 'active'
                         ? 'bg-blue-900/90 text-primary-foreground'
-                        : 'bg-amber-500/90 text-primary-foreground'
+                        : 'bg-gray-500/90 text-primary-foreground'
                     }`}>
-                      {property.status}
+                      {property.status === 'active' ? 'For Sale' :
+                       property.status === 'rented' ? 'For Rent' :
+                       property.status === 'sold' ? 'Sold' :
+                       property.status === 'pending' ? 'Pending' : property.status}
                     </span>
                     {property.isFeatured && (
                       <span className="px-3 py-1.5 rounded-full text-sm bg-amber-400/90 text-gray-900 backdrop-blur-md">
@@ -314,7 +317,9 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                           { label: 'Area', value: `${property.area.toLocaleString('en-US')} sqft` },
                           { label: 'Lot Size', value: property.lotSize ? `${property.lotSize.toLocaleString('en-US')} sqft` : 'N/A' },
                           { label: 'Parking', value: `${property.parkingSpaces || 0} spaces` },
-                          { label: 'Pet Policy', value: property.petFriendly ? 'Pet Friendly' : 'No Pets' },
+                          { label: 'Pet Policy', value: property.petPolicy === 'allowed' ? 'Pet Friendly' :
+                                                            property.petPolicy === 'not_allowed' ? 'No Pets' :
+                                                            property.petPolicy === 'conditional' ? 'Conditional' : 'Unknown' },
                           { label: 'Furnished', value: property.furnished ? 'Yes' : 'No' },
                           { label: 'Listed', value: property.listedDate || 'N/A' },
                         ].map((item, index) => (
@@ -409,43 +414,45 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                 </div>
 
                 {/* Agent Card */}
-                <div className="mt-8 bg-linear-to-br from-blue-50 to-gray-50 rounded-2xl p-6">
-                  <h3 className="text-gray-900 mb-4">Contact Agent</h3>
+                {property.agent && (
+                  <div className="mt-8 bg-linear-to-br from-blue-50 to-gray-50 rounded-2xl p-6">
+                    <h3 className="text-gray-900 mb-4">Contact Agent</h3>
 
-                  <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200">
-                    <ImageWithFallback
-                      src={property.agent.avatar}
-                      alt={property.agent.name}
-                      className="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-md"
-                    />
-                    <div className="flex-1">
-                      <div className="text-gray-900 mb-1">{property.agent.name}</div>
-                      {property.agent.rating && (
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <div className="flex gap-0.5">{renderStars(property.agent.rating)}</div>
-                          <span>{property.agent.rating.toFixed(1)}</span>
-                        </div>
-                      )}
+                    <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200">
+                      <ImageWithFallback
+                        src={property.agent.avatar}
+                        alt={property.agent.name}
+                        className="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-md"
+                      />
+                      <div className="flex-1">
+                        <div className="text-gray-900 mb-1">{property.agent.name}</div>
+                        {property.agent.rating && (
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex gap-0.5">{renderStars(property.agent.rating)}</div>
+                            <span>{property.agent.rating.toFixed(1)}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => property.agent?.phone && window.open(`tel:${property.agent.phone}`, '_self')}
+                        className="px-4 py-3 bg-card hover:bg-background text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
+                      >
+                        <Phone className="w-5 h-5" />
+                        <span>Call</span>
+                      </button>
+                      <button
+                        onClick={() => setShowContactForm(true)}
+                        className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                      >
+                        <MessageSquare className="w-5 h-5" />
+                        <span>Message</span>
+                      </button>
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => window.location.href = `tel:${property.agent.phone}`}
-                      className="px-4 py-3 bg-card hover:bg-background text-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 border border-gray-200"
-                    >
-                      <Phone className="w-5 h-5" />
-                      <span>Call</span>
-                    </button>
-                    <button
-                      onClick={() => setShowContactForm(true)}
-                      className="px-4 py-3 bg-blue-900 hover:bg-blue-800 text-primary-foreground rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                    >
-                      <MessageSquare className="w-5 h-5" />
-                      <span>Message</span>
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -483,11 +490,14 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                 {/* Badges */}
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                   <span className={`px-2.5 py-1 rounded-full text-xs backdrop-blur-md ${
-                    property.status === 'For Sale'
+                    property.status === 'active'
                       ? 'bg-blue-900/90 text-primary-foreground'
                       : 'bg-amber-500/90 text-primary-foreground'
                   }`}>
-                    {property.status}
+                    {property.status === 'active' ? 'For Sale' :
+                     property.status === 'rented' ? 'For Rent' :
+                     property.status === 'sold' ? 'Sold' :
+                     property.status === 'pending' ? 'Pending' : property.status}
                   </span>
                   {property.isFeatured && (
                     <span className="px-2.5 py-1 rounded-full text-xs bg-amber-400/90 text-gray-900 backdrop-blur-md">
@@ -602,36 +612,38 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                 </div>
 
                 {/* Agent Card */}
-                <div className="bg-linear-to-br from-blue-50 to-gray-50 rounded-2xl p-4">
-                  <h3 className="text-gray-900 mb-3">Contact Agent</h3>
-                  <div className="flex items-center gap-3 mb-4">
-                    <ImageWithFallback
-                      src={property.agent.avatar}
-                      alt={property.agent.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="text-gray-900">{property.agent.name}</div>
-                      <div className="text-xs text-gray-600">Real Estate Agent</div>
+                {property.agent && (
+                  <div className="bg-linear-to-br from-blue-50 to-gray-50 rounded-2xl p-4">
+                    <h3 className="text-gray-900 mb-3">Contact Agent</h3>
+                    <div className="flex items-center gap-3 mb-4">
+                      <ImageWithFallback
+                        src={property.agent.avatar}
+                        alt={property.agent.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <div className="text-gray-900">{property.agent.name}</div>
+                        <div className="text-xs text-gray-600">Real Estate Agent</div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => property.agent?.phone && window.open(`tel:${property.agent.phone}`, '_self')}
+                        className="px-3 py-2 bg-card text-gray-900 rounded-lg text-sm flex items-center justify-center gap-2"
+                      >
+                        <Phone className="w-4 h-4" />
+                        <span>Call</span>
+                      </button>
+                      <button
+                        onClick={() => setShowContactForm(true)}
+                        className="px-3 py-2 bg-blue-900 text-primary-foreground rounded-lg text-sm flex items-center justify-center gap-2"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Message</span>
+                      </button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => window.location.href = `tel:${property.agent.phone}`}
-                      className="px-3 py-2 bg-card text-gray-900 rounded-lg text-sm flex items-center justify-center gap-2"
-                    >
-                      <Phone className="w-4 h-4" />
-                      <span>Call</span>
-                    </button>
-                    <button
-                      onClick={() => setShowContactForm(true)}
-                      className="px-3 py-2 bg-blue-900 text-primary-foreground rounded-lg text-sm flex items-center justify-center gap-2"
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      <span>Message</span>
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Fixed Bottom CTA */}

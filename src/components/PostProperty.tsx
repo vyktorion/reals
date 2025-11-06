@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ArrowLeft, Upload, MapPin, Bed, Bath, Maximize, DollarSign, Image as ImageIcon, Check } from 'lucide-react';
-import { Property } from '../entities/property';
+import { Property } from '@/entities/property';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -20,13 +20,16 @@ interface FormData {
   title: string;
   description: string;
   price: string;
+  // Note: type field is UI property type, will be mapped to Property.type ('sale'|'rent'|'hotel')
   type: 'House' | 'Apartment' | 'Villa' | 'Penthouse' | 'Condo' | 'Townhouse' | 'Estate' | 'Studio' | 'Loft';
+  // Note: status field is listing type, will be mapped to Property.type
   status: 'For Sale' | 'For Rent';
   bedrooms: string;
   bathrooms: string;
   area: string;
   lotSize: string;
   yearBuilt: string;
+  // Note: will be mapped to Property.parking
   parkingSpaces: string;
   address: string;
   city: string;
@@ -122,16 +125,21 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
 
   const handleSubmit = () => {
     // Mock property posting - in real app would send to backend
-    const newProperty = {
+    const now = new Date();
+    
+    // Map form data to Property interface
+    // Note:
+    // - formData.status ('For Sale'/'For Rent') maps to Property.type ('sale'/'rent')
+    // - formData.type (property types) is UI-only, not stored in Property model
+    // - formData.features maps to both Property.amenities and Property.features
+    // - formData.parkingSpaces maps to Property.parking
+    const newProperty: Partial<Property> = {
       id: Date.now().toString(),
-      ...formData,
+      title: formData.title,
+      description: formData.description,
       price: parseFloat(formData.price),
-      bedrooms: parseInt(formData.bedrooms),
-      bathrooms: parseFloat(formData.bathrooms),
-      area: parseInt(formData.area),
-      lotSize: formData.lotSize ? parseInt(formData.lotSize) : undefined,
-      yearBuilt: parseInt(formData.yearBuilt),
-      parkingSpaces: parseInt(formData.parkingSpaces),
+      type: formData.status === 'For Sale' ? 'sale' : 'rent',
+      status: 'active' as const,
       location: {
         address: formData.address,
         city: formData.city,
@@ -141,11 +149,23 @@ export function PostProperty({ onClose, onPropertyPosted }: PostPropertyProps) {
         coordinates: { lat: 0, lng: 0 }, // Would be geocoded in real app
         neighborhood: formData.city
       },
-      isFeatured: false,
-      rating: 0,
-      viewCount: 0,
-      listedDate: new Date().toISOString().split('T')[0],
-      lastUpdated: new Date().toISOString().split('T')[0]
+      bedrooms: parseInt(formData.bedrooms),
+      bathrooms: parseFloat(formData.bathrooms),
+      area: parseInt(formData.area),
+      areaUnit: 'sqft' as const,
+      lotSize: formData.lotSize ? parseInt(formData.lotSize) : undefined,
+      lotSizeUnit: formData.lotSize ? 'sqft' as const : undefined,
+      yearBuilt: parseInt(formData.yearBuilt),
+      parking: parseInt(formData.parkingSpaces),
+      images: formData.images,
+      amenities: formData.features, // Map features to amenities
+      features: formData.features,
+      featured: false,
+      userId: 'user-123', // Mock user ID - in real app would come from auth context
+      views: 0,
+      favorites: 0,
+      createdAt: now,
+      updatedAt: now
     };
 
     toast.success('Property posted successfully!', {

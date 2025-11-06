@@ -11,7 +11,7 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDetails }: PropertyCardProps) {
   const formatPrice = (price: number) => {
-    if (property.status === 'For Rent') {
+    if (property.type === 'rent') {
       return `$${price.toLocaleString()}/mo`;
     }
     return `$${(price / 1000000).toFixed(2)}M`;
@@ -33,16 +33,16 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
         {/* Status Badge */}
         <div className="absolute top-4 left-4">
           <span className={`px-3 py-1 rounded-full text-xs backdrop-blur-md ${
-            property.status === 'For Sale' 
-              ? 'bg-blue-900/90 text-primary-foreground' 
+            property.type === 'sale'
+              ? 'bg-blue-900/90 text-primary-foreground'
               : 'bg-amber-500/90 text-primary-foreground'
           }`}>
-            {property.status}
+            {property.type === 'sale' ? 'For Sale' : property.type === 'rent' ? 'For Rent' : 'For Sale'}
           </span>
         </div>
 
         {/* Featured Badge */}
-        {property.isFeatured && (
+        {property.featured && (
           <div className="absolute top-4 right-4">
             <span className="px-3 py-1 rounded-full text-xs bg-amber-400/90 text-gray-900 backdrop-blur-md">
               Featured
@@ -57,7 +57,7 @@ export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDet
             onToggleFavorite(property.id);
           }}
           className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 ${
-            property.isFeatured ? 'mt-10' : ''
+            property.featured ? 'mt-10' : ''
           } ${
             isFavorite
               ? 'bg-red-500 text-primary-foreground scale-110'

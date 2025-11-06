@@ -1,0 +1,244 @@
+import apiClient from './api';
+import { UploadFile } from '@/types/upload.types';
+
+export interface UploadOptions {
+  folder?: string;
+  maxSize?: number;
+  allowedTypes?: string[];
+  quality?: number;
+  transformations?: {
+    width?: number;
+    height?: number;
+    crop?: 'fill' | 'fit' | 'scale' | 'crop';
+    format?: 'webp' | 'jpg' | 'png';
+  };
+}
+
+export interface UploadResponse {
+  success: boolean;
+  url: string;
+  file: UploadFile;
+  error?: string;
+}
+
+export interface UploadProgress {
+  file: File;
+  progress: number;
+  status: 'uploading' | 'completed' | 'error';
+  error?: string;
+}
+
+export interface UploadResult {
+  id: string;
+  name: string;
+  url: string;
+  size: number;
+  type: string;
+  width?: number;
+  height?: number;
+  createdAt: string;
+}
+
+class UploadService {
+  async uploadFile(file: File, options: UploadOptions = {}): Promise<UploadResponse> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      if (options.folder) formData.append('folder', options.folder);
+      if (options.quality) formData.append('quality', options.quality.toString());
+      if (options.transformations) {
+        formData.append('transformations', JSON.stringify(options.transformations));
+      }
+
+      const response = await apiClient.post<UploadResponse>('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return {
+        success: false,
+        url: '',
+        file: {} as UploadFile,
+        error: error instanceof Error ? error.message : 'Upload failed',
+      };
+    }
+  }
+
+  async uploadMultipleFiles(files: File[], options: UploadOptions = {}): Promise<UploadResponse[]> {
+    const uploadPromises = files.map(file => this.uploadFile(file, options));
+    
+    try {
+      const results = await Promise.all(uploadPromises);
+      return results;
+    } catch (error) {
+      console.error('Error uploading multiple files:', error);
+      return files.map(() => ({
+        success: false,
+        url: '',
+        file: {} as UploadFile,
+        error: 'Upload failed',
+      }));
+    }
+  }
+
+  async uploadImage(file: File, options: UploadOptions = {}): Promise<UploadResponse> {
+    const imageOptions: UploadOptions = {
+      allowedTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+      quality: 80,
+      transformations: {
+        format: 'webp',
+        crop: 'fill',
+      },
+      ...options,
+    };
+
+    return this.uploadFile(file, imageOptions);
+  }
+
+  async uploadPropertyImages(files: File[]): Promise<UploadResponse[]> {
+    const options: UploadOptions = {
+      folder: 'properties',
+      allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+      quality: 85,
+      transformations: {
+        width: 1200,
+        height: 800,
+        crop: 'fill',
+        format: 'webp',
+      },
+    };
+
+    return this.uploadMultipleFiles(files, options);
+  }
+
+  async uploadAvatar(file: File): Promise<UploadResponse> {
+    const options: UploadOptions = {
+      folder: 'avatars',
+      allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+      quality: 90,
+      transformations: {
+        width: 200,
+        height: 200,
+        crop: 'fill',
+        format: 'webp',
+      },
+    };
+
+    return this.uploadFile(file, options);
+  }
+
+  async deleteFile(fileUrl: string): Promise<boolean> {
+    try {
+      await apiClient.delete('/api/upload', {
+        data: { url: fileUrl },
+      });
+      return true;
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      return false;
+    }
+  }
+
+  async getFileInfo(fileUrl: string): Promise<UploadFile | null> {
+    try {
+      const response = await apiClient.get<UploadFile>(`/api/upload/info?url=${encodeURIComponent(fileUrl)}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting file info:', error);
+      return null;
+    }
+  }
+
+  async resizeImage(fileUrl: string, width: number, height: number): Promise<string | null> {
+    try {
+      const response = await apiClient.post<{ url: string }>('/api/upload/resize', {
+        url: fileUrl,
+        width,
+        height,
+      });
+      return response.data.url;
+    } catch (error) {
+      console.error('Error resizing image:', error);
+      return null;
+    }
+  }
+
+  // File validation methods
+  validateFile(file: File, options: UploadOptions = {}): { valid: boolean; error?: string } {
+    if (options.maxSize && file.size > options.maxSize) {
+      return {
+        valid: false,
+        error: `File size exceeds maximum limit of ${options.maxSize} bytes`,
+      };
+    }
+
+    if (options.allowedTypes && !options.allowedTypes.includes(file.type)) {
+      return {
+        valid: false,
+        error: `File type ${file.type} is not allowed`,
+      };
+    }
+
+    return { valid: true };
+  }
+
+  // Utility methods
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  isImageFile(file: File): boolean {
+    return file.type.startsWith('image/');
+  }
+
+  isVideoFile(file: File): boolean {
+    return file.type.startsWith('video/');
+  }
+
+  getFileExtension(filename: string): string {
+    return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+  }
+
+  generateFileName(originalName: string, prefix = ''): string {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(7);
+    const extension = this.getFileExtension(originalName);
+    const name = originalName.replace(/\.[^/.]+$/, '');
+    
+    return `${prefix}${name}_${timestamp}_${random}.${extension}`;
+  }
+
+  // Mock upload for development
+  mockUploadFile(file: File): Promise<UploadResponse> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          success: true,
+          url: `https://example.com/uploads/${file.name}`,
+          file: {
+            id: 'mock-' + Date.now(),
+            name: file.name,
+            url: `https://example.com/uploads/${file.name}`,
+            size: file.size,
+            type: file.type,
+            createdAt: new Date().toISOString(),
+          },
+        });
+      }, 1000);
+    });
+  }
+}
+
+export const uploadService = new UploadService();
+export default uploadService;

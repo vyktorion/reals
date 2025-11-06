@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useDebounce } from './useDebounce';
+import { useDebounce } from './search/useDebounce';
 import { Property } from '@/entities/property';
 import { properties } from '@/shared/data/properties';
 

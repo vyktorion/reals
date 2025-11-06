@@ -3,44 +3,56 @@ export interface Property {
   title: string;
   description: string;
   price: number;
+  type: 'sale' | 'rent' | 'hotel';
+  status: 'active' | 'sold' | 'rented' | 'pending';
   location: {
     address: string;
     city: string;
     state: string;
     country: string;
-    zipCode: string;
-    coordinates: {
+    zipCode?: string;
+    coordinates?: {
       lat: number;
       lng: number;
     };
-    neighborhood: string;
+    neighborhood?: string;
   };
-  type: 'House' | 'Apartment' | 'Villa' | 'Penthouse' | 'Condo' | 'Townhouse' | 'Estate' | 'Studio' | 'Loft';
-  status: 'For Sale' | 'For Rent' | 'Sold' | 'Pending';
   bedrooms: number;
   bathrooms: number;
-  area: number; // in sqft
-  lotSize?: number; // in sqft
+  area: number;
+  areaUnit: 'sqft' | 'sqm' | 'acre';
+  yearBuilt?: number;
+  lotSize?: number;
+  lotSizeUnit?: 'sqft' | 'sqm' | 'acre';
+  parking?: number;
+  floors?: number;
   images: string[];
+  amenities: string[];
   features: string[];
-  yearBuilt: number;
-  parkingSpaces?: number;
-  floorNumber?: number;
-  totalFloors?: number;
+  propertyTax?: number;
+  hoa?: number;
+  utilities?: string[];
+  availableDate?: Date;
+  petPolicy?: 'allowed' | 'not_allowed' | 'conditional';
   furnished?: boolean;
-  petFriendly?: boolean;
-  agent: Agent;
-  isFeatured?: boolean;
-  isNew?: boolean;
+  featured: boolean;
+  userId: string;
+  agentId?: string;
+  views: number;
+  favorites: number;
+  createdAt: Date;
+  updatedAt: Date;
+  // Optional extended properties
   rating?: number;
   reviews?: Review[];
-  virtualTour?: string;
-  video?: string;
   priceHistory?: PriceHistory[];
   nearbyPlaces?: NearbyPlace[];
-  viewCount?: number;
+  agent?: Agent;
+  virtualTour?: boolean;
+  parkingSpaces?: number; // Alias for parking
   listedDate?: string;
-  lastUpdated?: string;
+  isFeatured?: boolean; // Alias for featured (legacy support)
+  isNew?: boolean; // For new property flag
 }
 
 export interface Agent {

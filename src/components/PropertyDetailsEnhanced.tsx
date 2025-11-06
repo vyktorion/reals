@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Car } from 'lucide-react';
-import { Property } from '../entities/property';
+import { Property } from '@/entities/property';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { ContactForm } from './ContactForm';
+import { ContactForm } from './forms/ContactForm';
 import { toast } from 'sonner';
 
 interface PropertyDetailsEnhancedProps {
@@ -20,18 +20,41 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
   const [thumbnailOffset, setThumbnailOffset] = useState(0);
 
   const formatPrice = (price: number) => {
-    if (property.status === 'For Rent') {
+    if (property.type === 'rent') {
       return `$${price.toLocaleString('en-US')} / month`;
     }
     return `$${price.toLocaleString('en-US')}`;
   };
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % property.images.length);
+    const newIndex = (currentImageIndex + 1) % property.images.length;
+    setCurrentImageIndex(newIndex);
+    updateThumbnailOffset(newIndex);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + property.images.length) % property.images.length);
+    const newIndex = (currentImageIndex - 1 + property.images.length) % property.images.length;
+    setCurrentImageIndex(newIndex);
+    updateThumbnailOffset(newIndex);
+  };
+
+  const updateThumbnailOffset = (newIndex: number) => {
+    const totalImages = property.images.length;
+    let newOffset = thumbnailOffset;
+
+    if (newIndex < thumbnailOffset) {
+      newOffset = Math.max(0, Math.floor(newIndex / 6) * 6);
+    } else if (newIndex >= thumbnailOffset + 6) {
+      const maxOffset = Math.max(0, totalImages - 6);
+      newOffset = Math.min(maxOffset, Math.floor(newIndex / 6) * 6);
+    }
+
+    setThumbnailOffset(newOffset);
+  };
+
+  const handleThumbnailClick = (index: number) => {
+    setCurrentImageIndex(index);
+    updateThumbnailOffset(index);
   };
 
   const handleShare = () => {
@@ -91,7 +114,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
             <div className="text-xl font-bold text-primary">{formatPrice(property.price)}</div>
             <div className="flex items-center gap-2">
               <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                property.status === 'For Sale'
+                property.type === 'sale'
                   ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                   : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
               }`}>
@@ -110,100 +133,123 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Images + Description */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Main Image */}
-            <div className="relative aspect-video bg-gray-900 rounded-2xl overflow-hidden">
-              <ImageWithFallback
-                src={property.images[currentImageIndex]}
-                alt={property.title}
-                width={800}
-                height={450}
-                quality={85}
-                className="w-full h-full object-cover"
-              />
+            {/* Image Gallery */}
+            <div className="bg-card rounded-xl p-2 border">
+              {/* Main Image */}
+              <div className="relative aspect-video bg-gray-900 rounded-2xl overflow-hidden mb-4">
+                <ImageWithFallback
+                  src={property.images[currentImageIndex]}
+                  alt={property.title}
+                  width={800}
+                  height={450}
+                  quality={85}
+                  className="w-full h-full object-cover"
+                />
 
-              {/* Navigation */}
-              {property.images.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-                  <div className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full transition-colors text-sm">
-                    {currentImageIndex + 1} / {property.images.length}
-                  </div>
-                </>
-              )}
-
-              {/* Badges */}
-              <div className="absolute top-4 left-4 flex gap-2">
-                <span className={`px-3 py-1.5 rounded-full text-sm backdrop-blur-md ${
-                  property.status === 'For Sale'
-                    ? 'bg-blue-900/90 text-primary-foreground'
-                    : 'bg-amber-500/90 text-primary-foreground'
-                }`}>
-                  {property.status}
-                </span>
-                {property.isFeatured && (
-                  <span className="px-3 py-1.5 rounded-full text-sm bg-amber-400/90 text-gray-900 backdrop-blur-md">
-                    Featured
-                  </span>
+                {/* Navigation */}
+                {property.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                      {property.images.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleThumbnailClick(index)}
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            currentImageIndex === index ? 'bg-white' : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
                 )}
-              </div>
 
-              {/* Actions */}
-              <div className="absolute top-4 right-4 flex gap-2">
-                <button
-                  onClick={handleShare}
-                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
-                >
-                  <Share2 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => onToggleFavorite(property.id)}
-                  className={`p-2 rounded-full transition-colors cursor-pointer ${
-                    isFavorite
-                      ? 'bg-black/70 text-white'
-                      : 'bg-black/50 hover:bg-black/70 text-white'
-                  }`}
-                >
-                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                </button>
-              </div>
-            </div>
+                {/* Badges */}
+                <div className="absolute top-4 left-4 flex gap-2">
+                  <span className={`px-3 py-1.5 rounded-full text-sm backdrop-blur-md ${
+                    property.type === 'sale'
+                      ? 'bg-blue-900/90 text-primary-foreground'
+                      : 'bg-amber-500/90 text-primary-foreground'
+                  }`}>
+                    {property.status}
+                  </span>
+                  {property.isFeatured && (
+                    <span className="px-3 py-1.5 rounded-full text-sm bg-amber-400/90 text-gray-900 backdrop-blur-md">
+                      Featured
+                    </span>
+                  )}
+                </div>
 
-            {/* Thumbnail Grid */}
-            {property.images.length > 1 && (
-              <div className="grid grid-cols-5 gap-2">
-                {property.images.slice(0, 5).map((image, index) => (
+                {/* Actions */}
+                <div className="absolute top-4 right-4 flex gap-2">
                   <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`relative aspect-video rounded-lg overflow-hidden transition-all ${
-                      index === currentImageIndex
-                        ? 'ring-2 ring-blue-900 scale-105'
-                        : 'opacity-70 hover:opacity-100'
+                    onClick={handleShare}
+                    className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => onToggleFavorite(property.id)}
+                    className={`p-2 rounded-full transition-colors cursor-pointer ${
+                      isFavorite
+                        ? 'bg-black/70 text-white'
+                        : 'bg-black/50 hover:bg-black/70 text-white'
                     }`}
                   >
-                    <ImageWithFallback
-                      src={image}
-                      alt={`View ${index + 1}`}
-                      width={200}
-                      height={120}
-                      quality={70}
-                      className="w-full h-full object-cover"
-                    />
+                    <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                   </button>
-                ))}
+                </div>
               </div>
-            )}
+
+              {/* Thumbnail Grid */}
+              {property.images.length > 1 && (
+                <div>
+                  {/* Thumbnails Grid - Always shows 6 thumbnails horizontally */}
+                  <div className="grid grid-cols-6 gap-2">
+                    {Array.from({ length: 6 }, (_, i) => {
+                      const imageIndex = thumbnailOffset + i;
+                      const image = property.images[imageIndex];
+
+                      if (!image) return null;
+
+                      return (
+                        <button
+                          key={`${thumbnailOffset}-${i}`}
+                          onClick={() => handleThumbnailClick(imageIndex)}
+                          className={`aspect-video overflow-hidden rounded-lg border-2 transition-all duration-200 relative ${
+                            currentImageIndex === imageIndex
+                              ? 'border-primary ring-2 ring-primary/20'
+                              : 'border-transparent hover:border-primary/50'
+                          }`}
+                        >
+                          <ImageWithFallback
+                            src={image}
+                            alt={`${property.title} ${imageIndex + 1}`}
+                            width={200}
+                            height={150}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                          />
+                          {currentImageIndex === imageIndex && (
+                            <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Description */}
             <div>
@@ -230,11 +276,11 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
               <div className="grid grid-cols-1 gap-3">
                 {[
                   { label: 'Property Type', value: property.type },
-                  { label: 'Year Built', value: property.yearBuilt },
-                  { label: 'Area', value: `${property.area.toLocaleString()} sqft` },
+                  { label: 'Year Built', value: property.yearBuilt || 'N/A' },
+                  { label: 'Area', value: `${(property.area || 0).toLocaleString()} sqft` },
                   { label: 'Lot Size', value: property.lotSize ? `${property.lotSize.toLocaleString()} sqft` : 'N/A' },
                   { label: 'Parking', value: `${property.parkingSpaces || 0} spaces` },
-                  { label: 'Pet Policy', value: property.petFriendly ? 'Pet Friendly' : 'No Pets' },
+                  { label: 'Pet Policy', value: property.petPolicy === 'allowed' ? 'Pet Friendly' : property.petPolicy === 'conditional' ? 'Conditional' : 'No Pets' },
                   { label: 'Furnished', value: property.furnished ? 'Yes' : 'No' }
                 ].map((item, index) => (
                   <div key={index} className="flex justify-between py-3 border-b border-border last:border-0">
@@ -327,58 +373,91 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
           {/* Right Column - Agent */}
           <div className="lg:col-span-1 space-y-6">
             {/* Agent Card - Right Side */}
-            <div className="bg-card rounded-xl p-6 border sticky top-35">
-              <h2 className="text-xl font-bold text-foreground mb-6">Contact Agent</h2>
+            {property.agent ? (
+              <div className="bg-card rounded-xl p-6 border sticky top-35">
+                <h2 className="text-xl font-bold text-foreground mb-6">Contact Agent</h2>
 
-              <div className="flex items-center gap-4 mb-6">
-                <ImageWithFallback
-                  src={property.agent.avatar}
-                  alt={property.agent.name}
-                  className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md"
-                />
-                <div className="flex-1">
-                  <div className="text-foreground font-semibold text-lg">{property.agent.name}</div>
-                  {property.agent.rating && (
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex gap-0.5">{renderStars(property.agent.rating)}</div>
-                      <span className="text-sm text-muted-foreground">{property.agent.rating.toFixed(1)}</span>
-                    </div>
-                  )}
+                <div className="flex items-center gap-4 mb-6">
+                  <ImageWithFallback
+                    src={property.agent.avatar}
+                    alt={property.agent.name}
+                    className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md"
+                  />
+                  <div className="flex-1">
+                    <div className="text-foreground font-semibold text-lg">{property.agent.name}</div>
+                    {property.agent.rating && (
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="flex gap-0.5">{renderStars(property.agent.rating)}</div>
+                        <span className="text-sm text-muted-foreground">{property.agent.rating.toFixed(1)}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <button
+                    onClick={() => {
+                      if (property.agent) {
+                        window.location.href = `tel:${property.agent.phone}`;
+                      }
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    <Phone className="w-5 h-5" />
+                    Call
+                  </button>
+                  <button
+                    onClick={() => setShowContactForm(true)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors border border-border"
+                  >
+                    <MessageSquare className="w-5 h-5" />
+                    Message
+                  </button>
+                </div>
+
                 <button
-                  onClick={() => window.location.href = `tel:${property.agent.phone}`}
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                  onClick={handleScheduleTour}
+                  className="w-full px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/80 transition-colors border border-border"
                 >
-                  <Phone className="w-5 h-5" />
-                  Call
+                  <Calendar className="w-5 h-5 inline mr-2" />
+                  Schedule Tour
                 </button>
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors border border-border"
-                >
-                  <MessageSquare className="w-5 h-5" />
-                  Message
-                </button>
+
+                {property.virtualTour && (
+                  <button
+                    onClick={() => toast.info('Virtual tour coming soon!')}
+                    className="w-full px-4 py-3 mt-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors border border-border"
+                  >
+                    <Video className="w-5 h-5 inline mr-2" />
+                    Virtual Tour
+                  </button>
+                )}
               </div>
-
-              <button
-                onClick={handleScheduleTour}
-                className="w-full px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/80 transition-colors border border-border"
-              >
-                <Calendar className="w-5 h-5 inline mr-2" />
-                Schedule Tour
-              </button>
-
-              {property.virtualTour && (
-                <button className="w-full px-4 py-3 mt-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors border border-border">
-                  <Video className="w-5 h-5 inline mr-2" />
-                  Virtual Tour
+            ) : (
+              <div className="bg-card rounded-xl p-6 border sticky top-35">
+                <h2 className="text-xl font-bold text-foreground mb-6">Contact Agent</h2>
+                <div className="text-center text-muted-foreground py-8">
+                  <p>No agent assigned to this property yet.</p>
+                </div>
+                <button
+                  onClick={handleScheduleTour}
+                  className="w-full px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/80 transition-colors border border-border"
+                >
+                  <Calendar className="w-5 h-5 inline mr-2" />
+                  Schedule Tour
                 </button>
-              )}
-            </div>
+
+                {property.virtualTour && (
+                  <button
+                    onClick={() => toast.info('Virtual tour coming soon!')}
+                    className="w-full px-4 py-3 mt-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors border border-border"
+                  >
+                    <Video className="w-5 h-5 inline mr-2" />
+                    Virtual Tour
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import { Search, MapPin, Home as HomeIcon, Building2, TrendingUp, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Property } from '../entities/property';
-import { PropertyCard } from './PropertyCard';
+import { Property } from '@/types/property.types';
+import PropertyCard from './PropertyCard';
 import { QuickFilters } from './QuickFilters';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 // Remove unused import
@@ -24,7 +24,7 @@ export function HomePage({
 }: HomePageProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const featuredProperties = properties.filter(p => p.isFeatured);
+  const featuredProperties = properties.filter(p => p.featured);
   const recentProperties = properties.slice(0, 6);
 
   const stats = [
@@ -150,8 +150,8 @@ export function HomePage({
               key={property.id}
               property={property}
               isFavorite={favorites.includes(property.id)}
-              onToggleFavorite={onToggleFavorite}
-              onViewDetails={onViewDetails}
+              onFavorite={onToggleFavorite}
+              onView={onViewDetails}
             />
           ))}
         </div>
@@ -170,8 +170,8 @@ export function HomePage({
               key={property.id}
               property={property}
               isFavorite={favorites.includes(property.id)}
-              onToggleFavorite={onToggleFavorite}
-              onViewDetails={onViewDetails}
+              onFavorite={onToggleFavorite}
+              onView={onViewDetails}
             />
           ))}
         </div>

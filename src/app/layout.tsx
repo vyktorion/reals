@@ -8,8 +8,8 @@ import ClientLayout from './client-layout';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "LuxeEstate - Premium Properties",
-  description: "Discover your dream property with LuxeEstate",
+  title: "ImoEstate - Premium Properties",
+  description: "Discover your dream property with ImoEstate",
   manifest: "/manifest.json",
   icons: {
     icon: "/logo.png",

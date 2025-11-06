@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List } from 'lucide-react';
-import { Property } from '../entities/property';
-import { FilterOptions } from '../entities/property/model/types';
-import { PropertyCard } from './PropertyCard';
-import { MapView } from './MapView';
+import { Property } from '@/entities/property';
+import { FilterOptions } from '@/entities/property/model/types';
+import { PropertyCard } from '@/components/property/PropertyCard';
+import { MapView } from '@/components/map/MapView';
 
 interface SearchPageProps {
   properties: Property[];
@@ -328,7 +328,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                         />
                         <div className="absolute top-3 left-3">
                           <span className={`px-3 py-1 text-xs rounded-full text-primary-foreground ${
-                            property.status === 'For Sale' 
+                            property.type === 'sale'
                               ? 'bg-green-500/90 dark:bg-green-600/90' 
                               : 'bg-blue-500/90 dark:bg-blue-600/90'
                           }`}>
@@ -372,7 +372,7 @@ export function SearchPage({ properties, favorites, onToggleFavorite, onViewDeta
                             <div className="text-2xl font-medium text-primary">
                               ${property.price.toLocaleString()}
                             </div>
-                            {property.status === 'For Rent' && (
+                            {property.type === 'rent' && (
                               <div className="text-sm text-muted-foreground">/month</div>
                             )}
                           </div>

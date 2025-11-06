@@ -28,21 +28,31 @@ export function formatDate(date: string | Date): string {
 }
 
 export function formatRelativeTime(date: string | Date): string {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  const now = new Date();
-  const diffInMs = now.getTime() - dateObj.getTime();
-  const diffInHours = diffInMs / (1000 * 60 * 60);
-  const diffInDays = diffInHours / 24;
+  try {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    
+    // Validate date
+    if (isNaN(dateObj.getTime())) {
+      return 'Recently';
+    }
+    
+    const now = new Date();
+    const diffInMs = now.getTime() - dateObj.getTime();
+    const diffInHours = diffInMs / (1000 * 60 * 60);
+    const diffInDays = diffInHours / 24;
 
-  if (diffInHours < 1) {
-    const minutes = Math.floor(diffInMs / (1000 * 60));
-    return `${minutes}m ago`;
-  } else if (diffInHours < 24) {
-    return `${Math.floor(diffInHours)}h ago`;
-  } else if (diffInDays < 7) {
-    return `${Math.floor(diffInDays)}d ago`;
-  } else {
-    return formatDate(dateObj);
+    if (diffInHours < 1) {
+      const minutes = Math.floor(diffInMs / (1000 * 60));
+      return `${minutes}m ago`;
+    } else if (diffInHours < 24) {
+      return `${Math.floor(diffInHours)}h ago`;
+    } else if (diffInDays < 7) {
+      return `${Math.floor(diffInDays)}d ago`;
+    } else {
+      return formatDate(dateObj);
+    }
+  } catch (error) {
+    return 'Recently';
   }
 }
 

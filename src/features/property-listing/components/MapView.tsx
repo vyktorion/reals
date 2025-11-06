@@ -68,7 +68,7 @@ export function MapView({ properties, favorites, onToggleFavorite, onViewDetails
                     ? 'bg-blue-900 text-primary-foreground opacity-100'
                     : 'bg-card text-gray-900 opacity-0 group-hover:opacity-100'
                 }`}>
-                  {property.status === 'For Rent' 
+                  {property.type === 'rent'
                     ? `$${property.price.toLocaleString()}/mo`
                     : `$${(property.price / 1000000).toFixed(2)}M`
                   }
