@@ -43,10 +43,7 @@ export function HomePage({
       <section className="relative bg-linear-to-br from-blue-950 via-blue-900 to-blue-800 dark:from-blue-950 dark:via-blue-900 dark:to-gray-900 text-primary-foreground overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }} />
+          <div className="absolute inset-0 bg-gradient-pattern" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
@@ -103,8 +100,7 @@ export function HomePage({
             return (
               <div
                 key={index}
-                className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 hover:-translate-y-1"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 hover:-translate-y-1 ${index === 1 ? 'delay-100' : index === 2 ? 'delay-200' : ''}`}
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-14 h-14 ${stat.color} rounded-xl flex items-center justify-center shadow-sm`}>
@@ -209,8 +205,7 @@ export function HomePage({
           ].map((testimonial, index) => (
             <div
               key={index}
-              className="bg-card rounded-2xl p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 duration-500"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className={`bg-card rounded-2xl p-6 shadow-md hover:shadow-lg transition-all border border-gray-100 dark:border-gray-700 animate-in fade-in slide-in-from-bottom-4 duration-500 ${index === 1 ? 'delay-100' : index === 2 ? 'delay-200' : ''}`}
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (

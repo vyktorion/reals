@@ -106,6 +106,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                     ? 'w-2 bg-blue-300'
                     : 'w-2 bg-gray-300'
                 }`}
+                aria-label={`Go to step ${index + 1}`}
               />
             ))}
           </div>

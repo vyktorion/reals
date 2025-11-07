@@ -42,6 +42,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Close comparison dialog"
               >
                 <X className="w-6 h-6 text-gray-600" />
               </button>

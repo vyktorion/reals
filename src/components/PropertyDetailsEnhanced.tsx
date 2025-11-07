@@ -98,6 +98,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
             <button
               onClick={onClose}
               className="p-3 bg-card hover:bg-accent rounded-full transition-colors"
+              aria-label="Back to list"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -152,12 +153,14 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     <button
                       onClick={prevImage}
                       className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                      aria-label="Previous image"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                      aria-label="Next image"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -169,6 +172,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                           className={`w-2 h-2 rounded-full transition-colors ${
                             currentImageIndex === index ? 'bg-white' : 'bg-white/50'
                           }`}
+                          aria-label={`View image ${index + 1}`}
                         />
                       ))}
                     </div>
@@ -196,6 +200,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   <button
                     onClick={handleShare}
                     className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors cursor-pointer"
+                    aria-label="Share property"
                   >
                     <Share2 className="w-5 h-5" />
                   </button>
@@ -206,6 +211,7 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                         ? 'bg-black/70 text-white'
                         : 'bg-black/50 hover:bg-black/70 text-white'
                     }`}
+                    aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                   >
                     <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                   </button>
@@ -385,6 +391,10 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                   />
                   <div className="flex-1">
                     <div className="text-foreground font-semibold text-lg">{property.agent.name}</div>
+                    {/* Afișăm role-ul agentului dacă există */}
+                    {property.agent.bio && (
+                      <div className="text-sm text-muted-foreground mt-1">{property.agent.bio}</div>
+                    )}
                     {property.agent.rating && (
                       <div className="flex items-center gap-2 mt-1">
                         <div className="flex gap-0.5">{renderStars(property.agent.rating)}</div>

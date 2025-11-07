@@ -25,7 +25,7 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
   const getCurrentView = () => {
     switch (pathname) {
       case '/': return 'home';
-      case '/search': return 'search';
+      case '/sale': return 'sale';
       case '/favorites': return 'favorites';
       case '/profile': return 'profile';
       case '/signin': return 'signin';
@@ -44,7 +44,7 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
   const handleViewChange = (view: string) => {
     switch (view) {
       case 'home': router.push('/'); break;
-      case 'search': router.push('/search'); break;
+      case 'sale': router.push('/sale'); break;
       case 'favorites': router.push('/favorites'); break;
       case 'profile': router.push('/profile'); break;
       case 'post':

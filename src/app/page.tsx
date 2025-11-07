@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   const handleNavigateToSearch = () => {
-    router.push('/search');
+    router.push('/sale');
   };
 
   return (

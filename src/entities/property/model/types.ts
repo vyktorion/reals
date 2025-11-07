@@ -61,6 +61,7 @@ export interface Agent {
   phone: string;
   email: string;
   avatar: string;
+  role?: string;
   bio?: string;
   rating?: number;
   reviewCount?: number;

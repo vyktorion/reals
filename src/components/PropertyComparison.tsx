@@ -42,6 +42,7 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Close comparison dialog"
               >
                 <X className="w-6 h-6 text-gray-600" />
               </button>
@@ -91,11 +92,11 @@ export function PropertyComparison({ properties, onClose, onViewDetails }: Prope
                             {typeof row.format(property) === 'boolean' ? (
                               row.format(property) ? (
                                 <div className="inline-flex items-center justify-center w-8 h-8 bg-green-100 text-green-600 rounded-full">
-                                  <Check className="w-5 h-5" />
+                                  <Check className="w-5 h-5" aria-label="Yes" />
                                 </div>
                               ) : (
                                 <div className="inline-flex items-center justify-center w-8 h-8 bg-gray-100 text-gray-400 rounded-full">
-                                  <Minus className="w-5 h-5" />
+                                  <Minus className="w-5 h-5" aria-label="No" />
                                 </div>
                               )
                             ) : (

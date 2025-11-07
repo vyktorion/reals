@@ -51,6 +51,7 @@ export function ContactForm({ property, onClose }: ContactFormProps) {
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="Close contact form"
           >
             <X className="w-5 h-5 text-gray-600" />
           </button>

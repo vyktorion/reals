@@ -16,7 +16,7 @@ export default function SavedSearchesPage() {
         }
       });
     }
-    router.push(`/search?${params.toString()}`);
+    router.push(`/sale?${params.toString()}`);
   };
 
   return (

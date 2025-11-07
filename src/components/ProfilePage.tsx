@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
@@ -107,6 +107,10 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
     });
   };
 
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/signin' });
+  };
+
   const stats = [
     { icon: Heart, label: 'Saved Properties', value: favoriteCount, color: 'bg-red-100 text-red-900' },
     { icon: Search, label: 'Saved Searches', value: 5, color: 'bg-blue-100 text-blue-900' },
@@ -120,10 +124,7 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
         <div className="bg-linear-to-br from-blue-900 to-blue-800 dark:from-blue-800 dark:to-gray-900 rounded-3xl p-8 mb-8 text-primary-foreground relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-              backgroundSize: '40px 40px'
-            }} />
+            <div className="absolute inset-0 bg-gradient-pattern" />
           </div>
 
           <div className="relative flex flex-col sm:flex-row items-center gap-6">
@@ -136,7 +137,10 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                 height={96}
                 className="w-24 h-24 rounded-full object-cover ring-4 ring-white/20 shadow-xl"
               />
-              <button className="absolute bottom-0 right-0 p-2 bg-card text-blue-900 rounded-full shadow-lg hover:bg-gray-100 transition-colors">
+              <button 
+                className="absolute bottom-0 right-0 p-2 bg-card text-blue-900 rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+                aria-label="Edit profile picture"
+              >
                 <Edit2 className="w-4 h-4" />
               </button>
             </div>
@@ -439,7 +443,12 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                       <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <input 
+                        type="checkbox" 
+                        className="sr-only peer" 
+                        defaultChecked 
+                        aria-label={`Toggle ${item.label}`}
+                      />
                       <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-900 dark:peer-focus:ring-blue-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-card after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-900 dark:peer-checked:bg-blue-600"></div>
                     </label>
                   </div>
@@ -483,15 +492,13 @@ export function ProfilePage({ favoriteCount, onNavigateToSavedSearches, onNaviga
                     <span>Account Settings</span>
                   </button>
                   <div className="border-t border-gray-100 dark:border-gray-700 my-2" />
-                  <form action="/api/auth/signout" method="post" className="w-full">
-                    <button
-                      type="submit"
-                      className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-3"
-                    >
-                      <LogOut className="w-5 h-5" />
-                      <span>Logout</span>
-                    </button>
-                  </form>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-3"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>Logout</span>
+                  </button>
                 </nav>
               </div>
             </div>

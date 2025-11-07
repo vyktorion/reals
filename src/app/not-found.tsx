@@ -15,7 +15,7 @@ export default function NotFound() {
             404 - Page Not Found
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
-            Sorry, we couldn&apos;t find the property or page you&apos;re looking for. It may have been moved or no longer exists.
+            Sorry, we couldnt find the property or page youre looking for. It may have been moved or no longer exists.
           </p>
         </div>
 
@@ -41,8 +41,8 @@ export default function NotFound() {
 
         <div className="mt-12 text-sm text-muted-foreground">
           <p>Looking for a specific property? Try using our search page.</p>
-          <Link 
-            href="/search" 
+          <Link
+            href="/sale"
             className="text-primary hover:underline"
           >
             Search Properties

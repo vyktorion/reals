@@ -2,8 +2,10 @@ import { MongoClient, MongoClientOptions } from "mongodb"
 
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined
+  var _mongoClientPromiseSales: Promise<MongoClient> | undefined
 }
 
+// Main database connection
 const uri = process.env.MONGODB_URI!
 const options: MongoClientOptions = {
   maxPoolSize: 10,
@@ -28,6 +30,25 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect()
 }
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
+// Sale database connection
+const saleUri = process.env.MONGODB_SALE!
+
+let saleClient: MongoClient
+let saleClientPromise: Promise<MongoClient>
+
+if (process.env.NODE_ENV === "development") {
+  // In development mode, use a global variable for sale DB
+  if (!global._mongoClientPromiseSales) {
+    saleClient = new MongoClient(saleUri, options)
+    global._mongoClientPromiseSales = saleClient.connect()
+  }
+  saleClientPromise = global._mongoClientPromiseSales
+} else {
+  // In production mode, it's best to not use a global variable.
+  saleClient = new MongoClient(saleUri, options)
+  saleClientPromise = saleClient.connect()
+}
+
+// Export both connections
 export default clientPromise
+export const saleDbClient = saleClientPromise

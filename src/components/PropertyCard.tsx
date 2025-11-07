@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Property } from '@/types/property.types';
+import { Property } from '@/entities/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

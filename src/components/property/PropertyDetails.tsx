@@ -74,6 +74,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
             <button
               onClick={onClose}
               className="fixed md:absolute top-4 right-4 z-20 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
+              aria-label="Close property details"
             >
               <X className="w-6 h-6 text-gray-700" />
             </button>
@@ -96,12 +97,14 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                       <button
                         onClick={prevImage}
                         className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                        aria-label="Previous image"
                       >
                         <ChevronLeft className="w-6 h-6 text-gray-700" />
                       </button>
                       <button
                         onClick={nextImage}
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                        aria-label="Next image"
                       >
                         <ChevronRight className="w-6 h-6 text-gray-700" />
                       </button>
@@ -144,6 +147,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                     <button
                       onClick={handleShare}
                       className="p-2.5 bg-card/95 backdrop-blur-md rounded-full hover:bg-card transition-all shadow-lg hover:scale-110"
+                      aria-label="Share property"
                     >
                       <Share2 className="w-5 h-5 text-gray-700" />
                     </button>
@@ -154,6 +158,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                           ? 'bg-red-500 text-primary-foreground'
                           : 'bg-card/95 text-gray-700 hover:bg-card'
                       }`}
+                      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                     >
                       <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                     </button>
@@ -172,6 +177,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                             ? 'ring-2 ring-blue-900 scale-105'
                             : 'opacity-70 hover:opacity-100'
                         }`}
+                        aria-label={`Go to image ${index + 1}`}
                       >
                         <ImageWithFallback
                           src={image}
@@ -473,12 +479,14 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                     <button
                       onClick={prevImage}
                       className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
+                      aria-label="Previous image"
                     >
                       <ChevronLeft className="w-5 h-5 text-gray-700" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
+                      aria-label="Next image"
                     >
                       <ChevronRight className="w-5 h-5 text-gray-700" />
                     </button>
@@ -514,6 +522,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                   <button
                     onClick={handleShare}
                     className="p-2 bg-card/95 backdrop-blur-md rounded-full shadow-lg"
+                    aria-label="Share property"
                   >
                     <Share2 className="w-5 h-5 text-gray-700" />
                   </button>
@@ -524,6 +533,7 @@ export function PropertyDetails({ property, isFavorite, onToggleFavorite, onClos
                         ? 'bg-red-500 text-primary-foreground'
                         : 'bg-card/95 text-gray-700'
                     }`}
+                    aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                   >
                     <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                   </button>

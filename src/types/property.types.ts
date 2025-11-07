@@ -1,17 +1,20 @@
 // Property Types - Consolidated for all property types (sale/rent/hotel)
 
 export interface Property {
-  id: string;
+  id?: string;
+  _id?: string;
   title: string;
   description: string;
   price: number;
-  type: 'sale' | 'rent' | 'hotel';
-  status: 'active' | 'sold' | 'rented' | 'pending';
+  currency: string;
+  type?: 'sale' | 'rent' | 'hotel';
+  status?: 'active' | 'sold' | 'rented' | 'pending';
   location: {
-    address: string;
+    address?: string;
     city: string;
-    state: string;
-    country: string;
+    county: string;
+    zone?: string;
+    country?: string;
     zipCode?: string;
     coordinates?: {
       lat: number;
@@ -19,17 +22,21 @@ export interface Property {
     };
     neighborhood?: string;
   };
-  bedrooms: number;
-  bathrooms: number;
+  propertyType: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  rooms?: number;
   area: number;
-  areaUnit: 'sqft' | 'sqm' | 'acre';
+  areaUnit?: 'sqft' | 'sqm' | 'acre' | 'mp';
   yearBuilt?: number;
+  floor?: number;
+  totalFloors?: number;
   lotSize?: number;
   lotSizeUnit?: 'sqft' | 'sqm' | 'acre';
   parking?: number;
   floors?: number;
   images: string[];
-  amenities: string[];
+  amenities?: string[];
   features: string[];
   propertyTax?: number;
   hoa?: number;
@@ -37,11 +44,20 @@ export interface Property {
   availableDate?: Date;
   petPolicy?: 'allowed' | 'not_allowed' | 'conditional';
   furnished?: boolean;
-  featured: boolean;
+  featured?: boolean;
+  contactInfo: {
+    name: string;
+    phone: string;
+    email?: string;
+    showPhone: boolean;
+    avatar?: string | null;
+    role?: string;
+  };
   userId: string;
   agentId?: string;
-  views: number;
-  favorites: number;
+  isActive: boolean;
+  views?: number;
+  favorites?: number;
   createdAt: Date;
   updatedAt: Date;
 }

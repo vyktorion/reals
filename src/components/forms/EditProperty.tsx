@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Property } from '@/types/property.types';
+import { Property } from '@/entities/property';
 
 interface EditPropertyProps {
   property: Property;
