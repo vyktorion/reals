@@ -1,0 +1,55 @@
+/* Map View Styles */
+.map-grid-pattern {
+  background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.property-marker-1 {
+  top: 20%;
+  left: 15%;
+}
+
+.property-marker-2 {
+  top: 40%;
+  left: 32%;
+}
+
+.property-marker-3 {
+  top: 60%;
+  left: 49%;
+}
+
+.property-marker-4 {
+  top: 80%;
+  left: 66%;
+}
+
+.property-marker-5 {
+  top: 35%;
+  left: 83%;
+}
+
+.property-marker-6 {
+  top: 55%;
+  left: 17%;
+}
+
+.property-marker-7 {
+  top: 25%;
+  left: 68%;
+}
+
+.property-marker-8 {
+  top: 75%;
+  left: 34%;
+}
+
+.property-marker-9 {
+  top: 45%;
+  left: 51%;
+}
+
+.property-marker-10 {
+  top: 65%;
+  left: 85%;
+}

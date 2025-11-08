@@ -1,4 +1,4 @@
-import { Heart, MapPin, Bed, Bath, Maximize, Eye } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/entities/property';
@@ -6,13 +6,10 @@ import { SaleProperty } from '@/app/sale/shared/types';
 
 interface PropertyCardProps {
   property: Property | SaleProperty;
-  isFavorite: boolean;
-  onToggleFavorite: (id: string) => void;
-  onViewDetails: (id: string) => void;
   currency?: string;
 }
 
-export function PropertyCard({ property, isFavorite, onToggleFavorite, onViewDetails, currency }: PropertyCardProps) {
+export function PropertyCard({ property, currency }: PropertyCardProps) {
 
   return (
     <div className="group bg-card rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-border hover:border-blue-200/50 dark:hover:border-blue-500/20 hover:-translate-y-1">

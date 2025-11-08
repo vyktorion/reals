@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/nextauth';
 import mongodb from '@/lib/mongodb';
-import { ObjectId } from 'mongodb';
 import { MongoClient, Db } from 'mongodb';
 
 async function getDatabase(): Promise<{ client: MongoClient; db: Db }> {

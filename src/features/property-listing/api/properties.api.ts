@@ -43,7 +43,7 @@ export interface CreatePropertyData {
 }
 
 class PropertiesApi {
-  async searchProperties(filters: PropertySearchFilters = {}, page = 1, pageSize = 20): Promise<PropertySearchResponse> {
+  async searchProperties(_filters: PropertySearchFilters = {}, page = 1, pageSize = 20): Promise<PropertySearchResponse> {
     try {
       // For now, return mock response - local filtering is done in usePropertySearch hook
       // In production: const response = await apiClient.get('/properties/search', { params: { ...filters, page, pageSize } });
@@ -56,7 +56,7 @@ class PropertiesApi {
         page,
         pageSize,
       };
-    } catch (error) {
+    } catch {
       throw new Error('Failed to search properties');
     }
   }
@@ -65,52 +65,52 @@ class PropertiesApi {
     try {
       // In production: const response = await apiClient.get(`/properties/${id}`);
       throw new Error('Property not found');
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch property');
     }
   }
 
-  async getFeaturedProperties(limit = 6): Promise<Property[]> {
+  async getFeaturedProperties(_limit = 6): Promise<Property[]> {
     try {
       // In production: const response = await apiClient.get('/properties/featured', { params: { limit } });
       return [];
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch featured properties');
     }
   }
 
-  async getRecentProperties(limit = 6): Promise<Property[]> {
+  async getRecentProperties(_limit = 6): Promise<Property[]> {
     try {
       // In production: const response = await apiClient.get('/properties/recent', { params: { limit } });
       return [];
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch recent properties');
     }
   }
 
-  async createProperty(data: CreatePropertyData): Promise<Property> {
+  async createProperty(_data: CreatePropertyData): Promise<Property> {
     try {
       // In production: const response = await apiClient.post('/properties', data);
       throw new Error('Create property not implemented');
-    } catch (error) {
+    } catch {
       throw new Error('Failed to create property');
     }
   }
 
-  async updateProperty(id: string, data: Partial<CreatePropertyData>): Promise<Property> {
+  async updateProperty(_id: string, _data: Partial<CreatePropertyData>): Promise<Property> {
     try {
       // In production: const response = await apiClient.put(`/properties/${id}`, data);
       throw new Error('Update property not implemented');
-    } catch (error) {
+    } catch {
       throw new Error('Failed to update property');
     }
   }
 
-  async deleteProperty(id: string): Promise<void> {
+  async deleteProperty(_id: string): Promise<void> {
     try {
       // In production: await apiClient.delete(`/properties/${id}`);
       throw new Error('Delete property not implemented');
-    } catch (error) {
+    } catch {
       throw new Error('Failed to delete property');
     }
   }
@@ -131,7 +131,7 @@ class PropertiesApi {
         localStorage.setItem(`favorites_${userId}`, JSON.stringify(favorites));
         return true;
       }
-    } catch (error) {
+    } catch {
       throw new Error('Failed to toggle favorite');
     }
   }
@@ -141,7 +141,7 @@ class PropertiesApi {
       // In production: const response = await apiClient.get(`/users/${userId}/favorites`);
       const favorites = JSON.parse(localStorage.getItem(`favorites_${userId}`) || '[]');
       return favorites;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch favorites');
     }
   }
@@ -156,7 +156,7 @@ class PropertiesApi {
       const searches = JSON.parse(localStorage.getItem(`searches_${userId}`) || '[]');
       searches.push({ ...searchData, id: Date.now().toString(), createdAt: new Date().toISOString() });
       localStorage.setItem(`searches_${userId}`, JSON.stringify(searches));
-    } catch (error) {
+    } catch {
       throw new Error('Failed to save search');
     }
   }
@@ -166,17 +166,17 @@ class PropertiesApi {
       // In production: const response = await apiClient.get(`/users/${userId}/saved-searches`);
       const searches = JSON.parse(localStorage.getItem(`searches_${userId}`) || '[]');
       return searches;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to fetch saved searches');
     }
   }
 
-  async promoteProperty(propertyId: string): Promise<void> {
+  async promoteProperty(_propertyId: string): Promise<void> {
     try {
       // In production: await apiClient.post(`/properties/${propertyId}/promote`);
       // This would integrate with payment system
       throw new Error('Promotion feature coming soon');
-    } catch (error) {
+    } catch {
       throw new Error('Failed to promote property');
     }
   }

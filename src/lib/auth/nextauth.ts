@@ -4,8 +4,6 @@ import type { AdapterUser } from "next-auth/adapters"
 import type { JWT } from "next-auth/jwt"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "@/lib/mongodb"
 import { verifyPassword } from "./hash"
 import { getUserByEmail } from "@/services/user.service"
 

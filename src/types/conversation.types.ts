@@ -1,7 +1,5 @@
 // Conversation Types - From reference repository
 
-import { Message } from './message.types';
-import { User } from './user.types';
 
 export interface Conversation {
   id: string;

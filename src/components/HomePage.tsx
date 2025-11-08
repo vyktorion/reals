@@ -17,9 +17,9 @@ interface HomePageProps {
 
 export function HomePage({ 
   properties, 
-  favorites, 
-  onToggleFavorite, 
-  onViewDetails,
+  favorites: _favorites, 
+  onToggleFavorite: _onToggleFavorite, 
+  onViewDetails: _onViewDetails,
   onNavigateToSearch 
 }: HomePageProps) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -145,9 +145,6 @@ export function HomePage({
             <PropertyCard
               key={property.id}
               property={property}
-              isFavorite={favorites.includes(property.id)}
-              onToggleFavorite={onToggleFavorite}
-              onViewDetails={onViewDetails}
             />
           ))}
         </div>
@@ -165,9 +162,6 @@ export function HomePage({
             <PropertyCard
               key={property.id}
               property={property}
-              isFavorite={favorites.includes(property.id)}
-              onToggleFavorite={onToggleFavorite}
-              onViewDetails={onViewDetails}
             />
           ))}
         </div>

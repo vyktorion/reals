@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Heart, MapPin, Bed, Bath, Maximize, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, TrendingUp, Navigation, School, ShoppingBag, Video, Car } from 'lucide-react';
+import { Heart, MapPin, Calendar, Share2, ChevronLeft, ChevronRight, Phone, MessageSquare, Star, Navigation, School, ShoppingBag, Video } from 'lucide-react';
 import { Property } from '@/entities/property';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 import { ContactForm } from '@/components/forms/ContactForm';
@@ -15,8 +15,6 @@ interface PropertyDetailsEnhancedProps {
 export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite, onClose }: PropertyDetailsEnhancedProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'location' | 'reviews'>('overview');
-  const [imageZoom, setImageZoom] = useState(false);
   const [thumbnailOffset, setThumbnailOffset] = useState(0);
 
   const formatPrice = (price: number) => {

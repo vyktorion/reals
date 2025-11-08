@@ -1,4 +1,4 @@
-import { Property, Agent, Review } from '@/entities/property';
+import { Property, Agent } from '@/entities/property';
 
 export const agents: Agent[] = [
   {
@@ -63,7 +63,8 @@ export const agents: Agent[] = [
   }
 ];
 
-const sampleReviews: Review[] = [
+// Sample review data for development and testing
+const _sampleReviews = [
   {
     id: '1',
     userId: 'u1',

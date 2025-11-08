@@ -64,7 +64,7 @@ export function formatRelativeTime(date: string | Date): string {
     } else {
       return formatDate(dateObj);
     }
-  } catch (error) {
+  } catch {
     return 'Recently';
   }
 }

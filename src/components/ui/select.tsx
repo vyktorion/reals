@@ -8,7 +8,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 
-import { cn } from "./utils";
+import { cn } from "@/components/ui/utils";
 
 function Select({
   ...props

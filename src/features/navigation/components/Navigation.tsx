@@ -1,5 +1,5 @@
 "use client";
-import { Menu, X, User, Heart, Search, Home, Bell, Plus, LogIn, Building2, LucideIcon } from 'lucide-react';
+import { Menu, X, User, Heart, Search, Bell, Plus, LogIn, Building2, LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ interface NavigationProps {
   onSignInClick?: () => void;
 }
 
-export function Navigation({ currentView, onViewChange, favoriteCount, onSignInClick }: NavigationProps) {
+export function Navigation({ currentView, onViewChange, favoriteCount, onSignInClick: _onSignInClick }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: session, status } = useSession();
   const [mounted, setMounted] = useState(false);
@@ -30,7 +30,7 @@ export function Navigation({ currentView, onViewChange, favoriteCount, onSignInC
     { id: 'search', label: 'Search', icon: Search },
     { id: 'favorites', label: 'Favorites', icon: Heart, badge: favoriteCount },
   ];
-  const authItem: NavItem = mounted
+  const _authItem: NavItem = mounted
     ? (isAuthenticated
         ? { id: 'profile', label: 'Profile', icon: User }
         : { id: 'signin', label: 'Sign In', icon: LogIn })

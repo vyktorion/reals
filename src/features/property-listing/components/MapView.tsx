@@ -15,11 +15,11 @@ export function MapView({ properties, favorites: _favorites, onToggleFavorite: _
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   return (
-    <div className="relative bg-card rounded-2xl shadow-md overflow-hidden h-[calc(100vh-16rem)]">
+    <div className="mapview-root relative bg-card rounded-2xl shadow-md overflow-hidden">
       {/* Map Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-blue-50 to-gray-50">
+  <div className="mapview-bg absolute inset-0">
         {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-30 map-grid-pattern" />
+        <div className="mapview-grid absolute inset-0" />
 
         {/* Map Center Point */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
@@ -29,22 +29,20 @@ export function MapView({ properties, favorites: _favorites, onToggleFavorite: _
 
         {/* Property Markers */}
         {properties.map((property, index) => {
-          const markerClass = `property-marker-${(index % 10) + 1}`;
+          const top = 20 + (index % 4) * 20;
+          const left = 15 + ((index * 17) % 70);
 
           return (
             <button
               key={property.id}
               onClick={() => setSelectedProperty(property)}
-              className={`absolute group ${markerClass}`}
-              aria-label={`View property at ${property.location.address || 'unknown address'} - ${property.type === 'rent' ? `$${property.price.toLocaleString()}/mo` : `$${(property.price / 1000000).toFixed(2)}M`}`}
+              className={`mapview-marker-btn group marker-pos marker-delay-${index}`}
+              data-top={top}
+              data-left={left}
             >
               {/* Marker */}
               <div className="relative">
-                <div className={`w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 group-hover:scale-125 ${
-                  selectedProperty?.id === property.id
-                    ? 'bg-blue-900 text-primary-foreground ring-4 ring-blue-300 scale-125'
-                    : 'bg-card text-blue-900 group-hover:bg-blue-900 group-hover:text-primary-foreground'
-                }`}>
+                <div className={`mapview-marker${selectedProperty?.id === property.id ? ' selected' : ''}`}>
                   <MapPin className="w-5 h-5" />
                 </div>
                 
@@ -54,11 +52,7 @@ export function MapView({ properties, favorites: _favorites, onToggleFavorite: _
                 )}
 
                 {/* Price Label */}
-                <div className={`absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg text-xs whitespace-nowrap shadow-md transition-all duration-200 ${
-                  selectedProperty?.id === property.id
-                    ? 'bg-blue-900 text-primary-foreground opacity-100'
-                    : 'bg-card text-gray-900 opacity-0 group-hover:opacity-100'
-                }`}>
+                <div className={`mapview-price-label${selectedProperty?.id === property.id ? ' selected' : ''}`}>
                   {property.type === 'rent'
                     ? `$${property.price.toLocaleString()}/mo`
                     : `$${(property.price / 1000000).toFixed(2)}M`
@@ -77,7 +71,7 @@ export function MapView({ properties, favorites: _favorites, onToggleFavorite: _
             onClick={() => setSelectedProperty(null)}
             className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Close property details"
-            title="Close property details"
+            title="Close"
           >
             <X className="w-5 h-5 text-gray-600" />
           </button>
@@ -88,22 +82,20 @@ export function MapView({ properties, favorites: _favorites, onToggleFavorite: _
         </div>
       )}
 
+      {/* Accessibility: Ensure close button has discernible text */}
+      {/* Note: If you have a close button with only an icon, add aria-label and type="button". */}
+
       {/* Map Controls */}
       <div className="absolute top-4 left-4 bg-card rounded-xl shadow-lg p-1 flex flex-col gap-1">
-        <button
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-700"
-          aria-label="Zoom in on map"
-        >
-          <span className="text-xl" aria-hidden="true">+</span>
+        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-700" title="Zoom in">
+          <span className="text-xl">+</span>
         </button>
         <div className="h-px bg-gray-200" />
-        <button
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-700"
-          aria-label="Zoom out from map"
-        >
-          <span className="text-xl" aria-hidden="true">−</span>
+        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-700" title="Zoom out">
+          <span className="text-xl">−</span>
         </button>
       </div>
+
     </div>
   );
 }

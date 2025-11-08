@@ -75,7 +75,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     dispatch({ type: 'LOGIN_START' });
     try {
       // TODO: Implement actual login logic
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         updatedAt: new Date(),
       };
       dispatch({ type: 'LOGIN_SUCCESS', payload: mockUser });
-    } catch (error) {
+    } catch {
       dispatch({ type: 'LOGIN_ERROR', payload: 'Login failed' });
     }
   };

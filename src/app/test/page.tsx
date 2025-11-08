@@ -19,12 +19,10 @@ export default function TestPage() {
 
     // Test 2: Verify favorites functionality
     try {
-      const initialFavorites = [...favorites];
       toggleFavorite(properties[0]?.id || 'test');
-      const afterToggle = [...favorites];
       toggleFavorite(properties[0]?.id || 'test'); // Reset
       results.push('✅ Favorites toggle working');
-    } catch (error) {
+    } catch {
       results.push('❌ Favorites toggle failed');
     }
 

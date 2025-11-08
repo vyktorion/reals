@@ -30,7 +30,7 @@ export interface UserPreferences {
 }
 
 class UserService {
-  async getProfile(userId: string): Promise<User> {
+  async getProfile(_userId: string): Promise<User> {
     // In production: const response = await apiClient.get(`/users/${userId}`);
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (!user.id) {
@@ -139,7 +139,7 @@ class UserService {
     localStorage.setItem(`favorites_${userId}`, JSON.stringify(filteredFavorites));
   }
 
-  async getUserProperties(userId: string): Promise<unknown[]> {
+  async getUserProperties(_userId: string): Promise<unknown[]> {
     // In production: const response = await apiClient.get(`/users/${userId}/properties`);
     // For demo, return mock properties that "belong" to this user
     return [
@@ -162,10 +162,10 @@ class UserService {
     ];
   }
 
-  async deleteUserProperty(userId: string, propertyId: string): Promise<void> {
+  async deleteUserProperty(_userId: string, _propertyId: string): Promise<void> {
     // In production: await apiClient.delete(`/users/${userId}/properties/${propertyId}`);
     // For demo, just log the action
-    console.log(`Deleting property ${propertyId} for user ${userId}`);
+    console.log(`Deleting property ${_propertyId} for user ${_userId}`);
   }
 }
 

@@ -14,8 +14,8 @@ interface FavoritesPageProps {
 export function FavoritesPage({ 
   properties, 
   favorites, 
-  onToggleFavorite, 
-  onViewDetails,
+  onToggleFavorite: _onToggleFavorite, 
+  onViewDetails: _onViewDetails,
   onClearAll 
 }: FavoritesPageProps) {
   const favoriteProperties = properties.filter(p => favorites.includes(p.id));
@@ -68,9 +68,6 @@ export function FavoritesPage({
               >
                 <PropertyCard
                   property={property}
-                  isFavorite={true}
-                  onToggleFavorite={onToggleFavorite}
-                  onViewDetails={onViewDetails}
                 />
               </div>
             ))}

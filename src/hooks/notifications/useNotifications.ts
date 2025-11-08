@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NotificationService, NotificationsResponse, Notification, NotificationPreferences } from '@/services/notification.service';
 
 export function useNotifications() {

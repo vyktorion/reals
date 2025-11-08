@@ -180,7 +180,7 @@ class MessageService {
 
   // Mock data for development
   mockGetMessages(conversationId: string): Message[] {
-    const now = new Date('2024-01-15');
+    const _now = new Date('2024-01-15');
     return [
       {
         id: '1',

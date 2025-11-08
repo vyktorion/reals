@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FavoriteService, FavoritesResponse, Favorite } from '@/services/favorite.service';
 
 export function useFavorites() {

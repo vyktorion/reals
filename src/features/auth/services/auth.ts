@@ -37,7 +37,7 @@ class AuthService {
         },
         token: 'mock-jwt-token-' + Date.now(),
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Invalid credentials',
@@ -60,7 +60,7 @@ class AuthService {
         },
         token: 'mock-jwt-token-' + Date.now(),
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Registration failed',
@@ -73,8 +73,8 @@ class AuthService {
       // In production: await apiClient.post('/auth/signout');
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-    } catch (error) {
-      console.error('Sign out error:', error);
+    } catch (_error) {
+      console.error('Sign out error:', _error);
     }
   }
 
@@ -85,7 +85,7 @@ class AuthService {
         success: true,
         token: 'refreshed-token-' + Date.now(),
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Token refresh failed',
@@ -104,7 +104,7 @@ class AuthService {
         success: true,
         user: updatedUser,
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Profile update failed',
@@ -112,13 +112,13 @@ class AuthService {
     }
   }
 
-  async forgotPassword(email: string): Promise<AuthResponse> {
+  async forgotPassword(_email: string): Promise<AuthResponse> {
     try {
       // In production: await apiClient.post('/auth/forgot-password', { email });
       return {
         success: true,
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Password reset failed',
@@ -126,13 +126,13 @@ class AuthService {
     }
   }
 
-  async resetPassword(token: string, newPassword: string): Promise<AuthResponse> {
+  async resetPassword(_token: string, _newPassword: string): Promise<AuthResponse> {
     try {
       // In production: await apiClient.post('/auth/reset-password', { token, newPassword });
       return {
         success: true,
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'Password reset failed',

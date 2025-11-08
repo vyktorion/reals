@@ -126,7 +126,7 @@ class PropertiesService {
     return searches;
   }
 
-  async promoteProperty(propertyId: string): Promise<void> {
+  async promoteProperty(_propertyId: string): Promise<void> {
     // In production: await apiClient.post(`/properties/${propertyId}/promote`);
     // This would integrate with payment system
     throw new Error('Promotion feature coming soon');
