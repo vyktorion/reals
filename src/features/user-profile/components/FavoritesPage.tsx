@@ -1,6 +1,7 @@
 import { Heart, Trash2 } from 'lucide-react';
 import { Property } from '@/entities/property';
-import { PropertyCard } from '@/features/property-listing/components/PropertyCard';
+import { PropertyCard } from '@/components/property/PropertyCard';
+import './FavoritesPage.css';
 
 interface FavoritesPageProps {
   properties: Property[];
@@ -63,8 +64,7 @@ export function FavoritesPage({
             {favoriteProperties.map((property, index) => (
               <div 
                 key={property.id}
-                className="animate-in fade-in slide-in-from-bottom-4 duration-500"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className={`favorites-property-card animate-in fade-in slide-in-from-bottom-4 duration-500 delay-${index}`}
               >
                 <PropertyCard
                   property={property}

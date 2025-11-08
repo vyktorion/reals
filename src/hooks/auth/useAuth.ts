@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocalStorage } from '@/hooks/ui/useLocalStorage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 export interface User {
   id: string;

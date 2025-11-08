@@ -1,0 +1,37 @@
+/* Animation delay classes for favorites grid */
+.delay-0 { animation-delay: 0ms !important; }
+.delay-1 { animation-delay: 50ms !important; }
+.delay-2 { animation-delay: 100ms !important; }
+.delay-3 { animation-delay: 150ms !important; }
+.delay-4 { animation-delay: 200ms !important; }
+.delay-5 { animation-delay: 250ms !important; }
+.delay-6 { animation-delay: 300ms !important; }
+.delay-7 { animation-delay: 350ms !important; }
+.delay-8 { animation-delay: 400ms !important; }
+.delay-9 { animation-delay: 450ms !important; }
+.favorites-property-card {
+  animation: fade-in 0.5s;
+}
+
+.mapview-root {
+  height: calc(100vh - 16rem);
+}
+
+.mapview-marker {
+  /* Example for marker animation, can be customized */
+}
+
+.mapview-fadeIn {
+  animation: fadeIn 0.5s ease-out var(--fade-delay, 0s) both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
