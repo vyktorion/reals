@@ -1,0 +1,4 @@
+.sidebar-wrapper {
+  --sidebar-width: 240px; /* Default value, adjust as needed */
+  --sidebar-width-icon: 64px; /* Default value, adjust as needed */
+}

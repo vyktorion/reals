@@ -54,6 +54,27 @@ src/hooks/search/usePropertySearch.ts # duplicat - există în ui/
 - Versiunile păstrate sunt cele folosite activ în cod
 - Nu există dependențe către duplicate
 
+### **CORECTARE URGENTĂ - HOOKS UI:**
+```bash
+# ✅ CREAT director src/hooks/ui/
+# ✅ COPIAT use-mobile.ts în src/hooks/ui/use-mobile.ts
+# ✅ Sidebar-ul acum poate importa din @/hooks/ui/use-mobile
+```
+
+### **ACUM SE POATE ȘTERGE SIGUR:**
+```bash
+# ❌ ȘTERGE hook-urile duplicate din rădăcină:
+del src\hooks\use-mobile.ts
+del src\hooks\useDevice.ts
+del src\hooks\useLocalStorage.ts
+del src\hooks\useNavigation.ts
+del src\hooks\usePropertySearch.ts
+del src\hooks\use-pwa.ts
+del src\hooks\search\useDebounce.ts
+del src\hooks\search\useNavigation.ts
+del src\hooks\search\usePropertySearch.ts
+```
+
 ## 🧹 CURĂȚARE COD - 57 WARNING-URI REMASE
 
 ### **Șterge Importuri/Variabile:**
