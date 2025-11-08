@@ -11,6 +11,19 @@ export function formatPrice(price: number): string {
   }).format(price);
 }
 
+export function formatStatus(status: string): string {
+  switch (status) {
+    case 'active':
+      return 'Activ';
+    case 'sold':
+      return 'Vândut';
+    case 'rented':
+      return 'Închiriat';
+    default:
+      return status;
+  }
+}
+
 export function formatArea(area: number): string {
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,

@@ -1,14 +1,14 @@
 import { Search, MapPin, Home as HomeIcon, Building2, TrendingUp, Star } from 'lucide-react';
 import { useState } from 'react';
-import { Property } from '@/entities/property';
-import PropertyCard from './PropertyCard';
+import { PropertyCard } from './property/PropertyCard';
 import { QuickFilters } from './QuickFilters';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import Image from 'next/image';
+import { SaleProperty } from '@/app/sale/shared/types';
 // Remove unused import
 // import { ImageIcon } from 'lucide-react';
 
 interface HomePageProps {
-  properties: Property[];
+  properties: SaleProperty[];
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   onViewDetails: (id: string) => void;
@@ -24,7 +24,7 @@ export function HomePage({
 }: HomePageProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const featuredProperties = properties.filter(p => p.featured);
+  const featuredProperties = properties.filter(p => p.status === 'active').slice(0, 3);
   const recentProperties = properties.slice(0, 6);
 
   const stats = [
@@ -146,8 +146,8 @@ export function HomePage({
               key={property.id}
               property={property}
               isFavorite={favorites.includes(property.id)}
-              onFavorite={onToggleFavorite}
-              onView={onViewDetails}
+              onToggleFavorite={onToggleFavorite}
+              onViewDetails={onViewDetails}
             />
           ))}
         </div>
@@ -166,8 +166,8 @@ export function HomePage({
               key={property.id}
               property={property}
               isFavorite={favorites.includes(property.id)}
-              onFavorite={onToggleFavorite}
-              onView={onViewDetails}
+              onToggleFavorite={onToggleFavorite}
+              onViewDetails={onViewDetails}
             />
           ))}
         </div>
@@ -215,9 +215,11 @@ export function HomePage({
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">&ldquo;{testimonial.text}&rdquo;</p>
               <div className="flex items-center gap-3">
-                <ImageWithFallback
+                <Image
                   src={testimonial.image}
                   alt={testimonial.name}
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>

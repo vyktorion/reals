@@ -24,16 +24,12 @@ export function usePropertiesByType(
     ...(options.type && { type: options.type })
   }), [initialFilters, options.type]);
 
-  const fetchProperties = async (pageNum = 1, append = false) => {
+  const fetchProperties = async (append = false) => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      const response: PropertyListResponse = await PropertyService.getProperties({
-        ...filters,
-        // Add pagination
-        // Note: You might want to add page/limit to the filters or handle it differently
-      });
+      const response: PropertyListResponse = await PropertyService.getProperties(filters);
 
       if (append) {
         setData(prev => [...prev, ...response.properties]);
@@ -53,12 +49,12 @@ export function usePropertiesByType(
 
   const refresh = () => {
     setPage(1);
-    fetchProperties(1, false);
+    fetchProperties(false);
   };
 
   const loadMore = () => {
     if (!loading && hasMore) {
-      fetchProperties(page + 1, true);
+      fetchProperties(true);
     }
   };
 
@@ -80,7 +76,7 @@ export function usePropertiesByType(
     if (options.autoFetch !== false) {
       fetchProperties();
     }
-  }, [filters, options.autoFetch]);
+  }, [filters, options.autoFetch, fetchProperties]);
 
   return {
     properties: data,
@@ -89,7 +85,7 @@ export function usePropertiesByType(
     hasMore,
     page,
     total,
-    fetchProperties: (pageNum = 1) => fetchProperties(pageNum, false),
+    fetchProperties: () => fetchProperties(false),
     refresh,
     loadMore,
     search,
