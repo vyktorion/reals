@@ -6,21 +6,13 @@ import { fetchSaleById } from '@/domains/adds/services/sale.service';
 import { PropertyDetails } from '@/domains/adds/ui/PropertyDetails';
 import type { SaleProperty } from '@/domains/adds/model/types';
 
-/**
- * SalePropertyPage (refactor domain-based)
- *
- * IMPORTANT:
- * - UI/UX rămâne echivalent cu versiunea existentă (loading, eroare, detalii).
- * - Folosește domeniul "adds" (fetchSaleById + PropertyDetails) în loc de shared/data direct.
- * - Rutele rămân /sale/[id] pentru compatibilitate.
- */
 
 export default function SalePropertyPage() {
   const params = useParams();
   const router = useRouter();
 
   const [property, setProperty] = useState<SaleProperty | null>(null);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,18 +44,13 @@ export default function SalePropertyPage() {
     load();
   }, [params]);
 
-  const handleToggleFavorite = (id: string) => {
-    setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(x => x !== id)
-        : [...prev, id]
-    );
+  const handleToggleFavorite = () => {
+    // păstrat doar pentru compatibilitate cu props, nu mai schimbăm stare locală aici
   };
 
   const handleBack = () => {
-    // momentan rămânem pe /sale pentru compatibilitate;
-    // ulterior putem schimba în /adds/sale sau folosim router.back()
-    router.push('/sale');
+    // revenire naturală la pagina anterioară (listă rezultate)
+    router.back();
   };
 
   if (loading) {
