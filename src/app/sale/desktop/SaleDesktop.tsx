@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List, MapPin, Bed, Bath, Maximize } from 'lucide-react';
+import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List, MapPin, Bed, Maximize } from 'lucide-react';
 import { SaleProperty, SaleFilters, ViewMode } from '../shared/types';
-import { formatPrice, formatRelativeTime, formatStatus, formatPropertyType } from '../shared/utils';
+import { formatPrice, formatStatus } from '../shared/utils';
 import { PROPERTY_TYPES, STATUS_OPTIONS, DEFAULT_FILTERS } from '../shared/constants';
 import { getSaleProperties } from '../shared/data';
-import { PropertyCard } from '@/components/property/PropertyCard';
-import { MapView } from '@/components/map/MapView';
 
 export function SaleDesktop() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -57,10 +55,6 @@ export function SaleDesktop() {
            matchesBedrooms && matchesBathrooms && matchesArea;
   });
 
-  const handleFilterChange = (key: keyof SaleFilters, value: any) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
   const togglePropertyType = (type: string) => {
     setFilters(prev => ({
       ...prev,
@@ -90,11 +84,6 @@ export function SaleDesktop() {
         : [...prev, propertyId]
     );
   };
-
-  const handleViewDetails = (propertyId: string) => {
-    console.log('Vezi detalii proprietate:', propertyId);
-  };
-
 
   const activeFilterCount =
     filters.propertyType.length +
