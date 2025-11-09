@@ -75,6 +75,7 @@ export const salePropertyToProperty = (saleProperty: SaleProperty): Property => 
     title: saleProperty.title,
     description: saleProperty.description,
     price: saleProperty.price,
+    currency: saleProperty.currency,
     type: saleProperty.type,
     status: saleProperty.status,
     location: {

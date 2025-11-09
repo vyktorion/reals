@@ -22,6 +22,7 @@ export interface Property {
   area: number;
   areaUnit: 'sqft' | 'sqm' | 'acre';
   yearBuilt?: number;
+  currency?: string;
   lotSize?: number;
   lotSizeUnit?: 'sqft' | 'sqm' | 'acre';
   parking?: number;

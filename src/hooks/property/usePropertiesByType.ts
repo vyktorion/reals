@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { PropertyService, PropertyFilters, PropertyListResponse } from '@/services/property.service';
 import { Property } from '@/entities/property/model/types';
 
@@ -24,7 +24,7 @@ export function usePropertiesByType(
     ...(options.type && { type: options.type })
   }), [initialFilters, options.type]);
 
-  const fetchProperties = async (append = false) => {
+  const fetchProperties = useCallback(async (append = false) => {
     setLoading(true);
     setError(null);
 
@@ -45,7 +45,7 @@ export function usePropertiesByType(
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   const refresh = () => {
     setPage(1);
@@ -71,10 +71,10 @@ export function usePropertiesByType(
     return PropertyService.getProperties(updatedFilters);
   };
 
-  // Auto fetch on mount if autoFetch is true
+  // Auto fetch when filters or options.autoFetch change
   useEffect(() => {
     if (options.autoFetch !== false) {
-      fetchProperties();
+      fetchProperties(false);
     }
   }, [filters, options.autoFetch, fetchProperties]);
 

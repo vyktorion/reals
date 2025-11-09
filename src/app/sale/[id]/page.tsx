@@ -1,63 +1,65 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { fetchSaleById } from '@/domains/adds/services/sale.service';
-import { PropertyDetails } from '@/domains/adds/ui/PropertyDetails';
-import type { SaleProperty } from '@/domains/adds/model/types';
-
+import { getSalePropertyById } from '../shared/data';
+import { salePropertyToProperty } from '../shared/mappers';
+import { SaleProperty } from '../shared/types';
+import { PropertyDetailsEnhanced } from '../shared/components/PropertyDetailsEnhanced';
 
 export default function SalePropertyPage() {
   const params = useParams();
   const router = useRouter();
 
   const [property, setProperty] = useState<SaleProperty | null>(null);
-  const [favorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const load = async () => {
-      const id = params?.id;
-      if (!id || typeof id !== 'string') {
-        setError('ID proprietate invalid');
+    const loadProperty = async () => {
+      if (!params.id || typeof params.id !== 'string') {
+        setError('Invalid property ID');
         setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        const data = await fetchSaleById(id);
-        if (!data) {
-          setError('Proprietatea nu a fost găsită');
-        } else {
+        const data = await getSalePropertyById(params.id);
+        if (data) {
           setProperty(data);
+        } else {
+          setError('Property not found');
         }
-      } catch (e) {
-        console.error('Eroare la încărcarea proprietății:', e);
-        setError('A apărut o eroare la încărcarea proprietății');
+      } catch (err) {
+        console.error('Error loading property:', err);
+        setError('Failed to load property');
       } finally {
         setLoading(false);
       }
     };
 
-    load();
-  }, [params]);
+    loadProperty();
+  }, [params.id]);
 
-  const handleToggleFavorite = () => {
-    // păstrat doar pentru compatibilitate cu props, nu mai schimbăm stare locală aici
+  const handleToggleFavorite = (id: string) => {
+    setFavorites(prev =>
+      prev.includes(id)
+        ? prev.filter(favId => favId !== id)
+        : [...prev, id]
+    );
   };
 
-  const handleBack = () => {
-    // revenire naturală la pagina anterioară (listă rezultate)
-    router.back();
+  const handleBackToSale = () => {
+    router.push('/sale');
   };
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4" />
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground text-lg">Se încarcă proprietatea...</p>
         </div>
       </div>
@@ -72,8 +74,8 @@ export default function SalePropertyPage() {
             {error || 'Proprietatea nu a fost găsită'}
           </h2>
           <button
-            onClick={handleBack}
-            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            onClick={handleBackToSale}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-blue-800 transition-colors"
           >
             Înapoi la proprietăți
           </button>
@@ -83,11 +85,11 @@ export default function SalePropertyPage() {
   }
 
   return (
-    <PropertyDetails
-      property={property}
+    <PropertyDetailsEnhanced
+      property={salePropertyToProperty(property)}
       isFavorite={favorites.includes(property.id)}
       onToggleFavorite={handleToggleFavorite}
-      onBack={handleBack}
+      onClose={handleBackToSale}
     />
   );
 }

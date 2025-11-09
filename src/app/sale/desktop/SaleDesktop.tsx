@@ -3,16 +3,23 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, Map as MapIcon, Grid3x3, List, MapPin, Bed, Maximize } from 'lucide-react';
+import { Search, Map as MapIcon, MapPin, Bed, Maximize } from 'lucide-react';
 import { SaleProperty, SaleFilters, ViewMode } from '../shared/types';
 import { formatPrice, formatStatus } from '../shared/utils';
 import { PROPERTY_TYPES, STATUS_OPTIONS, DEFAULT_FILTERS } from '../shared/constants';
 import { getSaleProperties } from '../shared/data';
 
-export function SaleDesktop() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('list');
+type SaleDesktopProps = {
+  searchQuery?: string;
+  showFilters?: boolean;
+  viewMode?: ViewMode;
+};
+
+export function SaleDesktop(props: SaleDesktopProps) {
+  // state intern păstrat doar pentru fallback, dar nu folosește settere neutilizate
+  const [searchQuery] = useState(props.searchQuery ?? '');
+  const [showFilters] = useState(props.showFilters ?? false);
+  const [viewMode] = useState<ViewMode>(props.viewMode ?? 'list');
   const [properties, setProperties] = useState<SaleProperty[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,11 +44,15 @@ export function SaleDesktop() {
   }, []);
 
   // Filtrare proprietăți
+  const effectiveSearchQuery = props.searchQuery ?? searchQuery;
+  const effectiveShowFilters = props.showFilters ?? showFilters;
+  const effectiveViewMode = props.viewMode ?? viewMode;
+
   const filteredProperties = properties.filter((property) => {
-    const matchesQuery = searchQuery === '' ||
-      property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      property.location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      property.location.address.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesQuery = effectiveSearchQuery === '' ||
+      property.title.toLowerCase().includes(effectiveSearchQuery.toLowerCase()) ||
+      property.location.city.toLowerCase().includes(effectiveSearchQuery.toLowerCase()) ||
+      property.location.address.toLowerCase().includes(effectiveSearchQuery.toLowerCase());
 
     const matchesPrice = property.price >= filters.priceRange[0] && property.price <= filters.priceRange[1];
     const matchesType = filters.propertyType.length === 0 || filters.propertyType.includes(property.type);
@@ -85,7 +96,7 @@ export function SaleDesktop() {
     );
   };
 
-  const activeFilterCount =
+  const _activeFilterCount =
     filters.propertyType.length +
     filters.status.length +
     (filters.bedrooms !== null ? 1 : 0) +
@@ -106,11 +117,13 @@ export function SaleDesktop() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header cu căutare */}
+      
+      {/*
+        HEADER ORIGINAL MUTAT ÎN TABS (NU ȘTERS, DOAR COMENTAT PENTRU REFERINȚĂ)
+
       <div className="bg-card border-b border-border sticky top-16 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* Căutare */}
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
@@ -122,7 +135,6 @@ export function SaleDesktop() {
               />
             </div>
 
-            {/* Filtre și moduri vizualizare */}
             <div className="flex gap-2">
 
               <button
@@ -173,17 +185,20 @@ export function SaleDesktop() {
             </div>
           </div>
 
-          {/* Număr rezultate */}
           <div className="mt-4 text-sm text-muted-foreground">
             {filteredProperties.length} {filteredProperties.length === 1 ? 'proprietate găsită' : 'proprietăți găsite'}
           </div>
         </div>
       </div>
+      */}
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="py-3 px-4 text-sm text-muted-foreground">
+            {filteredProperties.length} {filteredProperties.length === 1 ? 'proprietate găsită' : 'proprietăți găsite'}
+          </div>
         <div className="flex gap-6">
           {/* Sidebar cu filtre */}
-          {showFilters && (
+          {effectiveShowFilters && (
             <div className="w-full sm:w-80 shrink-0">
               <div className="bg-card rounded-2xl shadow-md p-6 sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto">
                 <div className="flex items-center justify-between mb-6">
@@ -272,7 +287,7 @@ export function SaleDesktop() {
 
           {/* Rezultate */}
           <div className="flex-1 min-w-0">
-            {viewMode === 'grid' ? (
+            {effectiveViewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProperties.map((property) => {
                   console.log('🎯 Rendering property:', property.id, property.title, 'Location:', property.location);
@@ -345,7 +360,7 @@ export function SaleDesktop() {
                   );
                 })}
               </div>
-            ) : viewMode === 'list' ? (
+            ) : effectiveViewMode === 'list' ? (
               <div className="space-y-4">
                 {filteredProperties.map((property) => (
                   <div key={property.id} className="bg-card rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-border">

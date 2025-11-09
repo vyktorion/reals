@@ -18,10 +18,10 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
   const [thumbnailOffset, setThumbnailOffset] = useState(0);
 
   const formatPrice = (price: number) => {
-    if (property.type === 'rent') {
-      return `$${price.toLocaleString('en-US')} / month`;
-    }
-    return `$${price.toLocaleString('en-US')}`;
+    // Folosește currency tip-safe din Property, mapat din SaleProperty
+    const currency = property.currency || '€';
+    const formatted = price.toLocaleString('ro-RO');
+    return `${formatted} ${currency}`;
   };
 
   const nextImage = () => {
@@ -118,27 +118,28 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
 
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         {/* Header Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div>
-              <h1 className="text-xl font-serif text-gray-900 dark:text-white">{property.title}</h1>
-              <p className="text-muted-foreground">{property.location.city}, {property.location.state}</p>
-            </div>
-          </div>
-
-          {/* Price and Status */}
-          <div className="flex items-baseline justify-between mb-3">
-            <div className="text-2xl font-serif text-blue-900 dark:text-blue-100">{formatPrice(property.price)}</div>
-            <div className="text-sm text-gray-500 uppercase tracking-wider font-medium">
-              {property.type}
-            </div>
-          </div>
+        <div className="mb-2">
+          <h1 className="text-xl font-serif text-gray-900 dark:text-white">
+            {property.title}
+          </h1>
         </div>
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Images + Description */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Location (stânga) + Price (dreapta) pe același rând, aliniat cu galeria */}
+            <div className="flex items-baseline justify-between gap-3 mb-2">
+              <p className="text-md text-muted-foreground truncate">
+                {property.location.city}
+                {property.location.state ? `, ${property.location.state}` : ''}
+                {property.location.neighborhood ? `, ${property.location.neighborhood}` : ''}
+              </p>
+              <div className="text-2xl font-serif text-blue-900 dark:text-blue-100 whitespace-nowrap">
+                {formatPrice(property.price)}
+              </div>
+            </div>
+
             {/* Image Gallery */}
             <div className="bg-card rounded-xl p-2 border">
               {/* Main Image */}
@@ -183,8 +184,6 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
                     </div>
                   </>
                 )}
-
-                {/* Badges removed as requested */}
 
                 {/* Actions */}
                 <div className="absolute top-4 right-4 flex gap-2">
@@ -251,17 +250,19 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
             {/* Description */}
             <div>
               <h2 className="text-xl font-serif text-gray-900 dark:text-white mb-4">Descriere</h2>
-              <p className="text-muted-foreground leading-relaxed">{property.description}</p>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                {property.description}
+              </p>
             </div>
 
             {/* Features */}
             <div>
               <h2 className="text-xl font-serif text-gray-900 dark:text-white mb-4">Caracteristici și facilități</h2>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {property.features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 bg-card rounded-lg border">
-                    <div className="w-2 h-2 bg-primary rounded-full shrink-0" />
-                    <span className="text-foreground">{feature}</span>
+                  <div key={index} className="flex items-center gap-2 p-3 bg-card rounded-lg border">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full shrink-0" />
+                    <span className="text-foreground text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -368,7 +369,13 @@ export function PropertyDetailsEnhanced({ property, isFavorite, onToggleFavorite
           </div>
 
           {/* Right Column - Agent */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-3">
+            {/* Tip tranzacție deasupra cardului agent */}
+            <div className="flex justify-end">
+              <span className="px-3 mb-3 rounded-full bg-primary/10 text-primary text-[10px] font-semibold uppercase tracking-wide">
+                {property.type === 'rent' ? 'Închiriere' : 'Vânzare'}
+              </span>
+            </div>
             {/* Agent Card - Right Side */}
             {property.agent ? (
               <div className="bg-card rounded-xl p-6 border sticky top-22">
