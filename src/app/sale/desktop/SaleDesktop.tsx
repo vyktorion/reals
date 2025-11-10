@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Map as MapIcon, MapPin, Bed, Maximize, Building2 } from 'lucide-react';
+import { Search, Map as MapIcon, MapPin, Bed, Maximize } from 'lucide-react';
 import { Loader } from '@/components/ui/loader';
 import { SaleProperty, SaleFilters, ViewMode } from '../shared/types';
 import { formatPrice, formatStatus } from '../shared/utils';
