@@ -86,13 +86,13 @@ export function Navigation({ currentView, onViewChange, favoriteCount, onSignInC
             })}
 
           {/* Post Property Button */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center">
             <Button
               onClick={handlePostProperty}
-              className="bg-gold-500 hover:bg-gold-600 text-navy-900 px-6 py-2 rounded-md text-sm font-body font-medium shadow-premium-sm"
+              className='bg-primary text-primary-foreground border-primary shadow-sm'
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Post Property
+              <Plus className="w-4 h-4" />
+              Adauga anunt
             </Button>
           </div>
             

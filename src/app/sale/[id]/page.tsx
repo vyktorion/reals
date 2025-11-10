@@ -6,6 +6,7 @@ import { getSalePropertyById } from '../shared/data';
 import { salePropertyToProperty } from '../shared/mappers';
 import { SaleProperty } from '../shared/types';
 import { PropertyDetailsEnhanced } from '../shared/components/PropertyDetailsEnhanced';
+import { Loader } from '@/components/ui/loader';
 
 export default function SalePropertyPage() {
   const params = useParams();
@@ -56,14 +57,7 @@ export default function SalePropertyPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground text-lg">Se încarcă proprietatea...</p>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error || !property) {

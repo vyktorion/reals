@@ -49,7 +49,7 @@ export function HomePage({
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h1 className="text-4xl sm:text-4xl lg:text-4xl mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
               Find Your Dream Home
             </h1>
             <p className="text-lg sm:text-xl text-blue-100 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
@@ -151,13 +151,13 @@ export function HomePage({
       </section>
 
       {/* Recent Listings */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="mb-8">
           <h2 className="text-foreground mb-2">Recent Listings</h2>
           <p className="text-muted-foreground">Latest additions to our portfolio</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {recentProperties.map((property) => (
             <PropertyCard
               key={property.id}

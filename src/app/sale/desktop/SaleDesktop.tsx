@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Map as MapIcon, MapPin, Bed, Maximize } from 'lucide-react';
+import { Search, Map as MapIcon, MapPin, Bed, Maximize, Building2 } from 'lucide-react';
+import { Loader } from '@/components/ui/loader';
 import { SaleProperty, SaleFilters, ViewMode } from '../shared/types';
 import { formatPrice, formatStatus } from '../shared/utils';
 import { PROPERTY_TYPES, STATUS_OPTIONS, DEFAULT_FILTERS } from '../shared/constants';
@@ -105,14 +106,7 @@ export function SaleDesktop(props: SaleDesktopProps) {
     (filters.maxArea !== null ? 1 : 0);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground text-lg">Se încarcă proprietățile...</p>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -192,7 +186,7 @@ export function SaleDesktop(props: SaleDesktopProps) {
       </div>
       */}
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className={`mx-auto px-4 sm:px-6 lg:px-8 py-6 ${effectiveShowFilters ? 'max-w-7xl' : 'max-w-6xl'}`}>
           <div className="py-3 px-4 text-sm text-muted-foreground">
             {filteredProperties.length} {filteredProperties.length === 1 ? 'proprietate găsită' : 'proprietăți găsite'}
           </div>
@@ -200,7 +194,7 @@ export function SaleDesktop(props: SaleDesktopProps) {
           {/* Sidebar cu filtre */}
           {effectiveShowFilters && (
             <div className="w-full sm:w-80 shrink-0">
-              <div className="bg-card rounded-2xl shadow-md p-6 sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto">
+              <div className="bg-card rounded-2xl shadow-md p-6 sticky top-22 max-h-[calc(100vh-10rem)] overflow-y-auto">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-foreground">Filtre</h3>
                   <button
